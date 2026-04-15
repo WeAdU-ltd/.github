@@ -105,11 +105,14 @@ jobs:
           submodules: ${{ inputs.checkout_submodules }}
 
       - name: Configure SSH credentials
-        if: ${{ secrets.ssh_private_key != '' }}
         env:
           SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
           SSH_KNOWN_HOSTS: ${{ secrets.ssh_known_hosts }}
         run: |
+          if [[ -z "${SSH_PRIVATE_KEY:-}" ]]; then
+            exit 0
+          fi
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
@@ -121,11 +124,14 @@ jobs:
           fi
 
       - name: Materialize environment file
-        if: ${{ secrets.env_file != '' }}
         env:
           ENV_FILE_CONTENT: ${{ secrets.env_file }}
           ENV_FILE_PATH: ${{ inputs.env_file_path }}
         run: |
+          if [[ -z "${ENV_FILE_CONTENT:-}" ]]; then
+            exit 0
+          fi
+
           mkdir -p "$(dirname "$ENV_FILE_PATH")"
           printf '%s\n' "$ENV_FILE_CONTENT" > "$ENV_FILE_PATH"
 
@@ -143,5 +149,12 @@ jobs:
         run: ${{ inputs.deploy_command }}
 
       - name: Remove SSH credentials
-        if: ${{ always() && secrets.ssh_private_key != '' }}
-        run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+        if: ${{ always() }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
+        run: |
+          if [[ -z "${SSH_PRIVATE_KEY:-}" ]]; then
+            exit 0
+          fi
+
+          rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
