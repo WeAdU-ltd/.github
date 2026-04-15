@@ -57,7 +57,8 @@ Features:
 - timestamped release directories (`<unix_time>-<short_sha>`)
 - optional setup and build commands run locally before rsync
 - rsync-based file transfer to the remote server
-- optional post-activation command (e.g. restart services, run migrations)
+- optional post-activation command (e.g. restart services, run migrations) with
+  automatic rollback to the previous release on failure
 - automatic cleanup of old releases (configurable retention count)
 - env file materialization (included in rsync transfer)
 - SSH credential management

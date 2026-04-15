@@ -173,6 +173,11 @@ jobs:
           RELEASES_DIR="${REMOTE_BASE_DIR}/releases"
           RELEASE_DIR="${RELEASES_DIR}/${RELEASE_ID}"
 
+          PREVIOUS_TARGET=""
+          if ssh "${SSH_CONNECTION}" "test -L '${REMOTE_PUBLIC_DIR}'"; then
+            PREVIOUS_TARGET=$(ssh "${SSH_CONNECTION}" "readlink -f '${REMOTE_PUBLIC_DIR}'")
+          fi
+
           ssh "${SSH_CONNECTION}" "mkdir -p '${RELEASE_DIR}'"
 
           rsync -az --delete ./ "${SSH_CONNECTION}:${RELEASE_DIR}/"
@@ -184,7 +189,16 @@ jobs:
           ssh "${SSH_CONNECTION}" "ln -sfn '${LINK_TARGET}' '${REMOTE_PUBLIC_DIR}'"
 
           if [[ -n "${POST_ACTIVATE_COMMAND:-}" ]]; then
-            ssh "${SSH_CONNECTION}" "cd '${RELEASE_DIR}' && ${POST_ACTIVATE_COMMAND}"
+            if ! ssh "${SSH_CONNECTION}" "cd '${RELEASE_DIR}' && ${POST_ACTIVATE_COMMAND}"; then
+              echo "::error::Post-activate command failed — rolling back"
+              if [[ -n "${PREVIOUS_TARGET}" ]]; then
+                ssh "${SSH_CONNECTION}" "ln -sfn '${PREVIOUS_TARGET}' '${REMOTE_PUBLIC_DIR}'"
+                echo "::warning::Rolled back to ${PREVIOUS_TARGET}"
+              else
+                echo "::warning::No previous release to roll back to"
+              fi
+              exit 1
+            fi
           fi
 
           if [[ "${KEEP_RELEASES}" -gt 0 ]]; then
