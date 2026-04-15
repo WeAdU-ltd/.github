@@ -1,0 +1,147 @@
+name: Reusable auto-deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: GitHub environment name for the deployment target.
+        required: true
+        type: string
+      runs_on:
+        description: GitHub-hosted runner label for the deploy job.
+        required: false
+        default: ubuntu-latest
+        type: string
+      working_directory:
+        description: Working directory used for every shell step.
+        required: false
+        default: .
+        type: string
+      deploy_ref:
+        description: Optional git ref to deploy instead of the triggering SHA.
+        required: false
+        default: ""
+        type: string
+      fetch_depth:
+        description: Depth used when checking out repository contents.
+        required: false
+        default: 1
+        type: number
+      checkout_submodules:
+        description: Whether git submodules should be checked out too.
+        required: false
+        default: false
+        type: boolean
+      setup_command:
+        description: Optional command that prepares the repository before build/deploy.
+        required: false
+        default: ""
+        type: string
+      build_command:
+        description: Optional command that builds the deployable artifact.
+        required: false
+        default: ""
+        type: string
+      deploy_command:
+        description: Command that performs the actual deployment.
+        required: true
+        type: string
+      env_file_path:
+        description: Where the env_file secret should be written when provided.
+        required: false
+        default: .env
+        type: string
+      cancel_in_progress:
+        description: Cancel older in-flight deployments for the same environment.
+        required: false
+        default: true
+        type: boolean
+      timeout_minutes:
+        description: Maximum number of minutes the deploy job may run.
+        required: false
+        default: 30
+        type: number
+    secrets:
+      env_file:
+        description: Optional multiline env file content written to env_file_path.
+        required: false
+      ssh_private_key:
+        description: Optional SSH private key injected for deploy tooling.
+        required: false
+      ssh_known_hosts:
+        description: Optional known_hosts contents paired with ssh_private_key.
+        required: false
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    environment:
+      name: ${{ inputs.environment }}
+    concurrency:
+      group: auto-deploy-${{ github.repository }}-${{ inputs.environment }}
+      cancel-in-progress: ${{ inputs.cancel_in_progress }}
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.working_directory }}
+    steps:
+      - name: Check out requested ref
+        if: ${{ inputs.deploy_ref != '' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.deploy_ref }}
+          fetch-depth: ${{ inputs.fetch_depth }}
+          submodules: ${{ inputs.checkout_submodules }}
+
+      - name: Check out triggering ref
+        if: ${{ inputs.deploy_ref == '' }}
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ inputs.fetch_depth }}
+          submodules: ${{ inputs.checkout_submodules }}
+
+      - name: Configure SSH credentials
+        if: ${{ secrets.ssh_private_key != '' }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ssh_private_key }}
+          SSH_KNOWN_HOSTS: ${{ secrets.ssh_known_hosts }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          if [[ -n "${SSH_KNOWN_HOSTS:-}" ]]; then
+            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
+          fi
+
+      - name: Materialize environment file
+        if: ${{ secrets.env_file != '' }}
+        env:
+          ENV_FILE_CONTENT: ${{ secrets.env_file }}
+          ENV_FILE_PATH: ${{ inputs.env_file_path }}
+        run: |
+          mkdir -p "$(dirname "$ENV_FILE_PATH")"
+          printf '%s\n' "$ENV_FILE_CONTENT" > "$ENV_FILE_PATH"
+
+      - name: Run setup command
+        if: ${{ inputs.setup_command != '' }}
+        run: ${{ inputs.setup_command }}
+
+      - name: Run build command
+        if: ${{ inputs.build_command != '' }}
+        run: ${{ inputs.build_command }}
+
+      - name: Run deploy command
+        env:
+          DEPLOY_ENVIRONMENT: ${{ inputs.environment }}
+        run: ${{ inputs.deploy_command }}
+
+      - name: Remove SSH credentials
+        if: ${{ always() && secrets.ssh_private_key != '' }}
+        run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
