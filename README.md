@@ -44,3 +44,17 @@ jobs:
 
 Caller repositories can omit the SSH and env-file secrets if their deploy command
 does not need them.
+
+## This repository — Linear Done on merge
+
+When a pull request is **merged into the default branch** (`main`), the workflow
+[`.github/workflows/linear-done-on-merge.yml`](.github/workflows/linear-done-on-merge.yml)
+runs [`scripts/linear_mark_done_on_merge.py`](scripts/linear_mark_done_on_merge.py) and
+moves matching Linear issues to the team **completed** (Done) state.
+
+**Convention:** put the Linear identifier in the **PR title** (for example `fix: thing (WEA-39)`).
+Only the title is scanned by default so issues mentioned in the PR body are not closed by accident.
+Set `LINEAR_DONE_SCAN_BODY` to `true` in the workflow step `env` if you need title + body.
+
+**Setup:** add a repository secret `LINEAR_API_KEY` with a Linear API key that can update issues.
+If the secret is missing, the job exits successfully and does nothing (safe default).
