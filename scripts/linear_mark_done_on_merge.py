@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
 """
-After a PR is merged into the default branch, move linked Linear issues to Done (completed).
+After a PR is merged into the default branch, move linked Linear issues to Done (completed)
+when policy allows it.
 
 Reads the GitHub pull_request event from GITHUB_EVENT_PATH (Actions). Collects Linear-style
 identifiers (e.g. WEA-39) from, by default:
   - the PR head branch name (e.g. jeff/wea-39-short-title, cursor/wea-39-foo-d965)
   - the PR title
 
-Optional: set LINEAR_DONE_SCAN_BODY to true to also scan the PR body (may match tickets you
-only mention in prose).
+**WEA-*** issues (team key WEA): Done is applied only if the merged PR description contains a
+"## Critères de fait" section (Markdown) where every bullet shows an explicit completed checkbox
+(`[x]` or `[X]`). If not, the issue stays open and an **Écart** comment is posted on Linear
+listing what is missing (no false "Done").
+
+Other team keys: unchanged — issues are moved to completed when found (no checklist gate).
+
+Optional: set LINEAR_DONE_SCAN_BODY to true to also scan the PR body for extra identifiers
+(may match tickets you only mention in prose).
 
 Environment:
   LINEAR_API_KEY     — Linear API key with permission to update issues (required for updates)
@@ -31,6 +39,11 @@ LINEAR_GRAPHQL = "https://api.linear.app/graphql"
 
 # Team key (case-insensitive in source) + hyphen + number. Matched id is normalized to uppercase.
 _ISSUE_ID_RE = re.compile(r"\b([A-Za-z][A-Za-z0-9]{1,9})-(\d+)\b")
+
+# Checkbox: marked done
+_DONE_BOX = re.compile(r"\[[xX]\]")
+# Empty checkbox (space or nothing between brackets)
+_OPEN_BOX = re.compile(r"\[\s*\]")
 
 
 def _linear_request(api_key: str, query: str, variables: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -75,6 +88,62 @@ def _collect_identifier_sources(pr: dict[str, Any]) -> list[str]:
     if os.environ.get("LINEAR_DONE_SCAN_BODY", "").strip().lower() in ("1", "true", "yes"):
         parts.append(body)
     return parts
+
+
+def _extract_criteria_section_lines(body: str) -> list[str] | None:
+    """
+    Return bullet text lines under '## Critères de fait' until the next '## ' heading.
+    None if the section heading is missing.
+    """
+    lines = (body or "").splitlines()
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.lower().startswith("## critères de fait"):
+            collected: list[str] = []
+            j = i + 1
+            while j < len(lines):
+                nxt = lines[j]
+                if nxt.startswith("## ") and not nxt.strip().lower().startswith("## critères de fait"):
+                    break
+                m = re.match(r"^\s*[*-]\s+(.+)$", nxt)
+                if m:
+                    collected.append(m.group(1).strip())
+                j += 1
+            return collected
+    return None
+
+
+def _wea_criteria_gate(pr_body: str) -> tuple[bool, str]:
+    """
+    For WEA-* tickets: require PR description to prove criteria with explicit [x] on each bullet
+    under ## Critères de fait.
+    Returns (allowed_to_mark_done, human_reason_for_écart_if_false).
+    """
+    section_lines = _extract_criteria_section_lines(pr_body)
+    if section_lines is None:
+        return False, (
+            "La description de la PR ne contient pas de section Markdown "
+            '`## Critères de fait` (copie depuis Linear, avec une ligne `* [ ]` par critère, '
+            "puis cochez chaque `* [x]` quand le critère est réellement couvert avant/après merge)."
+        )
+    if not section_lines:
+        return False, (
+            'Section `## Critères de fait` vide ou sans puces (`*` ou `-`). '
+            "Listez chaque critère avec une case à cocher."
+        )
+    problems: list[str] = []
+    for idx, text in enumerate(section_lines, start=1):
+        if _OPEN_BOX.search(text):
+            problems.append(f"Ligne {idx} : case non cochée (`[ ]`) — {text[:200]}")
+        elif not _DONE_BOX.search(text):
+            problems.append(
+                f"Ligne {idx} : pas de case cochée explicite (`[x]`) — {text[:200]}"
+            )
+    if problems:
+        return False, "Critères de fait : preuve insuffisante dans la PR.\n\n" + "\n".join(
+            f"- {p}" for p in problems
+        )
+    return True, ""
 
 
 def _team_completed_state_id(api_key: str, team_key: str) -> str | None:
@@ -163,6 +232,25 @@ def _issue_update_done(api_key: str, issue_uuid: str, state_id: str) -> tuple[bo
     return False, f"issueUpdate failed for {issue_uuid}"
 
 
+def _comment_create(api_key: str, issue_uuid: str, body: str) -> tuple[bool, str]:
+    data = _linear_request(
+        api_key,
+        """
+        mutation CommentCreate($issueId: String!, $body: String!) {
+          commentCreate(input: { issueId: $issueId, body: $body }) {
+            success
+            comment { id }
+          }
+        }
+        """,
+        {"issueId": issue_uuid, "body": body},
+    )
+    payload = data.get("commentCreate") or {}
+    if payload.get("success"):
+        return True, "comment posted"
+    return False, "commentCreate failed"
+
+
 def main() -> int:
     api_key = os.environ.get("LINEAR_API_KEY", "").strip()
     if not api_key:
@@ -181,6 +269,8 @@ def main() -> int:
     if not pr.get("merged"):
         print("linear_mark_done_on_merge: PR not merged; nothing to do.")
         return 0
+
+    pr_body = pr.get("body") or ""
 
     seen: set[str] = set()
     identifiers: list[str] = []
@@ -222,6 +312,24 @@ def main() -> int:
             print(f"linear_mark_done_on_merge: issue not found: {ident}", file=sys.stderr)
             errors += 1
             continue
+
+        if team_key == "WEA":
+            ok_gate, gate_msg = _wea_criteria_gate(pr_body)
+            if not ok_gate:
+                merge_url = pr.get("html_url") or ""
+                cbody = (
+                    "## Écart vs critères de fait (automation `.github`)\n\n"
+                    f"{gate_msg}\n\n"
+                    "Le ticket **n’a pas** été passé en Done automatiquement.\n\n"
+                    f"PR fusionnée : {merge_url}\n"
+                )
+                cok, cmsg = _comment_create(api_key, issue_uuid, cbody)
+                if cok:
+                    print(f"linear_mark_done_on_merge: {ident}: criteria not met; Écart comment posted.")
+                else:
+                    print(f"linear_mark_done_on_merge: {ident}: {cmsg}", file=sys.stderr)
+                    errors += 1
+                continue
 
         ok, msg = _issue_update_done(api_key, issue_uuid, state_id)
         if ok:

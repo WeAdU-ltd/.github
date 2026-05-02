@@ -45,12 +45,38 @@ jobs:
 Caller repositories can omit the SSH and env-file secrets if their deploy command
 does not need them.
 
+## Cursor hooks (commit / agent)
+
+Project file [`.cursor/hooks.json`](.cursor/hooks.json) declares `"version": 1` and an empty
+`hooks` map so Cursor validates the file and avoids spurious hook errors (for example
+**invalid variable name** when the IDE loads a broken or legacy hook config). To add hooks,
+extend `hooks` per [Cursor hooks](https://cursor.com/docs) (do not remove `version`).
+
+**Contournement agent cloud :** si l’erreur « invalid variable name » vient du scanner de secrets
+(`pre-commit.cursor`), il faut ignorer les entrées de `CLOUD_AGENT_INJECTED_SECRET_NAMES` qui ne
+sont pas des identifiants bash valides avant `${!NAME}` (correctif côté image / hooks Cursor).
+
+## Auto-merge pull requests to `main`
+
+Workflow [`.github/workflows/auto-merge-pr.yml`](.github/workflows/auto-merge-pr.yml) runs on
+each PR update and calls `gh pr merge --auto --merge` so GitHub **queues the merge** when branch
+protection allows it (same pattern as other WeAdU repos such as NEG). After **CI** and any other
+required checks go green, the merge completes without a human clicking Merge. Ensure **Allow
+auto-merge** is enabled on the repository and that **required status checks** include the jobs you
+care about (here: `actionlint` from [`ci.yml`](.github/workflows/ci.yml)).
+
 ## This repository — Linear Done on merge
 
 When a pull request is **merged into the default branch** (`main`), the workflow
 [`.github/workflows/linear-done-on-merge.yml`](.github/workflows/linear-done-on-merge.yml)
 runs [`scripts/linear_mark_done_on_merge.py`](scripts/linear_mark_done_on_merge.py) and
-moves matching Linear issues to the team **completed** (Done) state.
+moves matching Linear issues to the team **completed** (Done) state when policy allows it.
+
+**WEA-*** tickets (WeAdU team key `WEA`): the script **does not** mark Done unless the merged PR
+description contains a Markdown section **`## Critères de fait`** whose bullet lines each show an
+explicit completed checkbox (`[x]`). Copy the checklist from Linear into the PR body and tick each
+line when the criterion is actually satisfied; otherwise the automation posts an **Écart** comment
+on the issue and leaves it open (no false Done). Other team keys are unchanged (no checklist gate).
 
 **How tickets are found (no manual PR title needed):** the script looks for identifiers like
 `WEA-39` in the **head branch name** and in the **PR title** (case-insensitive, e.g. `wea-39` in
@@ -62,6 +88,6 @@ body (use only if you accept the risk of closing tickets that are only mentioned
 secret’s access list so the workflow receives it. Repository-level secrets with the same name also
 work. If the key is missing from the job, the script exits successfully and does nothing.
 
-**About “merge the PR”:** this automation runs **after** a merge. It does not replace whoever or
-whatever merges the pull request (human, Cursor, or another bot). If merges are already automated
-elsewhere, you do not need to merge by hand; this job only updates Linear once the merge exists.
+**About “merge the PR”:** [auto-merge](#auto-merge-pull-requests-to-main) handles queuing the
+merge when checks pass; this Linear job runs **after** the merge exists and updates issues
+according to the rules above.
