@@ -1,0 +1,57 @@
+# Summarizes GitHub mergeability on each PR update (similar intent to merge/PR
+# automation on application repos). Uses pull_request so it only runs on forks
+# when "Approve for workflows" is granted for first-time contributors.
+
+name: PR merge status
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-merge-status-${{ github.repository }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  comment:
+    name: Post merge status comment
+    runs-on: ubuntu-latest
+    # Fork PRs only receive a read-only token for the base repo; skip commenting.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "<!-- pr-merge-status -->"
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            <!-- pr-merge-status -->
+            ### Merge status
+
+            | Field | Value |
+            | --- | --- |
+            | Mergeable (GitHub) | `${{ github.event.pull_request.mergeable }}` |
+            | Merge state | `${{ github.event.pull_request.mergeable_state }}` |
+            | Base | `${{ github.event.pull_request.base.ref }}` |
+            | Head | `${{ github.event.pull_request.head.ref }}` |
+
+            `mergeable` can show `null` briefly while GitHub computes the result; re-run checks or refresh the PR if needed.
+
+            Values for **merge state**: `clean` (mergeable), `dirty` (conflicts), `blocked` / `behind` / `unstable` (checks or branch rules), `unknown` (still computing).

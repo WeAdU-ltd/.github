@@ -128,9 +128,12 @@ def _linear_repo_child_labels(api_key: str, parent_id: str) -> list[dict[str, st
 
 
 def _linear_open_issues_without_repo_child(
-    api_key: str, team_key: str, parent_id: str, max_issues: int
+    api_key: str,
+    team_key: str,
+    repo_child_label_ids: set[str],
+    max_issues: int,
 ) -> list[dict[str, str]]:
-    """Tickets ouverts de l'équipe sans label enfant du groupe repo."""
+    """Tickets ouverts de l'équipe sans label enfant du groupe repo (par id)."""
     rows: list[dict[str, str]] = []
     cursor: str | None = None
     while len(rows) < max_issues:
@@ -152,13 +155,7 @@ def _linear_open_issues_without_repo_child(
                       identifier
                       title
                       updatedAt
-                      labels {
-                        nodes {
-                          id
-                          name
-                          parent { id name }
-                        }
-                      }
+                      labels { nodes { id } }
                     }
                   }
                 }
@@ -173,12 +170,9 @@ def _linear_open_issues_without_repo_child(
         conn = (teams_conn[0].get("issues") or {}) if teams_conn else {}
         for node in conn.get("nodes") or []:
             labels = ((node.get("labels") or {}).get("nodes")) or []
-            has_repo_child = False
-            for lab in labels:
-                p = lab.get("parent") or {}
-                if p.get("id") == parent_id:
-                    has_repo_child = True
-                    break
+            has_repo_child = any(
+                (lab.get("id") or "") in repo_child_label_ids for lab in labels
+            )
             if not has_repo_child:
                 rows.append(
                     {
@@ -351,8 +345,9 @@ def main() -> int:
 
     missing = sorted({r for r in all_full_names if r not in label_names}, key=str.lower)
 
+    repo_child_ids = {lb["id"] for lb in repo_labels}
     orphan_issues = _linear_open_issues_without_repo_child(
-        linear_key, args.team_key, parent_id, args.max_issues
+        linear_key, args.team_key, repo_child_ids, args.max_issues
     )
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")

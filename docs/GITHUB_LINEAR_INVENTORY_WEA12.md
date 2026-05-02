@@ -1,6 +1,6 @@
 # Inventaire GitHub ↔ Linear (WEA-12)
 
-Document d’ancrage pour le ticket [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces). Les sections **générées** ci-dessous sont remplies ou écrasées par le script `scripts/linear_github_inventory_wea12.py`.
+Document d’ancrage pour le ticket [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces). Les sections **générées** ci-dessous sont remplies ou écrasées par le script `scripts/linear_github_inventory_wea12.py`. Voir aussi la cartographie secrets / 1Password / Cursor : [`SECRETS_CARTOGRAPHIE_WEA14.md`](./SECRETS_CARTOGRAPHIE_WEA14.md) ([WEA-14](https://linear.app/weadu/issue/WEA-14/secrets-cartographie-1password-github-cursor-regle-chercher-avant-de)).
 
 **Origine** : même contenu que la proposition [Negative-Terms#638](https://github.com/WeAdU-ltd/Negative-Terms/pull/638), adaptée au dépôt `WeAdU-ltd/.github`.
 
@@ -39,30 +39,32 @@ python3 scripts/linear_github_inventory_wea12.py -o docs/GITHUB_LINEAR_INVENTORY
 
 <!-- WEA12_INVENTORY_BEGIN -->
 
+_Généré le 2026-05-02 19:34:55 (UTC)._
+
 ### Labels Linear (groupe `repo`) → dépôt GitHub
 
-_(Non généré — exécuter le script avec `-o docs/GITHUB_LINEAR_INVENTORY_WEA12.md`.)_
-
 | Label Linear (`owner/repo`) | URL GitHub |
-|-----------------------------|------------|
-| — | — |
+|----------------------------|------------|
+| `WeAdU-ltd/.github` | https://github.com/WeAdU-ltd/.github |
+| `WeAdU-ltd/Negative-Terms` | https://github.com/WeAdU-ltd/Negative-Terms |
+| `WeAdU-ltd/SH-Checker-Bids` | https://github.com/WeAdU-ltd/SH-Checker-Bids |
 
 ### Dépôts GitHub sans label Linear correspondant
 
-_(Scan limité aux organisations passées en `--github-org` ou déduites des labels.)_
+_Organisations scannées : WeAdU-ltd._
 
 | Dépôt | Note |
 |-------|------|
-| — | — |
+| — | Aucun trou dans le périmètre scanné |
 
-### Tickets Linear ouverts (équipe configurée), récents sans sous-label `repo`
+### Tickets Linear ouverts (équipe configurée), sans sous-label `repo`
 
 | Issue | Mis à jour | Titre |
 |-------|------------|-------|
-| — | — | — |
+| [WEA-16](https://linear.app/weadu/issue/WEA-16) | 2026-05-02 | Windows + Cursor Desktop — confort et focus (anti-frappe fantôme) |
 
 <!-- WEA12_INVENTORY_END -->
 
 ---
 
-_Dernière mise à jour manuelle de ce squelette : génération CI locale ou agent._
+_Les lignes entre les marqueurs `WEA12_INVENTORY_*` sont écrasées par le script ; régénérer après changement de labels ou de dépôts._
