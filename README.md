@@ -58,9 +58,10 @@ moves matching Linear issues to the team **completed** (Done) state.
 names. Optional: set `LINEAR_DONE_SCAN_BODY` to `true` on the workflow step to also scan the PR
 body (use only if you accept the risk of closing tickets that are only mentioned in prose).
 
-**Secrets:** if `LINEAR_API_KEY` is an **organization** secret, ensure this repository is in the
-secret’s access list so the workflow receives it. Repository-level secrets with the same name also
-work. If the key is missing from the job, the script exits successfully and does nothing.
+**Secrets:** an **organization** `LINEAR_API_KEY` works when this repository can see it (for example
+organization setting **All repositories**, or **Selected repositories** with this repo included).
+A repository-level secret with the same name also works. If the key is missing from the job, the
+script exits successfully and does nothing.
 
 **About “merge the PR”:** this automation runs **after** a merge. It does not replace whoever or
 whatever merges the pull request (human, Cursor, or another bot). If merges are already automated
