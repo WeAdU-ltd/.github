@@ -54,6 +54,10 @@ Anchors in [`docs/`](docs/):
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 
+## n8n hosting (budget < 20 €/mois)
+
+Décision documentée et checklist : [`docs/WEA-26-n8n-hebergement.md`](docs/WEA-26-n8n-hebergement.md) ([WEA-26](https://linear.app/weadu/issue/WEA-26/n8n-hebergement-20-euromois-cloud-vs-vps-mise-en-service)). Les valeurs secrètes restent dans le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)), pas dans ce dépôt.
+
 ## Brave Search API (agents)
 
 Convention secrets + smoke test : [`docs/BRAVE_SEARCH_API_WEA22.md`](docs/BRAVE_SEARCH_API_WEA22.md) ([WEA-22](https://linear.app/weadu/issue/WEA-22/brave-search-api-cles-et-quotas-pour-agents)).
