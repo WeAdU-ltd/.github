@@ -52,9 +52,16 @@ When a pull request is **merged into the default branch** (`main`), the workflow
 runs [`scripts/linear_mark_done_on_merge.py`](scripts/linear_mark_done_on_merge.py) and
 moves matching Linear issues to the team **completed** (Done) state.
 
-**Convention:** put the Linear identifier in the **PR title** (for example `fix: thing (WEA-39)`).
-Only the title is scanned by default so issues mentioned in the PR body are not closed by accident.
-Set `LINEAR_DONE_SCAN_BODY` to `true` in the workflow step `env` if you need title + body.
+**How tickets are found (no manual PR title needed):** the script looks for identifiers like
+`WEA-39` in the **head branch name** and in the **PR title** (case-insensitive, e.g. `wea-39` in
+`jeff/wea-39-short-title` or `cursor/wea-39-foo-d965`). That matches typical Linear / agent branch
+names. Optional: set `LINEAR_DONE_SCAN_BODY` to `true` on the workflow step to also scan the PR
+body (use only if you accept the risk of closing tickets that are only mentioned in prose).
 
-**Setup:** add a repository secret `LINEAR_API_KEY` with a Linear API key that can update issues.
-If the secret is missing, the job exits successfully and does nothing (safe default).
+**Secrets:** if `LINEAR_API_KEY` is an **organization** secret, ensure this repository is in the
+secret’s access list so the workflow receives it. Repository-level secrets with the same name also
+work. If the key is missing from the job, the script exits successfully and does nothing.
+
+**About “merge the PR”:** this automation runs **after** a merge. It does not replace whoever or
+whatever merges the pull request (human, Cursor, or another bot). If merges are already automated
+elsewhere, you do not need to merge by hand; this job only updates Linear once the merge exists.

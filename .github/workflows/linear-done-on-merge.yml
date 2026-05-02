@@ -15,7 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Mark Linear issues Done from PR title
+      - name: Mark Linear issues Done (branch name + PR title)
         env:
+          # Organization secret LINEAR_API_KEY is available when the repo is allowed to use it.
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
         run: python3 scripts/linear_mark_done_on_merge.py

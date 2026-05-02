@@ -2,15 +2,19 @@
 """
 After a PR is merged into the default branch, move linked Linear issues to Done (completed).
 
-Reads the GitHub pull_request event from GITHUB_EVENT_PATH (Actions). Scans the **PR title**
-only for issue identifiers like WEA-39 (team key + hyphen + number) so tickets mentioned
-only in the PR body are not closed by mistake.
+Reads the GitHub pull_request event from GITHUB_EVENT_PATH (Actions). Collects Linear-style
+identifiers (e.g. WEA-39) from, by default:
+  - the PR head branch name (e.g. jeff/wea-39-short-title, cursor/wea-39-foo-d965)
+  - the PR title
+
+Optional: set LINEAR_DONE_SCAN_BODY to true to also scan the PR body (may match tickets you
+only mention in prose).
 
 Environment:
-  LINEAR_API_KEY  — Linear API key with permission to update issues (required)
-  GITHUB_EVENT_PATH — set automatically in GitHub Actions
+  LINEAR_API_KEY     — Linear API key with permission to update issues (required for updates)
+  GITHUB_EVENT_PATH  — set automatically in GitHub Actions
 
-Exits 0 if the key is missing (workflow configured but secret not set yet).
+Exits 0 if LINEAR_API_KEY is missing (workflow present but secret not available to the job).
 """
 
 from __future__ import annotations
@@ -25,8 +29,8 @@ from typing import Any
 
 LINEAR_GRAPHQL = "https://api.linear.app/graphql"
 
-# Linear identifiers: leading word boundary, team key (letters/digits), hyphen, number.
-_ISSUE_ID_RE = re.compile(r"\b([A-Z][A-Z0-9]{1,9})-(\d+)\b")
+# Team key (case-insensitive in source) + hyphen + number. Matched id is normalized to uppercase.
+_ISSUE_ID_RE = re.compile(r"\b([A-Za-z][A-Za-z0-9]{1,9})-(\d+)\b")
 
 
 def _linear_request(api_key: str, query: str, variables: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -51,17 +55,26 @@ def _linear_request(api_key: str, query: str, variables: dict[str, Any] | None =
     return body["data"]
 
 
-def _extract_identifiers(title: str) -> list[str]:
-    """Identifiers from PR title only (avoids closing tickets cited in body)."""
-    text = title or ""
+def _extract_identifiers_from_text(text: str) -> list[str]:
+    """Return unique identifiers in order of first appearance (e.g. WEA-39)."""
     seen: set[str] = set()
     out: list[str] = []
-    for m in _ISSUE_ID_RE.finditer(text):
-        ident = f"{m.group(1)}-{m.group(2)}"
+    for m in _ISSUE_ID_RE.finditer(text or ""):
+        ident = f"{m.group(1).upper()}-{m.group(2)}"
         if ident not in seen:
             seen.add(ident)
             out.append(ident)
     return out
+
+
+def _collect_identifier_sources(pr: dict[str, Any]) -> list[str]:
+    head_ref = ((pr.get("head") or {}).get("ref")) or ""
+    title = pr.get("title") or ""
+    body = pr.get("body") or ""
+    parts = [head_ref, title]
+    if os.environ.get("LINEAR_DONE_SCAN_BODY", "").strip().lower() in ("1", "true", "yes"):
+        parts.append(body)
+    return parts
 
 
 def _team_completed_state_id(api_key: str, team_key: str) -> str | None:
@@ -169,14 +182,20 @@ def main() -> int:
         print("linear_mark_done_on_merge: PR not merged; nothing to do.")
         return 0
 
-    title = pr.get("title") or ""
-    body = pr.get("body") or ""
-    if os.environ.get("LINEAR_DONE_SCAN_BODY", "").strip().lower() in ("1", "true", "yes"):
-        identifiers = _extract_identifiers(f"{title}\n{body}")
-    else:
-        identifiers = _extract_identifiers(title)
+    seen: set[str] = set()
+    identifiers: list[str] = []
+    for chunk in _collect_identifier_sources(pr):
+        for ident in _extract_identifiers_from_text(chunk):
+            if ident not in seen:
+                seen.add(ident)
+                identifiers.append(ident)
+
     if not identifiers:
-        print("linear_mark_done_on_merge: no Linear-style identifiers in PR title/body; nothing to do.")
+        print(
+            "linear_mark_done_on_merge: no Linear-style identifiers in head branch name or PR title "
+            "(enable LINEAR_DONE_SCAN_BODY to include PR body); nothing to do.",
+            file=sys.stderr,
+        )
         return 0
 
     print(f"linear_mark_done_on_merge: candidates: {', '.join(identifiers)}")
@@ -184,7 +203,7 @@ def main() -> int:
     team_cache: dict[str, str | None] = {}
     errors = 0
     for ident in identifiers:
-        m = _ISSUE_ID_RE.match(ident)
+        m = re.match(r"^([A-Z][A-Z0-9]{1,9})-(\d+)$", ident)
         if not m:
             continue
         team_key, num_s = m.group(1), m.group(2)
