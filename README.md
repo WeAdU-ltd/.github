@@ -69,6 +69,14 @@ required checks go green, the merge completes without a human clicking Merge. En
 auto-merge** is enabled on the repository and that **required status checks** include the jobs you
 care about (here: `actionlint` from [`ci.yml`](.github/workflows/ci.yml)).
 
+## Linear — sync checklist into the PR (WEA-*)
+
+Workflow [`.github/workflows/linear-sync-pr-criteria.yml`](.github/workflows/linear-sync-pr-criteria.yml)
+runs when a PR is opened or updated. If the branch or title contains a **WEA-*** id and the Linear
+issue has a `## Critères de fait` section, that block is **appended to the PR body** automatically
+(you do not need to copy-paste from Linear). Tick `[x]` on the ticket or in the PR when each
+criterion is satisfied.
+
 ## This repository — Linear Done on merge
 
 When a pull request is **merged into the default branch** (`main`), the workflow
@@ -76,11 +84,11 @@ When a pull request is **merged into the default branch** (`main`), the workflow
 runs [`scripts/linear_mark_done_on_merge.py`](scripts/linear_mark_done_on_merge.py) and
 moves matching Linear issues to the team **completed** (Done) state when policy allows it.
 
-**WEA-*** tickets (WeAdU team key `WEA`): the script **does not** mark Done unless the merged PR
-description contains a Markdown section **`## Critères de fait`** whose bullet lines each show an
-explicit completed checkbox (`[x]`). Copy the checklist from Linear into the PR body and tick each
-line when the criterion is actually satisfied; otherwise the automation posts an **Écart** comment
-on the issue and leaves it open (no false Done). Other team keys are unchanged (no checklist gate).
+**WEA-*** tickets (WeAdU team key `WEA`): the script moves the issue to **Done** only if every
+bullet under `## Critères de fait` has an explicit `[x]`, using **first** the merged PR body (if
+that section has checklist bullets), **else** the same section on the **Linear issue description**.
+If not met, an **Écart** comment is posted and the issue stays open (no false Done). Other team keys
+are unchanged (no checklist gate).
 
 **How tickets are found (no manual PR title needed):** the script looks for identifiers like
 `WEA-39` in the **head branch name** and in the **PR title** (case-insensitive, e.g. `wea-39` in
