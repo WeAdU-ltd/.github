@@ -36,6 +36,7 @@ Si, après ces étapes, l’information manque encore : le noter sur le ticket L
 | **Cursor Cloud / Desktop** | Clés API configurées pour l’agent, intégrations MCP | Paramètres du workspace / règles projet ; ne pas supposer que les secrets du poste local existent dans le cloud. |
 | **1Password** (vault équipe) | Mots de passe, clés, certificats, « Service Account » | Doc interne du vault / convention de nommage ; **une** consultation planifiée ; éviter boucles de recherche. |
 | **Autres fournisseurs** | OAuth client secrets, clés cloud (GCP, AWS…), webhooks | Runbooks du dépôt, *Secrets Manager* du cloud, tickets Linear liés (ex. chaîne Google [WEA-20](https://linear.app/weadu/issue/WEA-20/google-passe-oauth-gmail-drive-docs-sheets-ads-analytics)). |
+| **Interactive Brokers (UK)** | Identifiants portail, certificats Client Portal Gateway si utilisés, paramètres connexion API (hôte/port hors Git uniquement via env) | Isolation **finance-RH** ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) ; procédure API / smoke dans [`INTERACTIVE_BROKERS_UK_WEA30.md`](./INTERACTIVE_BROKERS_UK_WEA30.md) ([WEA-30](https://linear.app/weadu/issue/WEA-30/interactive-brokers-uk-api-et-ordres-autonomes)). |
 
 ---
 
