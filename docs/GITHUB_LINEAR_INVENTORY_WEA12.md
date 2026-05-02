@@ -1,6 +1,6 @@
 # Inventaire GitHub ↔ Linear (WEA-12)
 
-Document d’ancrage pour le ticket [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces). Les sections **générées** ci-dessous sont remplies ou écrasées par le script `scripts/linear_github_inventory_wea12.py`.
+Document d’ancrage pour le ticket [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces). Les sections **générées** ci-dessous sont remplies ou écrasées par le script `scripts/linear_github_inventory_wea12.py`. Voir aussi la cartographie secrets / 1Password / Cursor : [`SECRETS_CARTOGRAPHIE_WEA14.md`](./SECRETS_CARTOGRAPHIE_WEA14.md) ([WEA-14](https://linear.app/weadu/issue/WEA-14/secrets-cartographie-1password-github-cursor-regle-chercher-avant-de)).
 
 **Origine** : même contenu que la proposition [Negative-Terms#638](https://github.com/WeAdU-ltd/Negative-Terms/pull/638), adaptée au dépôt `WeAdU-ltd/.github`.
 
