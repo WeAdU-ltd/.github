@@ -45,6 +45,10 @@ jobs:
 Caller repositories can omit the SSH and env-file secrets if their deploy command
 does not need them.
 
+## Brave Search API (agents)
+
+Convention secrets + smoke test : [`docs/BRAVE_SEARCH_API_WEA22.md`](docs/BRAVE_SEARCH_API_WEA22.md) ([WEA-22](https://linear.app/weadu/issue/WEA-22/brave-search-api-cles-et-quotas-pour-agents)).
+
 ## Cursor hooks (commit / agent)
 
 Project file [`.cursor/hooks.json`](.cursor/hooks.json) declares `"version": 1` and an empty
