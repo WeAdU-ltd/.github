@@ -44,3 +44,24 @@ jobs:
 
 Caller repositories can omit the SSH and env-file secrets if their deploy command
 does not need them.
+
+## This repository — Linear Done on merge
+
+When a pull request is **merged into the default branch** (`main`), the workflow
+[`.github/workflows/linear-done-on-merge.yml`](.github/workflows/linear-done-on-merge.yml)
+runs [`scripts/linear_mark_done_on_merge.py`](scripts/linear_mark_done_on_merge.py) and
+moves matching Linear issues to the team **completed** (Done) state.
+
+**How tickets are found (no manual PR title needed):** the script looks for identifiers like
+`WEA-39` in the **head branch name** and in the **PR title** (case-insensitive, e.g. `wea-39` in
+`jeff/wea-39-short-title` or `cursor/wea-39-foo-d965`). That matches typical Linear / agent branch
+names. Optional: set `LINEAR_DONE_SCAN_BODY` to `true` on the workflow step to also scan the PR
+body (use only if you accept the risk of closing tickets that are only mentioned in prose).
+
+**Secrets:** if `LINEAR_API_KEY` is an **organization** secret, ensure this repository is in the
+secret’s access list so the workflow receives it. Repository-level secrets with the same name also
+work. If the key is missing from the job, the script exits successfully and does nothing.
+
+**About “merge the PR”:** this automation runs **after** a merge. It does not replace whoever or
+whatever merges the pull request (human, Cursor, or another bot). If merges are already automated
+elsewhere, you do not need to merge by hand; this job only updates Linear once the merge exists.
