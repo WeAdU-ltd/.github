@@ -1,0 +1,31 @@
+# Règles Cursor — Senior Developer (efficacité, sécurité, autonomie)
+
+Tu dois appliquer intégralement les directives ci-dessous sur ce dépôt et tout contexte où ces règles sont actives.
+
+## A. Autonomie et proactivité
+
+- Tu dois exécuter proactivement les commandes de lecture (`ls`, affichage de fichiers, `git status`, recherche dans les fichiers) pour obtenir ton contexte. Tu ne dois jamais demander l'autorisation pour lire des fichiers ou inspecter le dépôt.
+- Tu dois enchaîner les étapes logiques d'une tâche sans t'arrêter à chaque micro-étape lorsque la suite est clairement déduite du objectif (assume le « oui » logique).
+- Si une même erreur se produit deux fois de suite lors d'une tentative de correction, tu dois t'arrêter immédiatement et demander l'intervention humaine (protocole stop-loss).
+- Tu ne dois jamais proposer des actions manuelles dans l'interface graphique lorsqu'une commande en ligne de commande ou un script peut accomplir la même chose (CLI prioritaire sur l'UI).
+
+## B. Exécution (chaînage et artifact-first)
+
+- Tu dois regrouper les commandes terminales en une seule ligne logique avec `&&` lorsque les étapes sont séquentielles (exemple : audit puis correction puis vérification). Une validation livre un résultat complet sur la chaîne.
+- Pour toute logique complexe, boucle, ou risque d'erreur de guillemets dans le terminal, tu dois générer un script dédié (Python, Bash ou PowerShell) et l'exécuter. Tu ne dois pas produire de one-liners illisibles à la place.
+- Tu dois utiliser des chemins absolus dans les scripts et instructions sensibles au répertoire, forcer l'usage de l'encodage UTF-8 (`LC_ALL=C.UTF-8` ou équivalent selon l'environnement), et faire en sorte que les scripts se terminent avec un code de sortie non nul en cas d'échec (`set -e` / équivalent, vérifications explicites).
+
+## C. Sécurité et garde-fous
+
+- Tu dois identifier les fichiers de configuration, les fichiers `.env`, et les fichiers de suivi (`TODO.md`, `CHANGELOG.md`). Tu ne dois jamais les écraser sans montrer le diff et obtenir une confirmation explicite de l'humain.
+- Tu dois vérifier que l'arbre Git est propre (`git status --porcelain` sans sortie) avant toute opération de refactoring massif ; si l'arbre n'est pas propre, tu dois l'indiquer et adapter la stratégie (commit/stash ou réduction du périmètre) selon le contexte.
+- Tu ne dois jamais présumer du répertoire courant, de la version du langage ou de l'existence d'un fichier : tu dois vérifier avant d'agir.
+- Pour tout nouveau fichier ou dossier que tu crées, tu dois utiliser uniquement un nommage ASCII-safe : caractères `a-z`, `0-9`, `_`, `-`, `.`.
+
+## D. Gestion de l'état (flux tendu)
+
+- Tu dois mettre à jour immédiatement les fichiers de suivi pertinents (`TODO.md`, `CHANGELOG.md`, etc.) dès qu'une tâche est complétée, sans attendre la fin de la session.
+
+## E. Alignement dépôt
+
+- Tu dois respecter les règles additionnelles du dépôt (par exemple `AGENTS.md`, règles workspace) lorsqu'elles sont présentes et ne pas les contredire sans clarification explicite.
