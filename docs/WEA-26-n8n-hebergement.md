@@ -8,7 +8,7 @@ Document d’ancrage pour [WEA-26](https://linear.app/weadu/issue/WEA-26/n8n-heb
 
 | Critère | **n8n Cloud (Starter)** | **Self-hosted (OVH / Lightsail / VPS)** |
 |--------|---------------------------|----------------------------------------|
-| **Coût récurrent** | **20 €/mois** si facturation **annuelle** ([tarifs officiels](https://n8n.io/pricing/) — vérifier au moment du souscription). Hors promo : souvent **24 €/mois** en mensuel. | **~4–15 €/mois** VPS seul (ex. petit instance EU) + **0 €** licence **Community Edition** ([GitHub](https://github.com/n8n-io/n8n)). Option **Business** self-hosted = autre gamme de prix (licence + exécutions). |
+| **Coût récurrent** | **20 €/mois** si facturation **annuelle** ([tarifs officiels](https://n8n.io/pricing/) — vérifier au moment de la souscription). Hors promo : souvent **24 €/mois** en mensuel. | **~4–15 €/mois** VPS seul (ex. petite instance EU) + **0 €** licence **Community Edition** ([GitHub](https://github.com/n8n-io/n8n)). Option **Business** self-hosted = autre gamme de prix (licence + exécutions). |
 | **Budget < 20 €/mois** | Atteint **uniquement** avec engagement annuel Starter (~20 €/mois équivalent). | Facile à tenir avec un VPS modeste. |
 | **Charge ops** | **Faible** : mises à jour, disponibilité, sauvegardes gérées par n8n ; données hébergées **UE (Francfort)** selon la page pricing. | **Moyenne à élevée** : OS, Docker/Compose ou équivalent, TLS, sauvegardes DB, mises à jour n8n, monitoring, durcissement réseau. |
 | **Limite usage Cloud Starter** | **2 500 exécutions / mois**, 5 exécutions concurrentes, 1 projet partagé (voir [pricing](https://n8n.io/pricing/)). | CE self-hosted : pas de plafond imposé par n8n sur les exécutions ; limites = CPU/RAM/disque du VPS. |
@@ -44,7 +44,7 @@ Les deux options respectent un budget **inférieur à 20 €/mois** si le Cloud 
 
 1. Créer un compte / instance sur [n8n Cloud](https://app.n8n.cloud/register) et choisir le plan Starter (annuel si objectif < 20 €/mo).
 2. Noter l’**URL d’accès** (domaine `*.app.n8n.cloud` ou personnalisé si configuré).
-3. Enregistrer les secrets selon [Convention secrets](#convention-secrets-n8n-wea-15--githubcursor).
+3. Enregistrer les secrets selon la [convention secrets (n8n)](#convention-secrets-n8n).
 
 ### Option B — Self-hosted sur VPS
 
@@ -56,7 +56,7 @@ Les deux options respectent un budget **inférieur à 20 €/mois** si le Cloud 
 
 ---
 
-## Convention secrets (n8n) — WEA-15 / GitHub / Cursor
+## Convention secrets (n8n)
 
 **Ne jamais** mettre les valeurs dans ce dépôt. Stocker les valeurs dans le **socle secrets** ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) : secrets **organisation** ou **dépôt** GitHub, ou secrets **Cursor** pour les agents, selon ce qui est déjà en place pour WeAdU.
 
