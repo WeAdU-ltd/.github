@@ -9,7 +9,7 @@ Document d’ancrage pour le ticket [WEA-29](https://linear.app/weadu/issue/WEA-
 | Source | Couverture |
 |--------|------------|
 | **EC2 DescribeInstances** | Type, état, IP, VPC, sous-réseau, security groups, volumes attachés, tags, AMI / plateforme Windows vs Linux |
-| **Pas dans ce script** | Processus (Selenium), **tâches planifiées Windows**, unités **systemd** sur Ubuntu — à compléter en §3 ou via **SSM** une fois [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) OK |
+| **Pas dans ce script** | Processus (Selenium), **tâches planifiées Windows**, unités **systemd** sur Ubuntu — complété en **§3** (capture invitée) ; pour un état à jour, réexécuter les commandes sur les hôtes ou via **SSM** |
 
 ---
 
@@ -39,12 +39,23 @@ _Exécutez le script ci-dessus pour remplir cette zone._
 
 ## 3. Complément manuel — ce qui tourne sur les hôtes (OS invité)
 
-À remplir après connexion **SSH (Ubuntu)** / **RDP ou SSM (Windows)** ou audit ops. Ne pas y coller de mots de passe ou clés.
+Renseigné à partir d’une **capture invitée** (SSH / PowerShell sur les serveurs), **2026-05-03**. Pas de secrets ni d’IP publique dans ce tableau. Hostname interne Ubuntu : `ip-172-31-19-126` (compléter le **Name tag / instanceId** via §2 ou la console AWS si besoin d’alignement exact).
 
 | Hôte (Name tag / ID) | OS réel | Rôle / services | Tâches planifiées / cron / systemd | Selenium (oui/non + où) | Sauvegardes | Notes sécurité |
 |---------------------|---------|-----------------|-------------------------------------|---------------------------|-------------|----------------|
-| _ex. i-xxx — prod-bot_ | Ubuntu 22.04 | … | … | … | … | … |
-| _ex. i-yyy — scraper-win_ | Windows Server | … | Planificateur : … | … | … | … |
+| Ubuntu EC2 (`ip-172-31-19-126`) | Ubuntu 24.04.4 LTS | **nginx**, **n8n** (`n8n.service`), **negative-terms** (FastAPI), **PostgreSQL 16**, **Docker** + **containerd**, **chrony**, **fail2ban**, **Amazon SSM Agent** (snap), **certbot** (timer), maintenance (`apt`, `logrotate`, `unattended-upgrades`, etc.) | **systemd** : unités ci-dessus + timers sysadmin (certbot, apt-daily, logrotate, sysstat, etc.). **Cron root** : non lisible depuis la session utilisée | **Non** — aucun processus correspondant à Selenium / chromedriver / geckodriver / webdriver / Playwright au moment de la capture | Non visible dans la capture ; à confirmer côté AWS (snapshots EBS / politique org) | fail2ban + mises à jour automatiques actives ; surface Docker à suivre |
+| Windows EC2 | Microsoft Windows Server 2022 Datacenter | **Caddy**, **NegativeTerms-WebApp** + **NegativeTerms-WebApp-Staging**, **Wellbots**, **PostgreSQL 16**, **Docker**, **OpenSSH Server**, **RDP** (TermService), **SSM**, **Windows Defender** | **Planificateur** : nombreuses tâches **Microsoft** standard + tâches **métier** racine et `\WeAdU\` (voir §3.1). Pas de détail d’horaires dans ce doc | **Non** au moment de la capture (filtre Chrome / Edge / Firefox / Java / drivers vide) | Non visible dans la capture ; à confirmer (EBS, SQL dump, etc.) | Bastion logique : SSH + RDP ; tâches `PD_*` / scraping à cartographier dans un runbook séparé si besoin |
+
+### 3.1 Tâches planifiées Windows — périmètre WeAdU / métier (noms)
+
+_Hors tâches `\Microsoft\Windows\...` et hors GoogleUpdater / .NET NGEN._
+
+- `\WeAdU\` : `WeAdU-Caddy`, `WeAdU-COS`, `WeAdU-COS-Watchdog`, `WeAdU-Dashboard`, `DismissGoogleAdsRecommendations`
+- **Wellbots** : `WellbotsAdsSync`, `WellbotsWatchdog`
+- **Racine `\`** (échantillon non exhaustif) : `PD_*` (monitoring, scrape, sedar, sessions, notify, infra, etc.), `NgamBatched`, `NgamV4`, `NgromDebug`, `NegativeKeywords_Weekly`, `MLPumpScorer`, `DashboardDaily`, `TradeManager_Hourly`, `Capture2FA`, `LaunchGateway`, `EnumWindows`, `TOTP_Autofill`, migrations / SQL (`RunMigration`, `RunPGInstall`, `RunSQL`, `SetupPG`, `VerifyPG`, `SetDBURL`), `StocksAPI`, `SysCheck`, etc.
+
+Pour la liste complète à l’instant T, réexécuter sur le serveur :  
+`Get-ScheduledTask | Where-Object State -eq 'Ready' | Select TaskName, TaskPath`
 
 ---
 
