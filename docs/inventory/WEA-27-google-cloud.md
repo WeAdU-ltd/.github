@@ -24,6 +24,13 @@ export GCP_PARENT='organizations/123456789012'   # ou folders/...
 python3 scripts/gcp_inventory_wea27.py -o docs/inventory/WEA-27-google-cloud.md
 ```
 
+Sous **Windows**, si `python` ne trouve pas `gcloud` alors que la console le trouve (PATH différent), soit ouvre une **nouvelle** fenêtre PowerShell après l’installation du SDK, soit définis le chemin complet :
+
+```powershell
+$env:GCLOUD_PATH = "$env:LOCALAPPDATA\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+python scripts\gcp_inventory_wea27.py -o docs\inventory\WEA-27-google-cloud.md
+```
+
 Sans variable `GCP_PARENT`, le script interroge la liste des projets accessibles au compte courant (`gcloud projects list`).
 
 **OAuth 2.0 (clients web / desktop / redirect URIs)** : l’API publique stable accessible au CLI pour *tous* les clients « APIs & Services → Credentials » n’est pas exposée de façon uniforme par `gcloud` sur tous les projets. Pour une liste exhaustive des **Authorized redirect URIs** et **JavaScript origins**, compléter manuellement la section ci-dessous depuis la console **Google Cloud → APIs & Services → Credentials**, ou activer **Cloud Asset Inventory** et exporter les ressources pertinentes. Le script documente les **services activés** et les **doublons de noms de services** entre projets pour repérer des incohérences.

@@ -5,6 +5,8 @@ WEA-27 — Inventaire Google Cloud : projets, APIs activées, résumé des doubl
 Variables d'environnement optionnelles :
   GCP_PARENT     — ex. organizations/123 ou folders/456 pour restreindre la liste de projets
                    (via `gcloud projects list --filter=parent.id:...` si besoin ; sinon liste globale)
+  GCLOUD_PATH    — chemin complet vers gcloud ou gcloud.cmd (Windows : utile si `python` n'a pas
+                   le même PATH que la console où `gcloud --version` fonctionne)
 
 Prérequis : `gcloud` installé et session authentifiée (`gcloud auth login`).
 
@@ -19,6 +21,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from collections import defaultdict
@@ -28,9 +31,47 @@ from typing import Any
 BEGIN_MARKER = "<!-- WEA27_GCP_INVENTORY_BEGIN -->"
 END_MARKER = "<!-- WEA27_GCP_INVENTORY_END -->"
 
+# Défini dans main() après résolution (PATH Python ≠ PATH utilisateur sous Windows).
+_GCLOUD_EXE: str = ""
+
+
+def _resolve_gcloud_executable() -> str | None:
+    """Trouve l'exécutable gcloud : PATH, GCLOUD_PATH, puis emplacements types sous Windows."""
+    explicit = os.environ.get("GCLOUD_PATH", "").strip().strip('"')
+    if explicit:
+        if os.path.isfile(explicit):
+            return explicit
+        for ext in (".cmd", ".exe", ".bat"):
+            p = explicit + ext if not explicit.lower().endswith(ext) else explicit
+            if os.path.isfile(p):
+                return p
+
+    w = shutil.which("gcloud")
+    if w:
+        return w
+
+    if sys.platform == "win32":
+        candidates: list[str] = []
+        la = os.environ.get("LOCALAPPDATA", "")
+        if la:
+            candidates.append(
+                os.path.join(la, "Google", "Cloud SDK", "google-cloud-sdk", "bin", "gcloud.cmd")
+            )
+        for env in ("ProgramFiles", "ProgramFiles(x86)"):
+            pf = os.environ.get(env, "")
+            if pf:
+                candidates.append(
+                    os.path.join(pf, "Google", "Cloud SDK", "google-cloud-sdk", "bin", "gcloud.cmd")
+                )
+        for c in candidates:
+            if os.path.isfile(c):
+                return c
+
+    return None
+
 
 def _run_gcloud_json(args: list[str]) -> Any:
-    cmd = ["gcloud", *args, "--format=json"]
+    cmd = [_GCLOUD_EXE, *args, "--format=json"]
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if proc.returncode != 0:
         raise RuntimeError(
@@ -171,14 +212,28 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    try:
-        subprocess.run(["gcloud", "--version"], capture_output=True, check=True, timeout=30)
-    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+    global _GCLOUD_EXE
+    resolved = _resolve_gcloud_executable()
+    if not resolved:
         print(
-            "Erreur : Google Cloud SDK (`gcloud`) introuvable ou non exécutable.",
+            "Erreur : Google Cloud SDK (`gcloud`) introuvable ou non exécutable.\n"
+            "  Sous Windows : définissez GCLOUD_PATH vers gcloud.cmd, ex. :\n"
+            '    $env:GCLOUD_PATH = "$env:LOCALAPPDATA\\Google\\Cloud SDK\\google-cloud-sdk\\bin\\gcloud.cmd"',
             file=sys.stderr,
         )
         return 1
+    _GCLOUD_EXE = resolved
+
+    try:
+        subprocess.run([_GCLOUD_EXE, "--version"], capture_output=True, check=True, timeout=30)
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+        print(
+            f"Erreur : `{_GCLOUD_EXE}` ne s'exécute pas correctement : {e}",
+            file=sys.stderr,
+        )
+        return 1
+
+    print(f"Utilisation de : {_GCLOUD_EXE}")
 
     parent = args.parent.strip() or os.environ.get("GCP_PARENT", "").strip()
     try:
