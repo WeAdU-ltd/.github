@@ -21,3 +21,6 @@ jobs:
 
       - name: Run actionlint
         run: ./actionlint -color
+
+      - name: IBKR API smoke (WEA-30 dry-run)
+        run: python3 scripts/ibkr_smoke_wea30.py --dry-run

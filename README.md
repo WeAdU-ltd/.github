@@ -56,6 +56,10 @@ extend `hooks` per [Cursor hooks](https://cursor.com/docs) (do not remove `versi
 (`pre-commit.cursor`), il faut ignorer les entrées de `CLOUD_AGENT_INJECTED_SECRET_NAMES` qui ne
 sont pas des identifiants bash valides avant `${!NAME}` (correctif côté image / hooks Cursor).
 
+## Interactive Brokers (UK) — API (WEA-30)
+
+Guide agents : chemins API (Web / TWS), cadre ordres autonomes, risque courtage, smoke script — [`docs/INTERACTIVE_BROKERS_UK_WEA30.md`](docs/INTERACTIVE_BROKERS_UK_WEA30.md) ([Linear WEA-30](https://linear.app/weadu/issue/WEA-30/interactive-brokers-uk-api-et-ordres-autonomes)).
+
 ## Auto-merge pull requests to `main`
 
 Workflow [`.github/workflows/auto-merge-pr.yml`](.github/workflows/auto-merge-pr.yml) runs on
