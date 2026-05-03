@@ -94,7 +94,7 @@ according to the rules above.
 
 ## Inventaires (Google Cloud, WEA-27)
 
-Le script [`scripts/gcp_inventory_wea27.py`](scripts/gcp_inventory_wea27.py) régénère la section
-automatique de [`docs/inventory/WEA-27-google-cloud.md`](docs/inventory/WEA-27-google-cloud.md)
-(projets GCP visibles, APIs activées). Voir ce fichier pour les prérequis `gcloud`, Windows
-(`--gcloud`), et la politique de **commit** de la sortie générée.
+Sous **Windows**, lance une seule fois le script PowerShell (il trouve `gcloud.cmd` et Python tout seul) :  
+[`scripts/run_gcp_inventory_wea27.ps1`](scripts/run_gcp_inventory_wea27.ps1) — détail dans [`docs/inventory/WEA-27-google-cloud.md`](docs/inventory/WEA-27-google-cloud.md).
+
+Sinon : [`scripts/gcp_inventory_wea27.py`](scripts/gcp_inventory_wea27.py) et le même doc pour les options (`--gcloud`, `GCP_PARENT`).

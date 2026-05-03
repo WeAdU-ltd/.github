@@ -16,6 +16,19 @@ Les chevauchements de noms de projets, comptes de facturation ou domaines d’re
 
 Prérequis : [Google Cloud SDK](https://cloud.google.com/sdk) (`gcloud`), compte authentifié avec droits de lecture sur l’organisation ou les projets ciblés.
 
+### Windows (recommandé — zéro variable d’environnement)
+
+Depuis une fenêtre **PowerShell** (7 ou 5.1), dans le clone du dépôt :
+
+```powershell
+Set-Location "chemin\vers\ton\clone\.github"
+.\scripts\run_gcp_inventory_wea27.ps1
+```
+
+Tu peux aussi lancer le `.ps1` par **chemin absolu** depuis n’importe quel dossier courant (le script se place tout seul à la racine du dépôt).
+
+### Linux / macOS ou ligne de commande manuelle
+
 ```bash
 cd /path/to/clone/of/.github
 gcloud auth login   # ou auth application-default login pour CI / machine
@@ -24,7 +37,7 @@ export GCP_PARENT='organizations/123456789012'   # ou folders/...
 python3 scripts/gcp_inventory_wea27.py -o docs/inventory/WEA-27-google-cloud.md
 ```
 
-Sous **Windows**, si `python` ne trouve pas `gcloud` alors que la console le trouve (PATH différent), soit ouvre une **nouvelle** fenêtre PowerShell après l’installation du SDK, soit définis le chemin complet :
+Sous **Windows**, si tu préfères appeler Python directement (PATH différent) :
 
 ```powershell
 $env:GCLOUD_PATH = "$env:LOCALAPPDATA\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
