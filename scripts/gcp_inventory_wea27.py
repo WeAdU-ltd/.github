@@ -18,6 +18,7 @@ doublons de configuration à croiser avec AWS/OVH sur WEA-38).
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -35,47 +36,104 @@ END_MARKER = "<!-- WEA27_GCP_INVENTORY_END -->"
 _GCLOUD_EXE: str = ""
 
 
-def _resolve_gcloud_executable() -> str | None:
-    """Trouve l'exécutable gcloud : PATH, GCLOUD_PATH, puis emplacements types sous Windows."""
-    explicit = os.environ.get("GCLOUD_PATH", "").strip().strip('"')
-    if explicit:
-        if os.path.isfile(explicit):
-            return explicit
-        for ext in (".cmd", ".exe", ".bat"):
-            p = explicit + ext if not explicit.lower().endswith(ext) else explicit
-            if os.path.isfile(p):
-                return p
+def _windows_gcloud_search_roots() -> list[str]:
+    """Racines où chercher google-cloud-sdk\\bin\\gcloud.cmd (installations courantes)."""
+    roots: list[str] = []
+    for key in ("LOCALAPPDATA", "ProgramFiles", "ProgramFiles(x86)"):
+        v = os.environ.get(key, "").strip()
+        if v:
+            roots.append(os.path.join(v, "Google", "Cloud SDK"))
+    up = os.environ.get("USERPROFILE", "").strip()
+    if up:
+        roots.append(os.path.join(up, "google-cloud-sdk"))
+    seen: set[str] = set()
+    out: list[str] = []
+    for r in roots:
+        if r and r not in seen:
+            seen.add(r)
+            out.append(r)
+    return out
 
-    w = shutil.which("gcloud")
-    if w:
-        return w
 
-    if sys.platform == "win32":
-        candidates: list[str] = []
-        la = os.environ.get("LOCALAPPDATA", "")
-        if la:
-            candidates.append(
-                os.path.join(la, "Google", "Cloud SDK", "google-cloud-sdk", "bin", "gcloud.cmd")
-            )
-        for env in ("ProgramFiles", "ProgramFiles(x86)"):
-            pf = os.environ.get(env, "")
-            if pf:
-                candidates.append(
-                    os.path.join(pf, "Google", "Cloud SDK", "google-cloud-sdk", "bin", "gcloud.cmd")
-                )
-        for c in candidates:
-            if os.path.isfile(c):
-                return c
-
+def _find_gcloud_cmd_under_roots(roots: list[str]) -> str | None:
+    for root in roots:
+        if not os.path.isdir(root):
+            continue
+        pattern = os.path.join(root, "**", "gcloud.cmd")
+        try:
+            hits = glob.glob(pattern, recursive=True)
+        except OSError:
+            continue
+        for hit in sorted(hits, key=len):
+            if os.path.isfile(hit):
+                return hit
     return None
 
 
+def _resolve_gcloud_executable() -> tuple[str | None, str]:
+    """
+    Trouve l'exécutable gcloud : GCLOUD_PATH, PATH, puis emplacements types sous Windows.
+    Retourne (chemin ou None, message diagnostic court).
+    """
+    explicit = os.environ.get("GCLOUD_PATH", "").strip().strip('"')
+    if explicit:
+        if os.path.isfile(explicit):
+            if sys.platform == "win32" and explicit.lower().endswith(".ps1"):
+                alt = os.path.join(os.path.dirname(explicit), "gcloud.cmd")
+                if os.path.isfile(alt):
+                    return alt, ""
+            return explicit, ""
+        for ext in (".cmd", ".exe", ".bat"):
+            p = explicit + ext if not explicit.lower().endswith(ext) else explicit
+            if os.path.isfile(p):
+                return p, ""
+        return None, f"GCLOUD_PATH est défini mais le fichier est absent : {explicit!r}"
+
+    w = shutil.which("gcloud")
+    if w and os.path.isfile(w):
+        if sys.platform == "win32" and w.lower().endswith(".ps1"):
+            cmd_same_dir = os.path.join(os.path.dirname(w), "gcloud.cmd")
+            if os.path.isfile(cmd_same_dir):
+                return cmd_same_dir, ""
+        return w, ""
+
+    if sys.platform == "win32":
+        candidates: list[str] = []
+        for root in _windows_gcloud_search_roots():
+            candidates.append(os.path.join(root, "google-cloud-sdk", "bin", "gcloud.cmd"))
+        for c in candidates:
+            if os.path.isfile(c):
+                return c, ""
+        found = _find_gcloud_cmd_under_roots(_windows_gcloud_search_roots())
+        if found:
+            return found, ""
+
+    return None, ""
+
+
+def _run_gcloud_subprocess(args: list[str], *, timeout: int) -> subprocess.CompletedProcess[str]:
+    """Sous Windows, les .cmd doivent passer par cmd /c pour CreateProcess."""
+    if sys.platform == "win32" and _GCLOUD_EXE.lower().endswith((".cmd", ".bat", ".ps1")):
+        return subprocess.run(
+            ["cmd", "/c", _GCLOUD_EXE, *args],
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+    return subprocess.run(
+        [_GCLOUD_EXE, *args],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+    )
+
+
 def _run_gcloud_json(args: list[str]) -> Any:
-    cmd = [_GCLOUD_EXE, *args, "--format=json"]
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+    proc = _run_gcloud_subprocess([*args, "--format=json"], timeout=600)
     if proc.returncode != 0:
+        arg_str = " ".join(str(a) for a in (proc.args if isinstance(proc.args, (list, tuple)) else [proc.args]))
         raise RuntimeError(
-            f"gcloud failed ({proc.returncode}): {' '.join(cmd)}\n{proc.stderr or proc.stdout}"
+            f"gcloud failed ({proc.returncode}): {arg_str}\n{proc.stderr or proc.stdout}"
         )
     out = proc.stdout.strip()
     if not out:
@@ -213,22 +271,33 @@ def main() -> int:
     args = parser.parse_args()
 
     global _GCLOUD_EXE
-    resolved = _resolve_gcloud_executable()
+    resolved, diag = _resolve_gcloud_executable()
     if not resolved:
         print(
-            "Erreur : Google Cloud SDK (`gcloud`) introuvable ou non exécutable.\n"
-            "  Sous Windows : définissez GCLOUD_PATH vers gcloud.cmd, ex. :\n"
-            '    $env:GCLOUD_PATH = "$env:LOCALAPPDATA\\Google\\Cloud SDK\\google-cloud-sdk\\bin\\gcloud.cmd"',
+            "Erreur : Google Cloud SDK (`gcloud`) introuvable ou non exécutable.",
+            file=sys.stderr,
+        )
+        if diag:
+            print(diag, file=sys.stderr)
+        print(
+            "  Dans PowerShell, obtiens le chemin réel puis réessaie :\n"
+            "    (Get-Command gcloud).Source\n"
+            "    $env:GCLOUD_PATH = '<colle le chemin affiché (gcloud.cmd ou gcloud.ps1)>'\n"
+            "  Puis : python scripts\\gcp_inventory_wea27.py -o docs\\inventory\\WEA-27-google-cloud.md\n"
+            "  Si gcloud.ps1 : utilise plutôt le gcloud.cmd du même dossier `...\\bin\\gcloud.cmd`.",
             file=sys.stderr,
         )
         return 1
     _GCLOUD_EXE = resolved
 
     try:
-        subprocess.run([_GCLOUD_EXE, "--version"], capture_output=True, check=True, timeout=30)
+        v = _run_gcloud_subprocess(["--version"], timeout=30)
+        if v.returncode != 0:
+            raise subprocess.CalledProcessError(v.returncode, v.args, v.stdout, v.stderr)
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+        err = getattr(e, "stderr", None) or getattr(e, "stdout", None) or str(e)
         print(
-            f"Erreur : `{_GCLOUD_EXE}` ne s'exécute pas correctement : {e}",
+            f"Erreur : `{_GCLOUD_EXE}` ne s'exécute pas correctement : {e}\n{err}",
             file=sys.stderr,
         )
         return 1
