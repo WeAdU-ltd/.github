@@ -23,6 +23,15 @@ Ce fichier (`AGENTS.md` dans `WeAdU-ltd/.github`) est le **miroir technique** : 
 
 **Ne pas** modifier les réglages Cursor globaux (User rules) d’un poste sans instruction explicite de l’humain ; l’humain ne maintient qu’un **court** renvoi vers le doc Linear (voir ce même document Linear, section Cursor).
 
+## Délégation : autres agents, autres dépôts, Replit
+
+**Préférence opérationnelle (Jeff)** : gagner du temps en **demandant explicitement à l’humain** d’interroger les **agents Cursor qui ont déjà accès** à un autre projet / un autre dépôt (infra, secrets, prod, etc.) plutôt que de tout refaire depuis ce repo seul.
+
+- Les agents sur ces projets peuvent exécuter des commandes, lire la config, ou coller des sorties **sans exposer de secrets** dans le chat.
+- **Replit** : même principe — si le besoin concerne un projet ou un environnement Replit, **proposer une consigne courte** à copier-coller vers l’agent / la session Replit qui a accès.
+
+**Règle pour les agents qui lisent ce fichier** : dès qu’une tâche suppose un accès que tu n’as pas (AWS, Windows, Replit, autre org GitHub, etc.), **indique en une phrase** à l’humain : *« Peux-tu demander à l’agent du repo X [ou Replit] de faire Y et te coller le résultat ? »* — avec le **texte exact** à transmettre si possible, plutôt que de bloquer en silence.
+
 ## PR en parallèle sur ce dépôt (`.github`)
 
 Pour limiter les files de PR en conflit et le travail de « déblayage » :
