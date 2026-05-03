@@ -6,6 +6,8 @@ Document d’ancrage pour le ticket [WEA-28](https://linear.app/weadu/issue/WEA-
 
 **Constat agent / CI** : aucun accès OVH, AWS ou GCP n’est disponible depuis ce dépôt. Les tableaux ci-dessous sont des **gabarits** à remplir par un **administrateur compte** (console OVH, facturation, DNS). Pour le parallèle multi-cloud, croiser avec [WEA-27](https://linear.app/weadu/issue/WEA-27/google-cloud-inventaire-projets-uris-oauth-doublons) et les inventaires AWS / autres lorsqu’ils existent.
 
+**Où compléter les données** : [Espace client OVHcloud](https://www.ovh.com/manager/) (connexion compte ; pas de secrets dans ce dépôt). Factures et contrats : onglet facturation / commandes du manager.
+
 ---
 
 ## 1. Actifs OVH (liste à compléter)
@@ -46,7 +48,7 @@ Document d’ancrage pour le ticket [WEA-28](https://linear.app/weadu/issue/WEA-
 
 Pour chaque ligne, indiquer si le même besoin est couvert ailleurs (risque de double facturation ou de divergence DNS / TLS).
 
-| Actif OVH (réf. §1) | Recouvrement possible | Fournisseur / ressource cible | Gravité (coût, SPOF, sécurité) | Action proposée (voir §3) |
+| Actif OVH (réf. section 1) | Recouvrement possible | Fournisseur / ressource cible | Gravité (coût, SPOF, sécurité) | Action proposée (voir section 3) |
 |---------------------|------------------------|-------------------------------|--------------------------------|---------------------------|
 | *Ex. site statique* | *Même contenu sur S3 + CloudFront* | AWS | *À évaluer* | *Migrer / couper un des deux* |
 | *À compléter* | | | | |
@@ -71,6 +73,6 @@ Pour chaque ligne, indiquer si le même besoin est couvert ailleurs (risque de d
 
 ## 4. Suite opérationnelle (hors agent)
 
-1. Exporter ou relever les factures / manager OVH et remplir les §1–3.
+1. Exporter ou relever les factures / manager OVH et remplir les sections 1 à 3.
 2. Aligner les secrets (comptes OVH, API application) avec [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh).
 3. Mettre à jour ce fichier dans une PR ; cocher les critères de fait sur le ticket Linear uniquement lorsque les tableaux sont **réellement** remplis (pas de Done « sur gabarit vide »).
