@@ -76,6 +76,7 @@ Anchors in [`docs/`](docs/):
 - [Notifications humaines — e-mail 5h–23h UK, Slack calme 20h–7h (WEA-19)](docs/NOTIFICATIONS_EMAIL_SLACK_WEA19.md) — qui reçoit quoi, quand ; alignement [WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations) (n8n).
 - [n8n — file e-mail humain, digest UK, secrets SMTP (WEA-31)](docs/WEA-31-n8n-human-email-queue.md) — JSON importable + noms de variables.
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
+- [Google Ads + Analytics API agents (WEA-21)](docs/GOOGLE_ADS_ANALYTICS_API_WEA21.md) — noms des secrets, risque, smoke read, chemins write.
 - [Gmail agents — lecture + envoi (WEA-24)](docs/GMAIL_AGENTS_WEA24.md) — secrets nommés, conventions, smoke script.
 - [1Password — agents : CLI, SDK, Cursor](docs/ONEPASSWORD_AGENTS.md) — devcontainer `op`, script `op://`, Cloud Agents.
 - [Alertes échec CI / Slack / poll (org)](docs/GITHUB_CI_FAILURE_ALERT.md) — détection rapide, pas de merge automatique.
