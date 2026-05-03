@@ -2,7 +2,7 @@
 """
 WEA-22 — Smoke test Brave Search API (Web Search).
 
-Exige la variable d'environnement BRAVE_SEARCH_API_KEY (clé API, jamais dans le dépôt).
+Exige une clé API via l'environnement : BRAVE_SEARCH_API_KEY (préféré) ou Brave_API (alias équipe / Cursor).
 
 Variables optionnelles :
   BRAVE_SEARCH_QUERY  — requête de test (défaut : Brave Search API)
@@ -22,12 +22,24 @@ import urllib.request
 
 BRAVE_WEB_SEARCH = "https://api.search.brave.com/res/v1/web/search"
 
+# Order: preferred canonical name, then team alias (1Password / GitHub / Cursor).
+_KEY_ENV_NAMES = ("BRAVE_SEARCH_API_KEY", "Brave_API")
+
+
+def _api_key_from_env() -> str:
+    for name in _KEY_ENV_NAMES:
+        v = os.environ.get(name, "").strip()
+        if v:
+            return v
+    return ""
+
 
 def main() -> int:
-    api_key = os.environ.get("BRAVE_SEARCH_API_KEY", "").strip()
+    api_key = _api_key_from_env()
     if not api_key:
+        names = " or ".join(_KEY_ENV_NAMES)
         print(
-            "Missing BRAVE_SEARCH_API_KEY. Set it from GitHub/Cursor secrets or your env (never commit the value).",
+            f"Missing API key: set {names} from 1Password / GitHub / Cursor (never commit the value).",
             file=sys.stderr,
         )
         return 2

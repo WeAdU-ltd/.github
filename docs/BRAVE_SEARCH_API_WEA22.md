@@ -8,10 +8,22 @@ Document d’ancrage pour le ticket [WEA-22](https://linear.app/weadu/issue/WEA-
 
 | Critère | Implémentation dans ce dépôt |
 |---------|------------------------------|
-| **Clé dans secrets** | Convention : variable d’environnement **`BRAVE_SEARCH_API_KEY`** (valeur = clé API Brave Search). À définir dans GitHub Encrypted Secrets (org ou dépôt), secrets Cursor cloud / workspace, ou fichier `.env` **non versionné** — jamais dans le code ou le chat. |
+| **Clé dans secrets** | La clé vit dans **1Password**, **GitHub** (secrets Actions org ou dépôt) et **Cursor** (workspace / cloud), pas dans le dépôt. Au runtime, les agents lisent l’une des variables d’environnement suivantes (même valeur) : **`BRAVE_SEARCH_API_KEY`** (nom préféré) ou **`Brave_API`** (alias si déjà mappé ainsi). Fichier `.env` local **non versionné** possible — jamais dans le code ou le chat. |
 | **Test requête OK** | Script [`scripts/brave_search_smoke_wea22.py`](../scripts/brave_search_smoke_wea22.py) : smoke test HTTP GET vers l’API officielle ; exécuter **après** injection de la clé (CI optionnelle avec secret, ou localement). |
 
-La dépendance [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) : l’équipe positionne la clé dans le canal secrets convenu (pas ce fichier).
+La dépendance [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) : le socle secrets (1Password ↔ GitHub ↔ Cursor) est la source de vérité opérationnelle ; ce fichier ne fait que documenter les noms exposés aux jobs et agents.
+
+---
+
+## Où est la clé (équipe)
+
+| Lieu | Rôle |
+|------|------|
+| **1Password** | Stockage humain / rotation ; ne pas coller la valeur dans Linear ou le chat. |
+| **GitHub** | Secrets chiffrés (org ou dépôt) ; mapper vers `BRAVE_SEARCH_API_KEY` ou `Brave_API` dans le workflow (`env:` / `secrets:`). |
+| **Cursor** | Secrets du workspace / agent cloud injectés comme variables d’environnement au lancement. |
+
+Les deux noms **`BRAVE_SEARCH_API_KEY`** et **`Brave_API`** sont utilisés côté équipe : le script de smoke test et les intégrations doivent accepter l’un ou l’autre (voir ci-dessous).
 
 ---
 
@@ -35,9 +47,11 @@ Référence : [Brave Search API — documentation](https://api-dashboard.search.
 ## Vérification locale ou CI
 
 ```bash
-export BRAVE_SEARCH_API_KEY="***"   # depuis secrets, pas depuis le dépôt
+export BRAVE_SEARCH_API_KEY="***"   # ou : export Brave_API="***" — depuis 1Password / GitHub / Cursor, pas depuis le dépôt
 python3 scripts/brave_search_smoke_wea22.py
 ```
+
+Le script cherche la clé dans cet ordre : **`BRAVE_SEARCH_API_KEY`**, puis **`Brave_API`** (les deux ne sont pas nécessaires en même temps).
 
 Variables optionnelles :
 
@@ -46,7 +60,7 @@ Variables optionnelles :
 | `BRAVE_SEARCH_QUERY` | Requête de test (défaut : `Brave Search API`) |
 | `BRAVE_SEARCH_COUNT` | Nombre de résultats demandés (défaut : `3`) |
 
-En CI GitHub : ajouter le secret **`BRAVE_SEARCH_API_KEY`** au dépôt (ou à l’org), puis appeler le script dans un job qui expose `secrets.BRAVE_SEARCH_API_KEY` comme variable d’environnement — **uniquement** si l’équipe souhaite un test automatique ; sinon un humain ou un agent avec secret injecté suffit pour le critère « test requête OK ».
+En CI GitHub : le secret peut s’appeler **`BRAVE_SEARCH_API_KEY`** ou **`Brave_API`** dans l’UI GitHub ; exposez-le au job sous l’une des deux variables d’environnement ci-dessus (ex. `env: { BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }} }`). **Uniquement** si l’équipe souhaite un test automatique ; sinon un humain ou un agent avec secret injecté suffit pour le critère « test requête OK ».
 
 ---
 
