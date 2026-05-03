@@ -45,6 +45,14 @@ jobs:
 Caller repositories can omit the SSH and env-file secrets if their deploy command
 does not need them.
 
+## Documentation (WeAdU / Linear)
+
+Anchors in [`docs/`](docs/):
+
+- [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
+- [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md)
+- [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
+
 ## Brave Search API (agents)
 
 Convention secrets + smoke test : [`docs/BRAVE_SEARCH_API_WEA22.md`](docs/BRAVE_SEARCH_API_WEA22.md) ([WEA-22](https://linear.app/weadu/issue/WEA-22/brave-search-api-cles-et-quotas-pour-agents)).
