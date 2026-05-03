@@ -60,6 +60,10 @@ extend `hooks` per [Cursor hooks](https://cursor.com/docs) (do not remove `versi
 (`pre-commit.cursor`), il faut ignorer les entrées de `CLOUD_AGENT_INJECTED_SECRET_NAMES` qui ne
 sont pas des identifiants bash valides avant `${!NAME}` (correctif côté image / hooks Cursor).
 
+## Scraping (Decodo, ScraperAPI, Zyte)
+
+Convention de **clés** (variables d’environnement) et **matrice cas → fournisseur** pour les agents : [`docs/SCRAPING_DECODO_SCRAPERAPI_ZYTE_WEA23.md`](docs/SCRAPING_DECODO_SCRAPERAPI_ZYTE_WEA23.md) ([WEA-23](https://linear.app/weadu/issue/WEA-23/scraping-decodo-scraperapi-zyte-cles-routage)). Le stockage effectif des secrets suit le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh).
+
 ## Interactive Brokers (UK) — API (WEA-30)
 
 Guide agents : chemins API (Web / TWS), cadre ordres autonomes, risque courtage, smoke script — [`docs/INTERACTIVE_BROKERS_UK_WEA30.md`](docs/INTERACTIVE_BROKERS_UK_WEA30.md) ([Linear WEA-30](https://linear.app/weadu/issue/WEA-30/interactive-brokers-uk-api-et-ordres-autonomes)).
