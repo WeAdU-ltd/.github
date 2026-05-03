@@ -91,7 +91,7 @@ jobs:
     steps:
       - name: Check out requested ref
         if: ${{ inputs.deploy_ref != '' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.deploy_ref }}
           fetch-depth: ${{ inputs.fetch_depth }}
@@ -99,7 +99,7 @@ jobs:
 
       - name: Check out triggering ref
         if: ${{ inputs.deploy_ref == '' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: ${{ inputs.fetch_depth }}
           submodules: ${{ inputs.checkout_submodules }}
