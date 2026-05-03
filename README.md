@@ -53,6 +53,10 @@ Anchors in [`docs/`](docs/):
 - [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
+- **Inventaires cloud** (régénérables par script, secrets hors repo) :
+  - [GCP (WEA-27)](docs/inventory/WEA-27-google-cloud.md)
+  - [OVH (WEA-28)](docs/inventory/WEA-28-ovh-duplicates.md)
+  - [AWS EC2 (WEA-29)](docs/inventory/WEA-29-aws-ec2-inventory.md)
 
 ## n8n hosting (budget < 20 €/mois)
 
