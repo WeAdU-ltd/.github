@@ -49,8 +49,9 @@ does not need them.
 
 Anchors in [`docs/`](docs/):
 
+- [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
 - [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
-- [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md)
+- [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 
 ## Brave Search API (agents)
