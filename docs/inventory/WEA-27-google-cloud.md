@@ -45,6 +45,13 @@ Si ce chemin n’existe pas, affiche le vrai emplacement utilisé par PowerShell
 
 Sans variable `GCP_PARENT`, le script interroge la liste des projets accessibles au compte courant (`gcloud projects list`).
 
+### Publier la sortie dans ce dépôt Git (ou non)
+
+La section entre `WEA27_GCP_INVENTORY_*` ne contient en principe **que** des identifiants de projet et des noms d’APIs publics (pas de clés). Tu peux :
+
+- **Ne pas committer** et garder uniquement la copie sur ton disque / Drive partagé (suffisant pour une preuve locale ou une revue perso).
+- **Committer** si l’équipe veut une trace partagée : relire le diff (surtout les tableaux OAuth remplis à la main), puis `git add docs/inventory/WEA-27-google-cloud.md`, commit, PR — uniquement quand tu acceptes que ces noms de projets soient visibles dans l’historique public du dépôt.
+
 **OAuth 2.0 (clients web / desktop / redirect URIs)** : l’API publique stable accessible au CLI pour *tous* les clients « APIs & Services → Credentials » n’est pas exposée de façon uniforme par `gcloud` sur tous les projets. Pour une liste exhaustive des **Authorized redirect URIs** et **JavaScript origins**, compléter manuellement la section ci-dessous depuis la console **Google Cloud → APIs & Services → Credentials**, ou activer **Cloud Asset Inventory** et exporter les ressources pertinentes. Le script documente les **services activés** et les **doublons de noms de services** entre projets pour repérer des incohérences.
 
 ---

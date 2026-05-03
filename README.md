@@ -91,3 +91,10 @@ work. If the key is missing from the job, the script exits successfully and does
 **About “merge the PR”:** [auto-merge](#auto-merge-pull-requests-to-main) handles queuing the
 merge when checks pass; this Linear job runs **after** the merge exists and updates issues
 according to the rules above.
+
+## Inventaires (Google Cloud, WEA-27)
+
+Le script [`scripts/gcp_inventory_wea27.py`](scripts/gcp_inventory_wea27.py) régénère la section
+automatique de [`docs/inventory/WEA-27-google-cloud.md`](docs/inventory/WEA-27-google-cloud.md)
+(projets GCP visibles, APIs activées). Voir ce fichier pour les prérequis `gcloud`, Windows
+(`--gcloud`), et la politique de **commit** de la sortie générée.
