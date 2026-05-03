@@ -42,7 +42,7 @@ flowchart TB
 
 ### 1.3 Principes
 
-- **Séparation des secrets** : ce qui touche paie, fiscalité, données RH ne transite pas par les mêmes GitHub Environments ni les mêmes noms de secrets que le reste du socle (alignement futur [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)).
+- **Séparation des secrets** : ce qui touche paie, fiscalité, données RH ne transite pas par les mêmes GitHub Environments ni les mêmes noms de secrets que le reste du socle (détail opérationnel : [`SECRETS_SOCLE_WEA15.md`](../SECRETS_SOCLE_WEA15.md), [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)).
 - **Repos perso** : pas de label Linear `repo` société ; pas d’injection de PAT org dans des workflows perso pour toucher des ressources société.
 - **Agents / Cursor** : un ticket « code » = un label enfant du groupe `repo` ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)) ; les agents sur périmètre finance-RH ne doivent pas cibler un dépôt « large » par défaut.
 

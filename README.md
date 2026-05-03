@@ -86,7 +86,9 @@ body (use only if you accept the risk of closing tickets that are only mentioned
 
 **Secrets:** if `LINEAR_API_KEY` is an **organization** secret, ensure this repository is in the
 secret’s access list so the workflow receives it. Repository-level secrets with the same name also
-work. If the key is missing from the job, the script exits successfully and does nothing.
+work. If the key is missing from the job, the script exits successfully and does nothing. For the
+full org convention (shared secrets, new internal repos, finance-RH isolation), see
+[`docs/SECRETS_SOCLE_WEA15.md`](docs/SECRETS_SOCLE_WEA15.md).
 
 **About “merge the PR”:** [auto-merge](#auto-merge-pull-requests-to-main) handles queuing the
 merge when checks pass; this Linear job runs **after** the merge exists and updates issues

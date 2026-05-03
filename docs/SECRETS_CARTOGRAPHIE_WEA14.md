@@ -1,6 +1,6 @@
 # Cartographie des secrets (WEA-14)
 
-Document d’ancrage pour le ticket [WEA-14](https://linear.app/weadu/issue/WEA-14/secrets-cartographie-1password-github-cursor-regle-chercher-avant-de). Il complète l’inventaire GitHub ↔ Linear ([WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces), voir [`GITHUB_LINEAR_INVENTORY_WEA12.md`](./GITHUB_LINEAR_INVENTORY_WEA12.md)) et prépare le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)).
+Document d’ancrage pour le ticket [WEA-14](https://linear.app/weadu/issue/WEA-14/secrets-cartographie-1password-github-cursor-regle-chercher-avant-de). Il complète l’inventaire GitHub ↔ Linear ([WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces), voir [`GITHUB_LINEAR_INVENTORY_WEA12.md`](./GITHUB_LINEAR_INVENTORY_WEA12.md)). Le **socle secrets** (noms canoniques, org/environments, finance-RH, Cursor) est décrit dans [`SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md) ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)).
 
 ---
 
@@ -45,4 +45,4 @@ Les dépôts applicatifs qui consomment `WeAdU-ltd/.github/.github/workflows/aut
 
 ---
 
-_Document statique ; mise à jour lorsque le socle secrets (WEA-15) ou les conventions d’équipe évoluent._
+_Document statique ; mise à jour lorsque le [socle secrets (WEA-15)](./SECRETS_SOCLE_WEA15.md) ou les conventions d’équipe évoluent._
