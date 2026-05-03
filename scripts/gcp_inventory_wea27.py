@@ -285,6 +285,11 @@ def main() -> int:
         metavar="CHEMIN",
         help="Chemin vers gcloud / gcloud.cmd (prioritaire sur la variable GCLOUD_PATH)",
     )
+    parser.add_argument(
+        "--parent",
+        default="",
+        help="ID parent optionnel (organizations/N ou folders/N), sinon env GCP_PARENT",
+    )
     args = parser.parse_args()
 
     global _GCLOUD_EXE
