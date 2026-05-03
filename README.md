@@ -50,6 +50,7 @@ does not need them.
 Anchors in [`docs/`](docs/):
 
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
+- [Gmail agents — lecture + envoi (WEA-24)](docs/GMAIL_AGENTS_WEA24.md) — secrets nommés, conventions, smoke script.
 - [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
@@ -88,6 +89,10 @@ Guide agents : chemins API (Web / TWS), cadre ordres autonomes, risque courtage,
 ## Slack (agents / automation)
 
 Pour l’app Slack, le jeton bot (`SLACK_BOT_TOKEN`) et les règles anti-notification (canaux dédiés, fils, pas de `@here` / `@channel` ; alignement [WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence)), voir [`docs/SLACK_APP_AGENTS_WEA25.md`](docs/SLACK_APP_AGENTS_WEA25.md).
+
+## Gmail (agents — lecture + envoi)
+
+OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`) : [`docs/GMAIL_AGENTS_WEA24.md`](docs/GMAIL_AGENTS_WEA24.md) ([WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi)). Les valeurs secrètes suivent le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh).
 
 ## Auto-merge pull requests to `main`
 
