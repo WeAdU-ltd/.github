@@ -7,6 +7,7 @@ Variables d'environnement optionnelles :
                    (via `gcloud projects list --filter=parent.id:...` si besoin ; sinon liste globale)
   GCLOUD_PATH    — chemin complet vers gcloud ou gcloud.cmd (Windows : utile si `python` n'a pas
                    le même PATH que la console où `gcloud --version` fonctionne)
+  (équivalent CLI : `--gcloud CHEMIN`, prioritaire sur GCLOUD_PATH)
 
 Prérequis : `gcloud` installé et session authentifiée (`gcloud auth login`).
 
@@ -70,12 +71,19 @@ def _find_gcloud_cmd_under_roots(roots: list[str]) -> str | None:
     return None
 
 
-def _resolve_gcloud_executable() -> tuple[str | None, str]:
+def _expand_path(p: str) -> str:
+    return os.path.normpath(os.path.expandvars(os.path.expanduser(p.strip().strip('"'))))
+
+
+def _resolve_gcloud_executable(cli_gcloud: str) -> tuple[str | None, str]:
     """
-    Trouve l'exécutable gcloud : GCLOUD_PATH, PATH, puis emplacements types sous Windows.
+    Trouve l'exécutable gcloud : --gcloud, GCLOUD_PATH, PATH, puis emplacements types sous Windows.
     Retourne (chemin ou None, message diagnostic court).
     """
-    explicit = os.environ.get("GCLOUD_PATH", "").strip().strip('"')
+    cli = (cli_gcloud or "").strip()
+    explicit = cli or os.environ.get("GCLOUD_PATH", "").strip().strip('"')
+    explicit = _expand_path(explicit) if explicit else ""
+
     if explicit:
         if os.path.isfile(explicit):
             if sys.platform == "win32" and explicit.lower().endswith(".ps1"):
@@ -84,10 +92,18 @@ def _resolve_gcloud_executable() -> tuple[str | None, str]:
                     return alt, ""
             return explicit, ""
         for ext in (".cmd", ".exe", ".bat"):
-            p = explicit + ext if not explicit.lower().endswith(ext) else explicit
+            base = explicit
+            if not base.lower().endswith(ext):
+                p = base + ext
+            else:
+                p = base
             if os.path.isfile(p):
                 return p, ""
-        return None, f"GCLOUD_PATH est défini mais le fichier est absent : {explicit!r}"
+        # Chemin explicite : tenter quand même (Python Store / chemins spéciaux peuvent mentir sur isfile)
+        base = os.path.basename(explicit).lower()
+        if "gcloud" in base and (base.endswith(".cmd") or base.endswith(".bat")):
+            return explicit, f"(chemin explicite sans os.path.isfile : {explicit!r} — exécution à tenter)"
+        return None, f"GCLOUD_PATH / --gcloud : fichier introuvable : {explicit!r}"
 
     w = shutil.which("gcloud")
     if w and os.path.isfile(w):
@@ -264,14 +280,15 @@ def main() -> int:
         help="Fichier markdown à mettre à jour",
     )
     parser.add_argument(
-        "--parent",
+        "--gcloud",
         default="",
-        help="ID parent optionnel (organizations/N ou folders/N), sinon env GCP_PARENT",
+        metavar="CHEMIN",
+        help="Chemin vers gcloud / gcloud.cmd (prioritaire sur la variable GCLOUD_PATH)",
     )
     args = parser.parse_args()
 
     global _GCLOUD_EXE
-    resolved, diag = _resolve_gcloud_executable()
+    resolved, diag = _resolve_gcloud_executable(args.gcloud)
     if not resolved:
         print(
             "Erreur : Google Cloud SDK (`gcloud`) introuvable ou non exécutable.",
@@ -280,15 +297,20 @@ def main() -> int:
         if diag:
             print(diag, file=sys.stderr)
         print(
-            "  Dans PowerShell, obtiens le chemin réel puis réessaie :\n"
-            "    (Get-Command gcloud).Source\n"
-            "    $env:GCLOUD_PATH = '<colle le chemin affiché (gcloud.cmd ou gcloud.ps1)>'\n"
-            "  Puis : python scripts\\gcp_inventory_wea27.py -o docs\\inventory\\WEA-27-google-cloud.md\n"
-            "  Si gcloud.ps1 : utilise plutôt le gcloud.cmd du même dossier `...\\bin\\gcloud.cmd`.",
+            "  Mettre à jour le script : git pull\n"
+            "  Puis forcer le chemin (PowerShell) :\n"
+            "    python scripts\\gcp_inventory_wea27.py --gcloud \"$env:LOCALAPPDATA\\Google\\Cloud SDK\\google-cloud-sdk\\bin\\gcloud.cmd\" -o docs\\inventory\\WEA-27-google-cloud.md",
+            file=sys.stderr,
+        )
+        print(
+            "  Ou : (Get-Command gcloud).Source  puis --gcloud avec le gcloud.cmd du même dossier bin.",
             file=sys.stderr,
         )
         return 1
     _GCLOUD_EXE = resolved
+
+    if diag:
+        print(diag, file=sys.stderr)
 
     try:
         v = _run_gcloud_subprocess(["--version"], timeout=30)

@@ -31,6 +31,12 @@ $env:GCLOUD_PATH = "$env:LOCALAPPDATA\Google\Cloud SDK\google-cloud-sdk\bin\gclo
 python scripts\gcp_inventory_wea27.py -o docs\inventory\WEA-27-google-cloud.md
 ```
 
+Si `GCLOUD_PATH` est ignoré (vieux script ou environnement bizarre), **mets à jour** (`git pull`) puis passe le chemin en argument :
+
+```powershell
+python scripts\gcp_inventory_wea27.py --gcloud "$env:LOCALAPPDATA\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd" -o docs\inventory\WEA-27-google-cloud.md
+```
+
 Si ce chemin n’existe pas, affiche le vrai emplacement utilisé par PowerShell puis copie-le dans `GCLOUD_PATH` (de préférence le `gcloud.cmd` du dossier `bin`, pas le `gcloud.ps1` seul) :
 
 ```powershell
