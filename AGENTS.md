@@ -64,6 +64,12 @@ Les agents **privilégient** : secrets **organisation** / compte machine, **GitH
 
 Les **valeurs** des secrets (organisation et dépôts, y compris OAuth Gmail / Google) sont créées et tenues à jour par **une seule personne** : **Jeff** (propriétaire unique). Les agents et la doc ne doivent pas renvoyer vers un « autre admin » pour ces secrets : la procédure et les noms canoniques suffisent ; les valeurs viennent de ce canal unique.
 
+## Zéro humain — secrets d’organisation (éviter « où est la valeur ? »)
+
+Les **noms** des secrets (`GITHUB_ORG_AUDIT_TOKEN`, `LINEAR_API_KEY`, etc.) sont dans [`docs/SECRETS_SOCLE_WEA15.md`](docs/SECRETS_SOCLE_WEA15.md). Les **valeurs** n’existent pas dans le dépôt : elles sont créées **une fois** dans l’UI GitHub (PAT / jeton machine), puis saisies dans *Organization secrets* — jamais dans Linear ni dans le chat des agents.
+
+Quand une PR ajoute un workflow qui lit `secrets.NOM` : documenter le nom, pointer ce paragraphe + [`docs/ZERO_HUMAN_AUTOMATION_LINEAR.md`](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md), et indiquer **référent unique pour la valeur** (ci-dessus). Ne pas laisser l’humain non référent se demander où « télécharger » le secret : il n’y a pas de fichier ; seule la création GitHub org compte.
+
 ## PR en parallèle sur ce dépôt (`.github`)
 
 Pour limiter les files de PR en conflit et le travail de « déblayage » :

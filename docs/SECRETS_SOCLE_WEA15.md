@@ -28,6 +28,17 @@ Ces noms sont ceux **référencés par les workflows** de ce dépôt (`WeAdU-ltd
 
 **Création côté org** : *Organization settings* → *Secrets and variables* → *Actions* → *New organization secret* ; restreindre l’accès aux repositories concernés (politique « repository access »).
 
+### `GITHUB_ORG_AUDIT_TOKEN` — où est la valeur ?
+
+La **valeur** n’est dans aucun fichier du dépôt (et ne doit pas être dans Linear). Elle est le texte d’un **Personal Access Token** (ou équivalent machine) **créé dans l’interface GitHub** par la personne de référence des secrets org (voir [`AGENTS.md`](../AGENTS.md)), puis **collée une seule fois** dans le champ *Value* du secret d’organisation nommé exactement `GITHUB_ORG_AUDIT_TOKEN`, avec **accès au dépôt** `WeAdU-ltd/.github`.
+
+**Portées minimales (lecture seule, audit WEA-32)** — au choix :
+
+- **PAT classique** : `repo` (lecture des dépôts privés + API branches/protection) et `read:org` si besoin pour lister les dépôts ; **Authorize SSO** pour `WeAdU-ltd` si l’org impose SAML.
+- **PAT fine-grained** : accès aux dépôts concernés (ou à toute l’org selon politique), permissions **Repository permissions** → *Administration* : **Read-only** (lecture des règles de protection de branche) ; *Metadata* : lecture.
+
+Éviter d’accorder l’écriture admin ou des scopes hors audit. Gabarit « zéro humain » : [`ZERO_HUMAN_AUTOMATION_LINEAR.md`](./ZERO_HUMAN_AUTOMATION_LINEAR.md).
+
 ---
 
 ## 3. Convention : où ajouter un secret pour un **nouveau** dépôt interne (société)

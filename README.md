@@ -80,7 +80,7 @@ Anchors in [`docs/`](docs/):
 - [1Password — agents : CLI, SDK, Cursor](docs/ONEPASSWORD_AGENTS.md) — devcontainer `op`, script `op://`, Cloud Agents.
 - [Alertes échec CI / Slack / poll (org)](docs/GITHUB_CI_FAILURE_ALERT.md) — détection rapide, pas de merge automatique.
 - [Branch protection + anti-secrets (WEA-32)](docs/GITHUB_BRANCH_PROTECTION_WEA32.md) — règles `main`, audit API, Gitleaks CI / pre-commit.
-- [Automation « zéro humain » — gabarit ticket Linear](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md) — audit GitHub sans poste local, secret org, cron + PR.
+- [Automation « zéro humain » — gabarit Linear + secrets org](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md) — gabarit ticket, audit sans poste local ; valeurs des secrets uniquement côté GitHub org (pas dans ce dépôt).
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
@@ -168,7 +168,7 @@ Workflow [`.github/workflows/ci-failure-alert.yml`](.github/workflows/ci-failure
 
 ## Scheduled branch protection audit (WEA-32 / WEA-42)
 
-The workflow [`.github/workflows/branch-protection-audit-wea32.yml`](.github/workflows/branch-protection-audit-wea32.yml) runs **weekly** (cron) and on **workflow_dispatch**. It uses the **organization** secret [`GITHUB_ORG_AUDIT_TOKEN`](docs/SECRETS_SOCLE_WEA15.md) to call the GitHub API, regenerates [`docs/GITHUB_BRANCH_PROTECTION_WEA32.md`](docs/GITHUB_BRANCH_PROTECTION_WEA32.md), pushes branch `automated/wea32-branch-protection-audit`, and opens a PR when the table changes. The same [auto-merge](#auto-merge-pull-requests-to-main) behavior applies once CI passes—no routine run from a local Windows machine is required for this doc refresh.
+The workflow [`.github/workflows/branch-protection-audit-wea32.yml`](.github/workflows/branch-protection-audit-wea32.yml) runs **weekly** (cron) and on **workflow_dispatch**. It uses the **organization** secret [`GITHUB_ORG_AUDIT_TOKEN`](docs/SECRETS_SOCLE_WEA15.md) (value lives only in GitHub org secrets—see [`docs/ZERO_HUMAN_AUTOMATION_LINEAR.md`](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md)) to call the GitHub API, regenerates [`docs/GITHUB_BRANCH_PROTECTION_WEA32.md`](docs/GITHUB_BRANCH_PROTECTION_WEA32.md), pushes branch `automated/wea32-branch-protection-audit`, and opens a PR when the table changes. The same [auto-merge](#auto-merge-pull-requests-to-main) behavior applies once CI passes—no routine run from a local Windows machine is required for this doc refresh.
 
 ## Linear — sync checklist into the PR (WEA-*)
 

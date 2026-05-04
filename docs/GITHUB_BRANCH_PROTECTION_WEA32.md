@@ -39,7 +39,11 @@ Le script [`scripts/github_branch_protection_audit_wea32.py`](../scripts/github_
 Un workflow planifié maintient ce document **sans** exécution manuelle sur Windows :
 
 - Workflow : [`.github/workflows/branch-protection-audit-wea32.yml`](../.github/workflows/branch-protection-audit-wea32.yml) — **cron** hebdomadaire + déclenchement manuel (*Actions* → **Branch protection audit (WEA-32)** → *Run workflow*).
-- Secret d’**organisation** **`GITHUB_ORG_AUDIT_TOKEN`** (PAT ou token machine dédié, SSO autorisé pour `WeAdU-ltd`, lecture des règles de branche + liste des dépôts) ; le dépôt `WeAdU-ltd/.github` doit figurer dans la liste d’accès du secret (voir [WEA-15](../SECRETS_SOCLE_WEA15.md)).
+- Secret d’**organisation** **`GITHUB_ORG_AUDIT_TOKEN`** : le **nom** est figé ; la **valeur** est un PAT créé dans GitHub (pas un fichier du repo) — voir [§ Origine du jeton](#origine-du-jeton-github_org_audit_token) et la section dédiée dans [WEA-15](../SECRETS_SOCLE_WEA15.md). Le dépôt `WeAdU-ltd/.github` doit figurer dans la liste d’accès du secret.
+
+#### Origine du jeton (`GITHUB_ORG_AUDIT_TOKEN`)
+
+Tu ne « récupères » pas cette valeur dans le clone : elle est **créée une fois** (compte autorisé sur l’org), puis enregistrée **uniquement** dans *Organization secrets* sous le nom `GITHUB_ORG_AUDIT_TOKEN`. Portées et SSO : [`SECRETS_SOCLE_WEA15.md`](../SECRETS_SOCLE_WEA15.md). Principe général : [`ZERO_HUMAN_AUTOMATION_LINEAR.md`](./ZERO_HUMAN_AUTOMATION_LINEAR.md).
 - Le job régénère la table, pousse la branche `automated/wea32-branch-protection-audit`, ouvre une **PR** vers `main` si besoin, puis [auto-merge](../README.md#auto-merge-pull-requests-to-main) en file d’attente lorsque le job **Lint workflows** (`ci.yml`) est vert.
 
 ### Exécution locale ou ponctuelle (optionnel)
