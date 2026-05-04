@@ -34,6 +34,15 @@ jobs:
       - name: CI failure alert script (syntax)
         run: python3 -m py_compile scripts/github_failure_alert.py
 
+      - name: 1Password resolve script (syntax)
+        run: python3 -m py_compile scripts/onepassword_resolve_ref.py
+
+      - name: 1Password SDK (optional import)
+        run: |
+          set -euo pipefail
+          python3 -m pip install -q -r requirements-onepassword.txt
+          python3 scripts/onepassword_resolve_ref.py --dry-run
+
       - name: Install gitleaks
         env:
           GITLEAKS_VERSION: "8.30.1"

@@ -52,7 +52,7 @@ Anchors in [`docs/`](docs/):
 - [Charte agents — Linear, interdits, règle Cursor (WEA-17)](docs/CHARTE_AGENTS_LINEAR_WEA17.md) — ticket source, pas de feature / nouveau dépôt sans humain ; label `repo` ; communication avec l’humain.
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
 - [Gmail agents — lecture + envoi (WEA-24)](docs/GMAIL_AGENTS_WEA24.md) — secrets nommés, conventions, smoke script.
-- [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
+- [1Password — agents : CLI, SDK, Cursor](docs/ONEPASSWORD_AGENTS.md) — devcontainer `op`, script `op://`, Cloud Agents.
 - [Alertes échec CI / Slack / poll (org)](docs/GITHUB_CI_FAILURE_ALERT.md) — détection rapide, pas de merge automatique.
 - [Branch protection + anti-secrets (WEA-32)](docs/GITHUB_BRANCH_PROTECTION_WEA32.md) — règles `main`, audit API, Gitleaks CI / pre-commit.
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
