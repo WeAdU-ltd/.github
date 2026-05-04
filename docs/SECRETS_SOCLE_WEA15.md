@@ -20,12 +20,30 @@ Ces noms sont ceux **référencés par les workflows** de ce dépôt (`WeAdU-ltd
 | Nom (référence workflow / convention) | Niveau recommandé | Usage |
 |---------------------------------------|-------------------|--------|
 | `LINEAR_API_KEY` | **Organisation**, avec liste de repos autorisés incluant ceux qui exécutent `linear-done-on-merge.yml` | API Linear pour marquer les issues Done après merge (voir [`README.md`](../README.md)) |
+| `GITHUB_ORG_AUDIT_TOKEN` | **Organisation** ; accès explicite au dépôt `WeAdU-ltd/.github` | PAT ou token machine **lecture** (repos + règles de branche) pour l’audit WEA-32 / [`branch-protection-audit-wea32.yml`](../.github/workflows/branch-protection-audit-wea32.yml) ; SSO org autorisé |
 | `GITHUB_TOKEN` | Fourni **automatiquement** par GitHub Actions sur les jobs ; pas à créer manuellement | `auto-merge-pr.yml`, permissions `contents` + `pull-requests` |
 | `GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET`, `GMAIL_OAUTH_REFRESH_TOKEN` | **Organisation** ou **dépôt** selon blast radius ; pas dans Linear | Gmail agents ([WEA-24](./GMAIL_AGENTS_WEA24.md)) ; client OAuth selon [WEA-20](./GOOGLE_OAUTH_WEA20.md) ; valeurs tenues par **Jeff** (voir [`AGENTS.md`](../AGENTS.md)). |
 | `SLACK_CI_ALERT_WEBHOOK_URL`, `GH_ORG_READ_TOKEN` (optionnel) | **Dépôt** `WeAdU-ltd/.github` (recommandé) ou org | Alertes échec CI + poll multi-dépôts — [`GITHUB_CI_FAILURE_ALERT.md`](./GITHUB_CI_FAILURE_ALERT.md) |
 | `env_file`, `ssh_private_key`, `ssh_known_hosts` | **Dépôt appelant** (secrets passés au `workflow_call` du réutilisable) | Déploiement via [`auto-deploy.yml`](../.github/workflows/auto-deploy.yml) ; les **noms côté appelant** sont libres mais l’exemple standard utilise `PRODUCTION_ENV_FILE`, `PRODUCTION_SSH_PRIVATE_KEY`, `PRODUCTION_SSH_KNOWN_HOSTS` (voir [`README.md`](../README.md)) |
 
 **Création côté org** : *Organization settings* → *Secrets and variables* → *Actions* → *New organization secret* ; restreindre l’accès aux repositories concernés (politique « repository access »).
+
+### Alias : même jeton, noms différents (GitHub vs coffre)
+
+Le **nom** attendu par un workflow (`secrets.GITHUB_ORG_AUDIT_TOKEN`, etc.) est figé dans ce tableau. Le **même PAT** peut être conservé dans **1Password** sous un autre libellé (« GitHub PAT », …). Tant que les **portées** couvrent le besoin, on **réutilise** le jeton existant dans le champ org — pas de second PAT par défaut. Les correspondances **nom GitHub ↔ titre d’item** se notent dans le coffre (champ *Notes*), pas dans le dépôt.
+
+### `GITHUB_ORG_AUDIT_TOKEN` — où est la valeur ?
+
+La **valeur** n’est dans aucun fichier du dépôt (et ne doit pas être dans Linear). Elle est le texte d’un **Personal Access Token** (ou équivalent machine) **créé dans l’interface GitHub** par la personne de référence des secrets org (voir [`AGENTS.md`](../AGENTS.md)), puis **collée une seule fois** dans le champ *Value* du secret d’organisation nommé exactement `GITHUB_ORG_AUDIT_TOKEN`, avec **accès au dépôt** `WeAdU-ltd/.github`.
+
+**Réutiliser un PAT déjà stocké (ex. 1Password)** : ce nom GitHub (`GITHUB_ORG_AUDIT_TOKEN`) est **canonical pour Actions**. Si un PAT équivalent existe déjà sous un autre libellé (« GitHub PAT », etc.), **ne pas en créer un second** sans vérifier les portées : même valeur dans ce champ org si lecture repos + protection suffisante ; sinon création ou réduction des scopes ciblée. Voir [WEA-14](../SECRETS_CARTOGRAPHIE_WEA14.md) (chercher partout, y compris 1Password) et [AGENTS.md](../AGENTS.md) (intégration 1Password quand accessible).
+
+**Portées minimales (lecture seule, audit WEA-32)** — au choix :
+
+- **PAT classique** : `repo` (lecture des dépôts privés + API branches/protection) et `read:org` si besoin pour lister les dépôts ; **Authorize SSO** pour `WeAdU-ltd` si l’org impose SAML.
+- **PAT fine-grained** : accès aux dépôts concernés (ou à toute l’org selon politique), permissions **Repository permissions** → *Administration* : **Read-only** (lecture des règles de protection de branche) ; *Metadata* : lecture.
+
+Éviter d’accorder l’écriture admin ou des scopes hors audit. Gabarit « zéro humain » : [`ZERO_HUMAN_AUTOMATION_LINEAR.md`](./ZERO_HUMAN_AUTOMATION_LINEAR.md).
 
 ---
 

@@ -1,0 +1,73 @@
+# Scheduled refresh of docs/GITHUB_BRANCH_PROTECTION_WEA32.md (WEA-32 audit table).
+# Opens or updates a PR to main; auto-merge-pr.yml queues merge when CI (actionlint) is green.
+
+name: Branch protection audit (WEA-32)
+
+on:
+  schedule:
+    # Weekly: Monday 06:30 UTC
+    - cron: "30 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: branch-protection-audit-wea32
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Refresh branch protection doc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Regenerate audit table and open PR
+        env:
+          GITHUB_ORG_AUDIT_TOKEN: ${{ secrets.GITHUB_ORG_AUDIT_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GITHUB_ORG_AUDIT_TOKEN}" ]; then
+            echo "::error::Secret GITHUB_ORG_AUDIT_TOKEN is not set or not available to this workflow. Add the org secret and grant access to WeAdU-ltd/.github (WEA-42)."
+            exit 1
+          fi
+
+          git fetch origin main
+          git checkout -B automated/wea32-branch-protection-audit origin/main
+
+          export GITHUB_ORG_AUDIT_TOKEN
+          python3 scripts/github_branch_protection_audit_wea32.py \
+            --github-org WeAdU-ltd \
+            -o docs/GITHUB_BRANCH_PROTECTION_WEA32.md
+
+          if git diff --quiet docs/GITHUB_BRANCH_PROTECTION_WEA32.md; then
+            echo "No changes to docs/GITHUB_BRANCH_PROTECTION_WEA32.md; nothing to push."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/GITHUB_BRANCH_PROTECTION_WEA32.md
+          git commit -m "docs(WEA-32): refresh branch protection audit (scheduled)"
+
+          git push -u origin "automated/wea32-branch-protection-audit"
+
+          count="$(gh pr list --repo "${GITHUB_REPOSITORY}" \
+            --head automated/wea32-branch-protection-audit \
+            --state open \
+            --json number \
+            --jq 'length')"
+          if [ "${count}" -eq 0 ]; then
+            gh pr create --repo "${GITHUB_REPOSITORY}" \
+              --base main \
+              --head automated/wea32-branch-protection-audit \
+              --title "docs(WEA-32): branch protection audit refresh" \
+              --body "Scheduled update of \`docs/GITHUB_BRANCH_PROTECTION_WEA32.md\` (automation WEA-42). Merge via auto-merge when **Lint workflows** is green."
+          else
+            echo "Pull request already open for branch automated/wea32-branch-protection-audit; push updated the existing PR."
+          fi
