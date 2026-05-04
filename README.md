@@ -103,6 +103,10 @@ required checks go green, the merge completes without a human clicking Merge. En
 auto-merge** is enabled on the repository and that **required status checks** include the jobs you
 care about (here: the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.yml), which also runs **gitleaks** so you do not add a second required check).
 
+## Linear — projet « Autonomie agents » (lien charte WEA-17)
+
+Après merge sur `main`, si [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_AGENTS_LINEAR_WEA17.md) change, le workflow [`.github/workflows/linear-sync-autonomie-project.yml`](.github/workflows/linear-sync-autonomie-project.yml) met à jour le projet Linear (contenu + résumé court) pour y garder le lien GitHub vers la charte — sans action manuelle, tant que le secret **`LINEAR_API_KEY`** est disponible pour ce dépôt.
+
 ## Linear — sync checklist into the PR (WEA-*)
 
 Workflow [`.github/workflows/linear-sync-pr-criteria.yml`](.github/workflows/linear-sync-pr-criteria.yml)
