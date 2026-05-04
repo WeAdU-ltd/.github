@@ -31,4 +31,4 @@ Avant de marquer un ticket **Done**, appliquer le document canonique (critères 
 ## Références
 
 - Inventaire GitHub ↔ Linear et trous de labels : [WEA-12 — GitHub inventaire](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces).
-- Miroir court dans ce dépôt : [`AGENTS.md`](../AGENTS.md).
+- Miroir court dans ce dépôt : [`AGENTS.md`](../AGENTS.md) (section **Linear : API uniquement** — pas de dépendance au MCP Linear dans Cursor pour l’automation WeAdU).
