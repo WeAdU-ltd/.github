@@ -31,6 +31,9 @@ jobs:
       - name: Gmail OAuth smoke (WEA-24 dry-run)
         run: python3 scripts/gmail_oauth_smoke_wea24.py --dry-run
 
+      - name: CI failure alert script (syntax)
+        run: python3 -m py_compile scripts/github_failure_alert.py
+
       - name: Install gitleaks
         env:
           GITLEAKS_VERSION: "8.30.1"

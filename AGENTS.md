@@ -23,6 +23,12 @@ Ce fichier (`AGENTS.md` dans `WeAdU-ltd/.github`) est le **miroir technique** : 
 
 **Ne pas** modifier les réglages Cursor globaux (User rules) d’un poste sans instruction explicite de l’humain ; l’humain ne maintient qu’un **court** renvoi vers le doc Linear (voir ce même document Linear, section Cursor).
 
+## Blocage GitHub / CI (WeAdU-ltd)
+
+- Les **échecs** des workflows listés dans [`docs/GITHUB_CI_FAILURE_ALERT.md`](docs/GITHUB_CI_FAILURE_ALERT.md) génèrent une **issue** sur le dépôt `WeAdU-ltd/.github` et une alerte **Slack** optionnelle. **Traiter en priorité** : lire le run, corriger, relancer.
+- **Ne pas** appliquer de correctifs de sécurité (gitleaks, secrets) en **contournant** la revue ; branche + PR + CI verte comme d’habitude.
+- Un **déblocage entièrement automatique** (merge à la place de l’humain sur tout type d’échec) n’est **pas** activé : risque de merger du code non revu ou d’aggraver un incident.
+
 ## Délégation : autres agents, autres dépôts, Replit
 
 **Préférence opérationnelle (Jeff)** : gagner du temps en **demandant explicitement à l’humain** d’interroger les **agents Cursor qui ont déjà accès** à un autre projet / un autre dépôt (infra, secrets, prod, etc.) plutôt que de tout refaire depuis ce repo seul.
