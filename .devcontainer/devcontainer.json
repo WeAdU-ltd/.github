@@ -1,0 +1,13 @@
+{
+  "name": "WeAdU .github (Python + 1Password CLI)",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "features": {},
+  "postCreateCommand": "bash .devcontainer/install-op-cli.sh && python3 -m pip install --user -r requirements-onepassword.txt",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  }
+}
