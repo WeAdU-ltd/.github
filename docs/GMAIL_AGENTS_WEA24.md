@@ -69,8 +69,9 @@ Le script accepte `--dry-run` : aucun réseau ; utilisé dans [`ci.yml`](../.git
 ### 6.2 Sans rien taper à chaque fois (recommandé)
 
 1. **Une seule fois** (ou quand le token change) : un admin crée les trois [secrets GitHub](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) sur ce dépôt : `GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET`, `GMAIL_OAUTH_REFRESH_TOKEN`. Ce n’est **pas** une tâche répétée par PR.
-2. N’importe qui avec le droit **Actions** : **Actions** → workflow **Gmail smoke (WEA-24)** → **Run workflow** — laisser la case *send* décochée pour la lecture seule, ou la cocher pour l’envoi test vers soi. Le journal du job sert de preuve pour le critère « accès testé » (sans coller de secrets).
-3. Toi, en pratique : **tu n’as rien à faire** tant qu’un admin a posé les secrets et qu’un run manuel a réussi ; les agents s’occupent de cocher la check-list PR si le workflow est vert (selon la politique d’équipe).
+2. **Lecture (profil) sans ouvrir GitHub** : le workflow **Gmail smoke (WEA-24)** s’exécute aussi sur **calendrier** (lundi 06:00 UTC, voir [`.github/workflows/gmail-smoke-wea24.yml`](../.github/workflows/gmail-smoke-wea24.yml) — `cron` modifiable) : contrôle uniquement la lecture ; en cas d’échec, notifie via la config GitHub (e-mail compte, ou abonnement aux échecs de workflow).
+3. N’importe qui avec le droit **Actions** : **Actions** → workflow **Gmail smoke (WEA-24)** → **Run workflow** — cocher *send* seulement quand une preuve d’**envoi** explicite est voulue. Le journal du job sert de preuve (sans coller de secrets).
+4. Toi, en pratique : **aucune action récurrente** n’est requise si le smoke planifié est vert et les alertes d’échec sont routées (équipe / toi seul).
 
 ### 6.3 En local (optionnel)
 
