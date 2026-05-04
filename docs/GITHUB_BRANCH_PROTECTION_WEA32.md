@@ -49,9 +49,15 @@ python3 scripts/github_branch_protection_audit_wea32.py --github-org WeAdU-ltd \
 Pour cocher le critère Linear **« Règles appliquées sur au moins la branche principale des repos société cibles »** : la table régénérée ci-dessous doit montrer une protection présente sur chaque dépôt concerné (pas « aucune »). **Sans action récurrente de ta part** : une fois les règles posées sur `main` (ou une **ruleset** d’organisation qui cible les dépôts société), l’état reste stable ; régénère la table seulement après ajout de dépôts ou changement de branche par défaut.
 
 <!-- WEA32_PROTECTION_BEGIN -->
+_Généré le 2026-05-04 12:32:59 (UTC) — organisations : WeAdU-ltd._
 
-_Table non générée dans le dépôt : exécuter le script ci-dessus avec `GITHUB_TOKEN` pour remplir cette section._
+Lecture API : présence de règles sur la **branche par défaut** (`GET .../branches/{branch}/protection`). « Aucune » = HTTP 404 / pas de règle.
 
+| Dépôt | Branche défaut | Protection | Revues PR requises | Status checks | Admins assujettis | Commits signés |
+|-------|----------------|------------|--------------------|--------------|-------------------|----------------|
+| `WeAdU-ltd/.github` | `main` | aucune | — | — | — | — |
+| `WeAdU-ltd/Negative-Terms` | `main` | oui | non | oui (4 check(s)) | non | non |
+| `WeAdU-ltd/SH-Checker-Bids` | `main` | aucune | — | — | — | — |
 <!-- WEA32_PROTECTION_END -->
 
 ---
