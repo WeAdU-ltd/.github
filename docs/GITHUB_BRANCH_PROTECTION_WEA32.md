@@ -34,11 +34,21 @@ Recommandation **standard** (ajuster selon criticité ; les repos **finance-RH**
 
 Le script [`scripts/github_branch_protection_audit_wea32.py`](../scripts/github_branch_protection_audit_wea32.py) interroge l’API GitHub : pour chaque dépôt non archivé de l’organisation, présence de règles sur la **branche par défaut**.
 
-Prérequis : `GITHUB_TOKEN` avec droits suffisants pour lire les règles (souvent `repo` sur un PAT, ou token avec portée adaptée en CI admin).
+### Mise à jour de routine (sans poste local)
+
+Un workflow planifié maintient ce document **sans** exécution manuelle sur Windows :
+
+- Workflow : [`.github/workflows/branch-protection-audit-wea32.yml`](../.github/workflows/branch-protection-audit-wea32.yml) — **cron** hebdomadaire + déclenchement manuel (*Actions* → **Branch protection audit (WEA-32)** → *Run workflow*).
+- Secret d’**organisation** **`GITHUB_ORG_AUDIT_TOKEN`** (PAT ou token machine dédié, SSO autorisé pour `WeAdU-ltd`, lecture des règles de branche + liste des dépôts) ; le dépôt `WeAdU-ltd/.github` doit figurer dans la liste d’accès du secret (voir [WEA-15](../SECRETS_SOCLE_WEA15.md)).
+- Le job régénère la table, pousse la branche `automated/wea32-branch-protection-audit`, ouvre une **PR** vers `main` si besoin, puis [auto-merge](../README.md#auto-merge-pull-requests-to-main) en file d’attente lorsque le job **Lint workflows** (`ci.yml`) est vert.
+
+### Exécution locale ou ponctuelle (optionnel)
+
+Prérequis : `GITHUB_TOKEN` **ou** `GITHUB_ORG_AUDIT_TOKEN` avec droits suffisants pour lire les règles (souvent `repo` sur un PAT, ou portée adaptée côté org).
 
 ```bash
 cd /path/to/clone/of/.github
-export GITHUB_TOKEN=...
+export GITHUB_TOKEN=...   # ou GITHUB_ORG_AUDIT_TOKEN
 python3 scripts/github_branch_protection_audit_wea32.py --github-org WeAdU-ltd \
   -o docs/GITHUB_BRANCH_PROTECTION_WEA32.md
 ```
@@ -46,7 +56,11 @@ python3 scripts/github_branch_protection_audit_wea32.py --github-org WeAdU-ltd \
 - Sans `--fail` : le script met à jour ce fichier et se termine avec le code 0 (audit informatif).
 - Avec `--fail` : code de sortie **1** si au moins un dépôt n’a **aucune** règle sur la branche par défaut (utile pour une future étape CI une fois tous les dépôts conformes).
 
-Pour cocher le critère Linear **« Règles appliquées sur au moins la branche principale des repos société cibles »** : la table régénérée ci-dessous doit montrer une protection présente sur chaque dépôt concerné (pas « aucune »). **Sans action récurrente de ta part** : une fois les règles posées sur `main` (ou une **ruleset** d’organisation qui cible les dépôts société), l’état reste stable ; régénère la table seulement après ajout de dépôts ou changement de branche par défaut.
+Pour cocher le critère Linear **« Règles appliquées sur au moins la branche principale des repos société cibles »** : la table régénérée ci-dessous doit montrer une protection présente sur chaque dépôt concerné (pas « aucune »). **Sans action récurrente de ta part** : une fois les règles posées sur `main` (ou une **ruleset** d’organisation qui cible les dépôts société), l’état reste stable ; la table suit les changements via le workflow ci-dessus (ou régénération locale après ajout de dépôts / changement de branche par défaut).
+
+### Rulesets d’organisation (optionnel)
+
+Pour harmoniser `main` sur **tous** les dépôts cibles sans refaire la même UI dépôt par dépôt : *Organization settings* → **Rules** → **Rulesets** (ciblage par propriété de dépôt ou liste). Une stratégie org-wide peut compléter ou remplacer les règles par dépôt ; si un ticket Linear dédié est nécessaire pour la décision (périmètre repos, exceptions), le lier depuis [WEA-32](https://linear.app/weadu/issue/WEA-32/github-protections-branches-anti-secrets-en-clair) ou un sous-ticket infra.
 
 <!-- WEA32_PROTECTION_BEGIN -->
 _Généré le 2026-05-04 12:59:09 (UTC) — organisations : WeAdU-ltd._

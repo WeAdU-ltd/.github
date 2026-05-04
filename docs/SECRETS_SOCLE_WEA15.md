@@ -20,6 +20,7 @@ Ces noms sont ceux **référencés par les workflows** de ce dépôt (`WeAdU-ltd
 | Nom (référence workflow / convention) | Niveau recommandé | Usage |
 |---------------------------------------|-------------------|--------|
 | `LINEAR_API_KEY` | **Organisation**, avec liste de repos autorisés incluant ceux qui exécutent `linear-done-on-merge.yml` | API Linear pour marquer les issues Done après merge (voir [`README.md`](../README.md)) |
+| `GITHUB_ORG_AUDIT_TOKEN` | **Organisation** ; accès explicite au dépôt `WeAdU-ltd/.github` | PAT ou token machine **lecture** (repos + règles de branche) pour l’audit WEA-32 / [`branch-protection-audit-wea32.yml`](../.github/workflows/branch-protection-audit-wea32.yml) ; SSO org autorisé |
 | `GITHUB_TOKEN` | Fourni **automatiquement** par GitHub Actions sur les jobs ; pas à créer manuellement | `auto-merge-pr.yml`, permissions `contents` + `pull-requests` |
 | `GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET`, `GMAIL_OAUTH_REFRESH_TOKEN` | **Organisation** ou **dépôt** selon blast radius ; pas dans Linear | Gmail agents ([WEA-24](./GMAIL_AGENTS_WEA24.md)) ; client OAuth selon [WEA-20](./GOOGLE_OAUTH_WEA20.md) ; valeurs tenues par **Jeff** (voir [`AGENTS.md`](../AGENTS.md)). |
 | `SLACK_CI_ALERT_WEBHOOK_URL`, `GH_ORG_READ_TOKEN` (optionnel) | **Dépôt** `WeAdU-ltd/.github` (recommandé) ou org | Alertes échec CI + poll multi-dépôts — [`GITHUB_CI_FAILURE_ALERT.md`](./GITHUB_CI_FAILURE_ALERT.md) |

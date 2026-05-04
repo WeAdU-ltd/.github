@@ -166,6 +166,10 @@ Après merge sur `main`, si [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_A
 
 Workflow [`.github/workflows/ci-failure-alert.yml`](.github/workflows/ci-failure-alert.yml) reacts to **failed** runs of the main workflows (immediate `workflow_run`) and runs a **poll every 10 minutes** as a safety net. Configure optional secrets per [`docs/GITHUB_CI_FAILURE_ALERT.md`](docs/GITHUB_CI_FAILURE_ALERT.md). This does **not** auto-fix merges for security reasons; it surfaces links for agents or humans.
 
+## Scheduled branch protection audit (WEA-32 / WEA-42)
+
+The workflow [`.github/workflows/branch-protection-audit-wea32.yml`](.github/workflows/branch-protection-audit-wea32.yml) runs **weekly** (cron) and on **workflow_dispatch**. It uses the **organization** secret [`GITHUB_ORG_AUDIT_TOKEN`](docs/SECRETS_SOCLE_WEA15.md) to call the GitHub API, regenerates [`docs/GITHUB_BRANCH_PROTECTION_WEA32.md`](docs/GITHUB_BRANCH_PROTECTION_WEA32.md), pushes branch `automated/wea32-branch-protection-audit`, and opens a PR when the table changes. The same [auto-merge](#auto-merge-pull-requests-to-main) behavior applies once CI passes—no routine run from a local Windows machine is required for this doc refresh.
+
 ## Linear — sync checklist into the PR (WEA-*)
 
 Workflow [`.github/workflows/linear-sync-pr-criteria.yml`](.github/workflows/linear-sync-pr-criteria.yml)

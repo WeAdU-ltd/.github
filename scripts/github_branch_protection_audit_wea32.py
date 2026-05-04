@@ -6,6 +6,8 @@ des dépôts d’une organisation (critère « règles appliquées sur au moins 
 Variables d’environnement :
   GITHUB_TOKEN  — PAT ou token Actions avec lecture admin:org (repos) ou au minimum
                     lecture des règles de branche sur les dépôts ciblés.
+  GITHUB_ORG_AUDIT_TOKEN — (optionnel, CI) si défini, utilisé **à la place** de
+                    `GITHUB_TOKEN` pour l’audit org (secret d’organisation dédié WEA-42).
 
 Usage typique (aligné sur WEA-12) :
   export GITHUB_TOKEN=...
@@ -204,9 +206,12 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    token = (os.environ.get("GITHUB_ORG_AUDIT_TOKEN") or os.environ.get("GITHUB_TOKEN") or "").strip()
     if not token:
-        print("Erreur: définir GITHUB_TOKEN.", file=sys.stderr)
+        print(
+            "Erreur: définir GITHUB_TOKEN ou GITHUB_ORG_AUDIT_TOKEN (audit API GitHub).",
+            file=sys.stderr,
+        )
         return 1
 
     orgs = [o.strip() for o in (args.github_org or []) if o.strip()]
