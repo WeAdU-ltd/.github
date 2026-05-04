@@ -21,7 +21,7 @@ Recommandation **standard** (ajuster selon criticité ; les repos **finance-RH**
 |---------|------------------|
 | **Require a pull request before merging** | Activé |
 | **Required approvals** | ≥ 1 pour les dépôts sensibles ; 0 acceptable pour petits dépôts outillage si d’autres garde-fous (CI, bots) sont en place |
-| **Require status checks to pass** | Inclure au minimum les jobs CI du dépôt (ex. `actionlint`, `gitleaks` lorsqu’ils existent) |
+| **Require status checks to pass** | Inclure au minimum le job CI du dépôt (dans `.github` : un seul job **`actionlint`** couvre actionlint, smoke IBKR sec et **gitleaks**) |
 | **Require branches to be up to date** | Souhaitable quand la CI est rapide |
 | **Do not allow bypassing the above settings** | Activé pour que les administrateurs suivent les mêmes règles |
 | **Restrict who can push to matching branches** | Optionnel ; utile si seules des machines ou des rôles précis doivent pousser directement |
@@ -46,7 +46,7 @@ python3 scripts/github_branch_protection_audit_wea32.py --github-org WeAdU-ltd \
 - Sans `--fail` : le script met à jour ce fichier et se termine avec le code 0 (audit informatif).
 - Avec `--fail` : code de sortie **1** si au moins un dépôt n’a **aucune** règle sur la branche par défaut (utile pour une future étape CI une fois tous les dépôts conformes).
 
-Pour cocher le critère Linear **« Règles appliquées sur au moins la branche principale des repos société cibles »** : la table régénérée ci-dessous doit montrer une protection présente sur chaque dépôt concerné (pas « aucune »).
+Pour cocher le critère Linear **« Règles appliquées sur au moins la branche principale des repos société cibles »** : la table régénérée ci-dessous doit montrer une protection présente sur chaque dépôt concerné (pas « aucune »). **Sans action récurrente de ta part** : une fois les règles posées sur `main` (ou une **ruleset** d’organisation qui cible les dépôts société), l’état reste stable ; régénère la table seulement après ajout de dépôts ou changement de branche par défaut.
 
 <!-- WEA32_PROTECTION_BEGIN -->
 
@@ -66,7 +66,7 @@ _Table non générée dans le dépôt : exécuter le script ci-dessus avec `GITH
 
 ### 4.2 CI (ce dépôt)
 
-Le workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) exécute **Gitleaks** sur chaque PR et push vers `main` (`gitleaks detect --redact`). Les dépôts applicatifs peuvent réutiliser la même recette (copier le job ou un workflow réutilisable).
+Le workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) exécute **Gitleaks** dans le **même** job que actionlint (nom du check GitHub inchangé : `actionlint`). Ainsi, si `main` exige déjà ce check, le scan secrets est appliqué **sans** ajouter un second statut obligatoire dans les paramètres. Commande : `gitleaks detect --redact` sur l’historique complet (`fetch-depth: 0`). Les dépôts applicatifs peuvent réutiliser la même recette.
 
 ### 4.3 Pre-commit (optionnel, poste local)
 
@@ -79,7 +79,7 @@ Fichier [`.pre-commit-config.yaml`](../.pre-commit-config.yaml) à la racine : a
 | Critère | Comment le valider |
 |--------|----------------------|
 | Règles sur la branche principale des repos société cibles | Table générée §3 sans ligne « aucune » pour ces dépôts ; ou capture / note d’admin sur les règles org-wide si utilisées |
-| Rappel + scan basique ou pre-commit | Ce document + job Gitleaks en CI + config pre-commit dans le dépôt |
+| Rappel + scan basique ou pre-commit | Ce document + Gitleaks dans le job CI `actionlint` + config pre-commit dans le dépôt |
 
 ---
 
