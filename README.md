@@ -51,6 +51,7 @@ Anchors in [`docs/`](docs/):
 
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
 - [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
+- [Branch protection + anti-secrets (WEA-32)](docs/GITHUB_BRANCH_PROTECTION_WEA32.md) — règles `main`, audit API, Gitleaks CI / pre-commit.
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
@@ -96,7 +97,7 @@ each PR update and calls `gh pr merge --auto --merge` so GitHub **queues the mer
 protection allows it (same pattern as other WeAdU repos such as NEG). After **CI** and any other
 required checks go green, the merge completes without a human clicking Merge. Ensure **Allow
 auto-merge** is enabled on the repository and that **required status checks** include the jobs you
-care about (here: `actionlint` from [`ci.yml`](.github/workflows/ci.yml)).
+care about (here: `actionlint` and `gitleaks` from [`ci.yml`](.github/workflows/ci.yml)).
 
 ## Linear — sync checklist into the PR (WEA-*)
 

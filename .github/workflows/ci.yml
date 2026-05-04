@@ -24,3 +24,24 @@ jobs:
 
       - name: IBKR API smoke (WEA-30 dry-run)
         run: python3 scripts/ibkr_smoke_wea30.py --dry-run
+
+  gitleaks:
+    name: Secret scan (gitleaks, WEA-32)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: "8.30.1"
+        run: |
+          set -euo pipefail
+          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -fsSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${tarball}" -o "/tmp/${tarball}"
+          tar -xzf "/tmp/${tarball}" -C /tmp gitleaks
+          sudo install -m 0755 /tmp/gitleaks /usr/local/bin/gitleaks
+
+      - name: Run gitleaks
+        run: gitleaks detect --source . --redact --verbose

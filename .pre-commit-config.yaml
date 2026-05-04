@@ -1,0 +1,7 @@
+# Optional local hooks: pip install pre-commit && pre-commit install
+# CI still runs Gitleaks in .github/workflows/ci.yml for every PR.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
