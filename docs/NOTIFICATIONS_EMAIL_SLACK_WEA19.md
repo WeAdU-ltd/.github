@@ -60,7 +60,7 @@ Sinon : **attendre** 07:00 UK pour Slack, ou mettre en **file** e-mail / n8n ([W
 | Sujet | Ticket / doc | Rôle |
 |--------|----------------|------|
 | Instance, secrets `N8N_*` | [WEA-26](https://linear.app/weadu/issue/WEA-26/n8n-hebergement-20-euromois-cloud-vs-vps-mise-en-service), [`WEA-26-n8n-hebergement.md`](./WEA-26-n8n-hebergement.md) | Hébergement et noms de secrets |
-| Files e-mail, étalement 05:00–23:00 UK, routage Slack calme | [WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations) | **Implémentation** des règles de ce document (schedules, IF sur heure UK, files d’attente) |
+| Files e-mail, étalement 05:00–23:00 UK, routage Slack calme | [WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations), [`WEA-31-n8n-human-email-queue.md`](./WEA-31-n8n-human-email-queue.md) | **Implémentation** des règles de ce document (schedules, IF sur heure UK, files d’attente) et workflow importable |
 
 Les workflows n8n doivent appliquer **explicitement** `Europe/London` dans les nœuds de date/heure ou équivalent, et centraliser ici toute **décision** de politique ; les détails de graphes vivent sur WEA-31 et dans l’instance n8n.
 

@@ -74,6 +74,7 @@ Anchors in [`docs/`](docs/):
 
 - [Charte agents — Linear, interdits, règle Cursor (WEA-17)](docs/CHARTE_AGENTS_LINEAR_WEA17.md) — ticket source, pas de feature / nouveau dépôt sans humain ; label `repo` ; communication avec l’humain.
 - [Notifications humaines — e-mail 5h–23h UK, Slack calme 20h–7h (WEA-19)](docs/NOTIFICATIONS_EMAIL_SLACK_WEA19.md) — qui reçoit quoi, quand ; alignement [WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations) (n8n).
+- [n8n — file e-mail humain, digest UK, secrets SMTP (WEA-31)](docs/WEA-31-n8n-human-email-queue.md) — JSON importable + noms de variables.
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
 - [Gmail agents — lecture + envoi (WEA-24)](docs/GMAIL_AGENTS_WEA24.md) — secrets nommés, conventions, smoke script.
 - [1Password — agents : CLI, SDK, Cursor](docs/ONEPASSWORD_AGENTS.md) — devcontainer `op`, script `op://`, Cloud Agents.
@@ -89,7 +90,7 @@ Anchors in [`docs/`](docs/):
 
 ## n8n hosting (budget < 20 €/mois)
 
-Décision documentée et checklist : [`docs/WEA-26-n8n-hebergement.md`](docs/WEA-26-n8n-hebergement.md) ([WEA-26](https://linear.app/weadu/issue/WEA-26/n8n-hebergement-20-euromois-cloud-vs-vps-mise-en-service)). Les valeurs secrètes restent dans le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)), pas dans ce dépôt. Politique d’envoi (fuseau UK, e-mail / Slack) : [`docs/NOTIFICATIONS_EMAIL_SLACK_WEA19.md`](docs/NOTIFICATIONS_EMAIL_SLACK_WEA19.md) ([WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence)) ; implémentation files dans [WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations).
+Décision documentée et checklist : [`docs/WEA-26-n8n-hebergement.md`](docs/WEA-26-n8n-hebergement.md) ([WEA-26](https://linear.app/weadu/issue/WEA-26/n8n-hebergement-20-euromois-cloud-vs-vps-mise-en-service)). Les valeurs secrètes restent dans le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)), pas dans ce dépôt. Politique d’envoi (fuseau UK, e-mail / Slack) : [`docs/NOTIFICATIONS_EMAIL_SLACK_WEA19.md`](docs/NOTIFICATIONS_EMAIL_SLACK_WEA19.md) ([WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence)). Workflow digest importable + noms SMTP / e-mail : [`docs/WEA-31-n8n-human-email-queue.md`](docs/WEA-31-n8n-human-email-queue.md) ([WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations)).
 
 ## Brave Search API (agents)
 
