@@ -14,7 +14,10 @@ jobs:
     name: Lint workflows
     runs-on: ubuntu-latest
     steps:
+      # Full history so gitleaks can scan commits (WEA-32); same job name as before branch protection.
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Install actionlint
         run: bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
@@ -27,3 +30,16 @@ jobs:
 
       - name: Gmail OAuth smoke (WEA-24 dry-run)
         run: python3 scripts/gmail_oauth_smoke_wea24.py --dry-run
+
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: "8.30.1"
+        run: |
+          set -euo pipefail
+          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -fsSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${tarball}" -o "/tmp/${tarball}"
+          tar -xzf "/tmp/${tarball}" -C /tmp gitleaks
+          sudo install -m 0755 /tmp/gitleaks /usr/local/bin/gitleaks
+
+      - name: Run gitleaks
+        run: gitleaks detect --source . --redact --verbose
