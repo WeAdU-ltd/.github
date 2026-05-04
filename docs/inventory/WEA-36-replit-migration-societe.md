@@ -73,7 +73,8 @@ Les **priorités P0–P3** reprennent [WEA-33](./WEA-33-replit-inventory.md). Le
 
 | Repl (# WEA-33) | Raison résiduelle | Action pour fermer |
 |-----------------|-------------------|---------------------|
-| _À remplir au fil de la migration_ | ex. prod encore sur `.replit.app` | Basculer DNS / secrets vers GitHub ou hébergement cible ; puis retirer la ligne |
+| **1 — Weadu-Socle-V5-Lab** | Le **hub doc + scripts** est basculé sur `WeAdU-ltd/.github` ([runbook](./weadu-socle-v5-lab-github-migration.md)) ; en revanche le snapshot agent Repl (**2026-05-04**) documente encore une **charge applicative** (FastAPI, AI Council Socket Mode, tâches planifiées, push secrets vers EC2, etc.) sur le Repl tant que cette charge n’est pas hébergée ailleurs ou arrêtée. | Migrer ou éteindre les workloads décrits dans [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) ; retirer / faire tourner les secrets Replit concernés ; puis retirer cette ligne (voir [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)). |
+| _Autres_ | _À remplir au fil de la migration_ | Basculer DNS / secrets vers GitHub ou hébergement cible ; puis retirer la ligne |
 
 Mettre à jour ce tableau quand un Repl n’a plus de déploiement actif ni secret métier unique côté Replit.
 
