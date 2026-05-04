@@ -8,6 +8,8 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 
 **Source des lignes ci-dessous** : export consolidé **Socle V5.1** (Repl *Weadu-Socle-V5-Lab*), **2026-03-29**, croisé avec `config/infra_projects.json`, snapshot CSV équipe **2026-03-17**, et docs internes Socle. Les détails narratifs (listes complètes de noms de secrets, notes techniques) restent dans le Repl Socle ; ce fichier garde la **vue dépôt** alignée WEA-33.
 
+**Limite de fraîcheur** : si Replit n’est **plus utilisé** depuis un moment, les changements faits **ailleurs** (GitHub, poste local, EC2, secrets hors Repl) **ne sont pas** reflétés dans Socle ni dans l’UI Replit. Ce tableau reste une **photo à fin mars 2026** utile pour la chaîne migration / fermeture ([WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) → [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)) ; la **vérité opérationnelle actuelle** se lit plutôt dans les **dépôts GitHub** et les **hébergements** réellement en prod (croiser [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces), [WEA-29](https://linear.app/weadu/issue/WEA-29/aws-inventaire-ec2-ubuntu-windows-taches-selenium)).
+
 ---
 
 ## 1. Comment compléter ou régénérer
@@ -74,7 +76,7 @@ _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repri
 
 | Critère ticket | État |
 |----------------|------|
-| Tableau des Repls + statut | **Rempli** : 21 lignes avec noms, priorités, classification, statut **Vérifié** / **Partiel**. |
+| Tableau des Repls + statut | **Rempli** : 21 lignes avec noms, priorités, classification, statut **Vérifié** / **Partiel** (état Replit / Socle **figé** ~mars 2026 — voir encadré *Limite de fraîcheur* ci-dessus). |
 | Détail Git / DB Replit / AO / secrets / AWS par Repl | **Partiel** : 20 lignes encore largement `inconnu` sur plusieurs colonnes (données non visibles depuis Socle sans ouvrir chaque Repl ou API équipe). |
 
 **Suite pour un Done « strict »** : pour chaque ligne **Partiel**, compléter depuis le dashboard Replit (ou script API) les colonnes Git, DB, AO, noms de secrets, AWS ; réconcilier l’UUID #9 ; trancher *after-framfield-cockpit* Perso vs Société ; décision sur *Divers* / *Obsolete*.
