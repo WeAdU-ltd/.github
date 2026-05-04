@@ -8,6 +8,8 @@ Avant de mettre un ticket Linear en **Done**, appliquer intégralement le docume
 
 Ce fichier (`AGENTS.md` dans `WeAdU-ltd/.github`) est le **miroir technique** : rappel court + lien. La **norme** et le texte à jour sont sur la page Linear ci-dessus.
 
+**Charte agents** (Linear source, interdits features / nouveaux projets, règle Cursor, communication humain) : [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_AGENTS_LINEAR_WEA17.md) ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)).
+
 ## Règles essentielles (rappel)
 
 1. Relire la section **« Critères de fait »** du ticket **ligne par ligne**.
