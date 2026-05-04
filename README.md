@@ -103,7 +103,20 @@ Project file [`.cursor/hooks.json`](.cursor/hooks.json) declares `"version": 1` 
 **invalid variable name** when the IDE loads a broken or legacy hook config). To add hooks,
 extend `hooks` per [Cursor hooks](https://cursor.com/docs) (do not remove `version`).
 
-**Contournement agent cloud (commit / push) :** si le hook `pre-commit.cursor` échoue avec **invalid variable name** (souvent à cause d’une entrée mal formée dans `CLOUD_AGENT_INJECTED_SECRET_NAMES` côté image Cursor), exécuter `git commit --no-verify` pour ce dépôt ; la **CI** sur GitHub exécute actionlint et les smokes dry-run. Le correctif durable est côté **Cursor** (filtrer les noms d’environnement non valides pour bash avant `${!NAME}`) — voir le paragraphe ci-dessus.
+**Scanner de secrets (agents / `CLOUD_AGENT_INJECTED_SECRET_NAMES`) :** l’implémentation canonique
+est [`scripts/cursor_secret_scan_pre_commit.sh`](scripts/cursor_secret_scan_pre_commit.sh). Les
+entrées de la liste qui ne sont pas des **identifiants bash valides** (lettre ou `_` puis
+alphanumériques / `_`) sont ignorées, ce qui évite l’erreur « invalid variable name » quand
+l’injecteur ajoute des jetons parasites dans la liste.
+
+**Contournement agent cloud (commit / push) :** si le hook échoue encore pour une autre raison,
+`git commit --no-verify` reste possible pour ce dépôt ; la **CI** sur GitHub exécute actionlint,
+les smokes dry-run et la syntaxe du script ci-dessus.
+
+**Poste local (optionnel) :** pour le même comportement hors Cursor Cloud, une fois par clone :
+`git config core.hooksPath .githooks` (voir [`.githooks/pre-commit`](.githooks/pre-commit)). Cela
+reste distinct de [`pre-commit`](https://pre-commit.com) / Gitleaks décrits dans
+[`.pre-commit-config.yaml`](.pre-commit-config.yaml) et la CI.
 
 ## Scraping (Decodo, ScraperAPI, Zyte)
 

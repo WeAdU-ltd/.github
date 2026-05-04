@@ -54,6 +54,9 @@ jobs:
           python3 -m pip install -q -r requirements-onepassword.txt
           python3 scripts/onepassword_resolve_ref.py --dry-run
 
+      - name: Cursor secret scan script (syntax)
+        run: bash -n scripts/cursor_secret_scan_pre_commit.sh && bash -n .githooks/pre-commit
+
       - name: Install gitleaks
         env:
           GITLEAKS_VERSION: "8.30.1"
