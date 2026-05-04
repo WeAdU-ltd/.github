@@ -103,9 +103,9 @@ required checks go green, the merge completes without a human clicking Merge. En
 auto-merge** is enabled on the repository and that **required status checks** include the jobs you
 care about (here: the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.yml), which also runs **gitleaks** so you do not add a second required check).
 
-## CI failure alerts (Slack + issue, ≤ ~15 min)
+## CI failure alerts (GitHub issue first; Slack optional; ≤ ~15 min poll)
 
-Workflow [`.github/workflows/ci-failure-alert.yml`](.github/workflows/ci-failure-alert.yml) reacts to **failed** runs of the main workflows (immediate `workflow_run`) and runs a **poll every 10 minutes** as a safety net. Configure optional secrets per [`docs/GITHUB_CI_FAILURE_ALERT.md`](docs/GITHUB_CI_FAILURE_ALERT.md). This does **not** auto-fix merges for security reasons; it surfaces links for agents or humans.
+Workflow [`.github/workflows/ci-failure-alert.yml`](.github/workflows/ci-failure-alert.yml) reacts to **failed** runs of the main workflows (immediate `workflow_run`) and runs a **poll every 10 minutes** as a safety net. **Primary signal:** an **issue** on this repository. **Slack** only if you set `SLACK_CI_ALERT_WEBHOOK_URL`. Configure optional secrets per [`docs/GITHUB_CI_FAILURE_ALERT.md`](docs/GITHUB_CI_FAILURE_ALERT.md). This does **not** auto-fix merges for security reasons; it surfaces links for agents or humans.
 
 ## Linear — sync checklist into the PR (WEA-*)
 

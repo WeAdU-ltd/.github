@@ -1,5 +1,5 @@
-# Sub-minute detection of failed workflows + Slack + triage issue on WeAdU-ltd/.github.
-# Does NOT auto-merge security-sensitive fixes; humans/agents react from Slack/issue.
+# Sub-minute detection: **GitHub issue** on this repo (primary). Slack only if secret set.
+# Does NOT auto-merge security-sensitive fixes; agents react from the issue (or Slack).
 
 name: CI failure alert
 
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Run failure alert (Slack + issue)
+      - name: Run failure alert (issue + optional Slack)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_CI_ALERT_WEBHOOK_URL: ${{ secrets.SLACK_CI_ALERT_WEBHOOK_URL }}
