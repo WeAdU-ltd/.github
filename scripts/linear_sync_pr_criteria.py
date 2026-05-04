@@ -104,6 +104,8 @@ def main() -> int:
         print("linear_sync_pr_criteria: pull_request.number missing.", file=sys.stderr)
         return 1
 
+    body: str = pr.get("body") or ""
+
     seen: set[str] = set()
     identifiers: list[str] = []
     for chunk in collect_pr_identifier_sources(pr):
