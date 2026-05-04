@@ -80,6 +80,7 @@ Anchors in [`docs/`](docs/):
 - [1Password — agents : CLI, SDK, Cursor](docs/ONEPASSWORD_AGENTS.md) — devcontainer `op`, script `op://`, Cloud Agents.
 - [Alertes échec CI / Slack / poll (org)](docs/GITHUB_CI_FAILURE_ALERT.md) — détection rapide, pas de merge automatique.
 - [Branch protection + anti-secrets (WEA-32)](docs/GITHUB_BRANCH_PROTECTION_WEA32.md) — règles `main`, audit API, Gitleaks CI / pre-commit.
+- [Automation « zéro humain » — gabarit ticket Linear](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md) — audit GitHub sans poste local, secret org, cron + PR.
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
