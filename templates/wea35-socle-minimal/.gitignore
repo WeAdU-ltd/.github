@@ -1,0 +1,4 @@
+# Local tooling / Python
+__pycache__/
+*.py[cod]
+.pytest_cache/

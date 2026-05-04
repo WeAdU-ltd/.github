@@ -86,6 +86,7 @@ Anchors in [`docs/`](docs/):
   - [OVH (WEA-28)](docs/inventory/WEA-28-ovh-duplicates.md)
   - [AWS EC2 (WEA-29)](docs/inventory/WEA-29-aws-ec2-inventory.md)
   - [Replit — inventaire ~15 Repls (WEA-33)](docs/inventory/WEA-33-replit-inventory.md)
+  - [Weadu-Socle-V5-Lab → template GitHub + Cursor (WEA-35)](docs/inventory/WEA-35-weadu-socle-v5-lab-template.md) — audit Replit Socle, abandonné / repris, [`templates/wea35-socle-minimal/`](templates/wea35-socle-minimal/README.md), [`scripts/init_wea35_socle_template.sh`](scripts/init_wea35_socle_template.sh)
 
 ## n8n hosting (budget < 20 €/mois)
 
