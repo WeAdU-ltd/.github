@@ -33,6 +33,8 @@ Après création : noter le **Client ID** et enregistrer le **Client Secret** da
 | `https://www.googleapis.com/auth/gmail.send` | Envoyer des messages (souvent combiné avec compose) |
 | `https://mail.google.com/` | Accès complet au compte Gmail (très sensible ; éviter si un ensemble plus fin suffit) |
 
+Pour **agents** (refresh token, smoke test lecture + envoi contrôlé, signatures / anti-spam) : [GMAIL_AGENTS_WEA24.md](./GMAIL_AGENTS_WEA24.md).
+
 ### Google Drive
 
 | Scope | Usage typique |

@@ -48,6 +48,73 @@ _Remplir lors de la revue humaine ; ne pas committer de données sensibles._
 
 ---
 
+## Snapshot manuel — projet `weadu-shared-auth` (2026-05-04)
+
+Référence figée pour éviter de reposer la question « qu’est-ce qui est déjà activé ? » sur ce projet d’auth partagé.
+
+| Champ | Valeur |
+|-------|--------|
+| **projectId** | `weadu-shared-auth` |
+| **Console** | [APIs & Services — Dashboard](https://console.cloud.google.com/apis/dashboard?project=weadu-shared-auth) |
+| **Source** | Export console / PDF équipe (38 APIs enabled, même liste que le dashboard). |
+
+### APIs activées (liste complète au 2026-05-04)
+
+| API |
+|-----|
+| Analytics Hub API |
+| Apps Script API |
+| BigQuery API |
+| BigQuery Connection API |
+| BigQuery Data Policy API |
+| BigQuery Data Transfer API |
+| BigQuery Migration API |
+| BigQuery Reservation API |
+| BigQuery Storage API |
+| Cloud Dataplex API |
+| Cloud Datastore API |
+| Cloud Logging API |
+| Cloud Monitoring API |
+| Cloud SQL |
+| Cloud Storage |
+| Cloud Storage API |
+| Cloud Trace API |
+| Content API for Shopping |
+| Dataform API |
+| Gemini API |
+| Gmail API |
+| Google Ads API |
+| Google Analytics Admin API |
+| Google Analytics API |
+| Google Calendar API |
+| Google Cloud APIs |
+| Google Cloud Storage JSON API |
+| Google Docs API |
+| Google Drive API |
+| Google Search Console API |
+| Google Sheets API |
+| Google Tasks API |
+| Local Services API |
+| Merchant API |
+| Real-time Bidding API |
+| Service Management API |
+| Service Usage API |
+| YouTube Data API v3 |
+
+### Alignement avec la chaîne agents / OAuth ([WEA-20](../GOOGLE_OAUTH_WEA20.md))
+
+Les APIs **déjà activées** sur ce projet couvrent Gmail, Drive, Docs, Sheets, Ads, Analytics (y compris Admin) et un large périmètre data / marketing. Rien d’**obligatoire** en plus pour WEA-20 / WEA-24 sur la base de ce snapshot.
+
+**Optionnel (activer seulement si un workflow futur l’exige)** — souvent absent tant que personne ne consomme l’API :
+
+| API | Usage typique |
+|-----|----------------|
+| **People API** | Contacts / fusion avec profil Google (rare pour nos smokes ; Gmail/Drive n’en ont pas besoin par défaut). |
+
+Pour une liste régénérable par script (`gcloud`), utiliser la section [Régénération (script)](#régénération-script) ci-dessus.
+
+---
+
 <!-- WEA27_GCP_INVENTORY_BEGIN -->
 
 _Section générée : exécuter `scripts/gcp_inventory_wea27.py` après authentification `gcloud`._

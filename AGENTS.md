@@ -32,6 +32,10 @@ Ce fichier (`AGENTS.md` dans `WeAdU-ltd/.github`) est le **miroir technique** : 
 
 **Règle pour les agents qui lisent ce fichier** : dès qu’une tâche suppose un accès que tu n’as pas (AWS, Windows, Replit, autre org GitHub, etc.), **indique en une phrase** à l’humain : *« Peux-tu demander à l’agent du repo X [ou Replit] de faire Y et te coller le résultat ? »* — avec le **texte exact** à transmettre si possible, plutôt que de bloquer en silence.
 
+## Secrets GitHub — personne de référence (WeAdU-ltd)
+
+Les **valeurs** des secrets (organisation et dépôts, y compris OAuth Gmail / Google) sont créées et tenues à jour par **une seule personne** : **Jeff** (propriétaire unique). Les agents et la doc ne doivent pas renvoyer vers un « autre admin » pour ces secrets : la procédure et les noms canoniques suffisent ; les valeurs viennent de ce canal unique.
+
 ## PR en parallèle sur ce dépôt (`.github`)
 
 Pour limiter les files de PR en conflit et le travail de « déblayage » :

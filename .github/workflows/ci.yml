@@ -28,6 +28,9 @@ jobs:
       - name: IBKR API smoke (WEA-30 dry-run)
         run: python3 scripts/ibkr_smoke_wea30.py --dry-run
 
+      - name: Gmail OAuth smoke (WEA-24 dry-run)
+        run: python3 scripts/gmail_oauth_smoke_wea24.py --dry-run
+
       - name: Install gitleaks
         env:
           GITLEAKS_VERSION: "8.30.1"
