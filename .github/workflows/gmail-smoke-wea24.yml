@@ -1,5 +1,6 @@
 # WEA-24 — Smoke Gmail OAuth (lecture profil + envoi test optionnel vers soi).
-# Déclenchement manuel uniquement : pas de secret consommé à chaque push.
+# - Planifié (hebdo) : lecture seule, détecte un refresh token expiré sans action humaine.
+# - workflow_dispatch : option d'envoi test (self) pour preuve manuelle.
 #
 # Prérequis : secrets repo ou org GMAIL_OAUTH_CLIENT_ID, GMAIL_OAUTH_CLIENT_SECRET,
 # GMAIL_OAUTH_REFRESH_TOKEN (voir docs/GMAIL_AGENTS_WEA24.md).
@@ -13,6 +14,9 @@ on:
         description: "Envoyer un mail de test à soi-même (scopes gmail.readonly + gmail.send requis)"
         type: boolean
         default: false
+  schedule:
+    # Lundi 06:00 UTC — fumée lecture seule (pas d'envoi) ; ajuste le cron si besoin
+    - cron: "0 6 * * 1"
 
 permissions:
   contents: read
@@ -30,7 +34,7 @@ jobs:
           GMAIL_OAUTH_REFRESH_TOKEN: ${{ secrets.GMAIL_OAUTH_REFRESH_TOKEN }}
         run: |
           set -euo pipefail
-          if [ "${{ inputs.send_test_email }}" = "true" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.send_test_email }}" = "true" ]; then
             python3 scripts/gmail_oauth_smoke_wea24.py --send
           else
             python3 scripts/gmail_oauth_smoke_wea24.py

@@ -134,7 +134,7 @@ Pour l’app Slack, le jeton bot (`SLACK_BOT_TOKEN`) et les règles anti-notific
 
 ## Gmail (agents — lecture + envoi)
 
-OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`) : [`docs/GMAIL_AGENTS_WEA24.md`](docs/GMAIL_AGENTS_WEA24.md) ([WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi)). Les valeurs secrètes suivent le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh). Vérification **sans terminal** : [`.github/workflows/gmail-smoke-wea24.yml`](.github/workflows/gmail-smoke-wea24.yml) — lancement manuel sur **Actions** si une preuve d’**envoi** test est nécessaire (ou smoke planifié si activé sur `main`).
+OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`) : [`docs/GMAIL_AGENTS_WEA24.md`](docs/GMAIL_AGENTS_WEA24.md) ([WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi)). Les valeurs secrètes suivent le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh). Vérification **sans terminal** : [`.github/workflows/gmail-smoke-wea24.yml`](.github/workflows/gmail-smoke-wea24.yml) — exécution **hebdomadaire** (lecture seule) sur `main` + lancement manuel sur **Actions** si une preuve d’**envoi** test est nécessaire.
 
 ## Auto-merge pull requests to `main`
 
