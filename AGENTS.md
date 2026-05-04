@@ -42,6 +42,12 @@ Ce fichier (`AGENTS.md` dans `WeAdU-ltd/.github`) est le **miroir technique** : 
 
 Les **valeurs** des secrets (organisation et dépôts, y compris OAuth Gmail / Google) sont créées et tenues à jour par **une seule personne** : **Jeff** (propriétaire unique). Les agents et la doc ne doivent pas renvoyer vers un « autre admin » pour ces secrets : la procédure et les noms canoniques suffisent ; les valeurs viennent de ce canal unique.
 
+## 1Password (`op` CLI vs `OP_SERVICE_ACCOUNT_TOKEN`)
+
+- **`OP_SERVICE_ACCOUNT_TOKEN`** dans Cursor Cloud Agents est une **variable d’environnement** (jeton service account). Elle **ne remplace pas** l’installation du **binaire** `op` (CLI 1Password) sur la machine qui exécute l’agent.
+- Si `command -v op` échoue, l’agent **n’a pas** la CLI — ce n’est pas une absence du secret ; le secret sert aux appels **API** ou à une CLI **installée** séparément.
+- **Pour tous les agents** : ne pas supposer que `op` existe ; préférer secrets **GitHub / Cursor** nommés ([WEA-14](docs/SECRETS_CARTOGRAPHIE_WEA14.md), [WEA-15](docs/SECRETS_SOCLE_WEA15.md)). Si la CLI est requise : image ou devcontainer qui **installe** `op` + `OP_SERVICE_ACCOUNT_TOKEN`, ou demande à l’**équipe Cursor** d’inclure la CLI dans l’image Cloud Agent.
+
 ## PR en parallèle sur ce dépôt (`.github`)
 
 Pour limiter les files de PR en conflit et le travail de « déblayage » :
