@@ -2,7 +2,7 @@
 
 Document d’ancrage pour le ticket [WEA-35](https://linear.app/weadu/issue/WEA-35/weadu-socle-v5-lab-audit-template-github-cursor) dans le dépôt **`WeAdU-ltd/.github`**.
 
-**Dépendances Linear** : [WEA-33](https://linear.app/weadu/issue/WEA-33/replit-inventaire-15-projets-et-dependances) (inventaire Replit), [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) (socle secrets). Chaîne : WEA-33 → **WEA-35** → [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) → [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+**Dépendances Linear** : [WEA-33](https://linear.app/weadu/issue/WEA-33/replit-inventaire-15-projets-et-dependances) (inventaire Replit), [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) (socle secrets). Chaîne : WEA-33 → **WEA-35** → [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) ([doc dépôt](./WEA-36-replit-migration-societe.md)) → [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
 
 **Liens source (Replit, hors dépôt)** : [Weadu-Socle-V5-Lab sur Replit](https://replit.com/t/fabio-herizo-jeff/repls/Weadu-Socle-V5-Lab), [weadu-socle-v-5-lab.replit.app](https://weadu-socle-v-5-lab.replit.app).
 
