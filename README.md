@@ -108,6 +108,8 @@ care about (here: the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.
 
 Après merge sur `main`, si [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_AGENTS_LINEAR_WEA17.md) change, le workflow [`.github/workflows/linear-sync-autonomie-project.yml`](.github/workflows/linear-sync-autonomie-project.yml) met à jour le projet Linear (contenu + résumé court) pour y garder le lien GitHub vers la charte — sans action manuelle, tant que le secret **`LINEAR_API_KEY`** est disponible pour ce dépôt.
 
+**Politique agents** : ne pas compter sur le **MCP Linear** dans Cursor (le dashboard peut afficher *Connected* sans que l’agent ait d’outils MCP utilisables) ; voir [`AGENTS.md`](AGENTS.md) section *Linear : API uniquement*.
+
 ## CI failure alerts (Slack + issue, ≤ ~15 min)
 
 Workflow [`.github/workflows/ci-failure-alert.yml`](.github/workflows/ci-failure-alert.yml) reacts to **failed** runs of the main workflows (immediate `workflow_run`) and runs a **poll every 10 minutes** as a safety net. Configure optional secrets per [`docs/GITHUB_CI_FAILURE_ALERT.md`](docs/GITHUB_CI_FAILURE_ALERT.md). This does **not** auto-fix merges for security reasons; it surfaces links for agents or humans.

@@ -10,6 +10,13 @@ Ce fichier (`AGENTS.md` dans `WeAdU-ltd/.github`) est le **miroir technique** : 
 
 **Charte agents** (Linear source, interdits features / nouveaux projets, règle Cursor, communication humain) : [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_AGENTS_LINEAR_WEA17.md) ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)).
 
+## Linear : API uniquement (ne pas s’appuyer sur le MCP Cursor)
+
+Les changements Linear (tickets, projet, commentaires) passent par la **clé d’API** `LINEAR_API_KEY` — dans l’environnement de l’agent shell quand elle est injectée, ou dans **GitHub Actions** via le secret du même nom — et les scripts / workflows du dépôt (`scripts/linear_*.py`, `.github/workflows/linear-*.yml`).
+
+- **Ne pas** utiliser le **serveur MCP Linear** de Cursor comme chemin principal : le tableau d’intégration peut afficher *Connected* sans que la session d’agent expose d’outils MCP exploitables (état `needsAuth`, cloud agent, autre déconnexion).
+- **Ne pas** demander à l’humain de configurer ou déboguer le MCP pour exécuter un ticket ; étendre un script existant ou un workflow si un cas manque.
+
 ## Règles essentielles (rappel)
 
 1. Relire la section **« Critères de fait »** du ticket **ligne par ligne**.
