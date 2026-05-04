@@ -17,7 +17,7 @@ export GITHUB_TOKEN=...
 # Optionnel : équipe Linear (sinon `WEA`)
 export LINEAR_TEAM_KEY=WEA
 # Optionnel : organisations GitHub à scanner (sinon déduction depuis les labels `repo`)
-python3 scripts/linear_github_inventory_wea12.py -o docs/GITHUB_LINEAR_INVENTORY_WEA12.md
+python3 scripts/linear_github_inventory_wea12.py -o docs/GITHUB_LINEAR_INVENTORY_WEA12.md --github-org WeAdU-ltd --markdown-label-prefix "WeAdU-ltd/"
 ```
 
 ---
@@ -39,7 +39,8 @@ python3 scripts/linear_github_inventory_wea12.py -o docs/GITHUB_LINEAR_INVENTORY
 
 <!-- WEA12_INVENTORY_BEGIN -->
 
-_Généré le 2026-05-02 19:34:55 (UTC)._
+_Généré le 2026-05-04 21:27:59 (UTC)._
+_Tableau des labels `repo` **filtré** : noms commençant par `WeAdU-ltd/` (périmètre société WeAdU-ltd). Les calculs « dépôts sans label » et « tickets sans repo » restent basés sur **tous** les enfants du groupe `repo` dans Linear._
 
 ### Labels Linear (groupe `repo`) → dépôt GitHub
 
@@ -61,7 +62,7 @@ _Organisations scannées : WeAdU-ltd._
 
 | Issue | Mis à jour | Titre |
 |-------|------------|-------|
-| [WEA-16](https://linear.app/weadu/issue/WEA-16) | 2026-05-02 | Windows + Cursor Desktop — confort et focus (anti-frappe fantôme) |
+| — | — | — |
 
 <!-- WEA12_INVENTORY_END -->
 

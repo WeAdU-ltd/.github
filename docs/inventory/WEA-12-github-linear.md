@@ -10,6 +10,7 @@ Ce document est le livrable principal du ticket [WEA-12](https://linear.app/wead
 2. **Liste exhaustive des dépôts org** : le même jeton ne retourne qu’un sous-ensemble public des dépôts via `GET /orgs/WeAdU-ltd/repos` (un dépôt visible dans le snapshot du 2026-05-02). Les labels Linear sous **`repo`** font office de **liste fonctionnelle** des dépôts ciblés par les agents (trois entrées au 2026-05-02) ; tout dépôt privé absent de l’API doit être aligné manuellement ou via un PAT avec droits **repo** / **metadata** org.
 3. **Secrets GitHub (noms)** : l’API des secrets Actions (org ou repo) est **inaccessible** avec ce jeton (403). L’inventaire des noms réels en production repose sur **Settings → Secrets** (org/repos) par un administrateur.
 4. **Perso vs société** : règle appliquée ici — tout `WeAdU-ltd/*` = **société** ; tout autre `owner/*` hors cette org = **hors périmètre société** ou à qualifier (comptes personnels, forks, etc.).
+5. **Labels `JeffWeadu/*` sous le groupe `repo`** : en **2026-05-04**, Linear compte encore **huit** enfants `repo` sous `JeffWeadu/…` en plus des trois `WeAdU-ltd/…`. Le fichier [`GITHUB_LINEAR_INVENTORY_WEA12.md`](../GITHUB_LINEAR_INVENTORY_WEA12.md) n’affiche **que** `WeAdU-ltd/` (option `--markdown-label-prefix`) pour le livrable « société » ; les calculs « tickets sans `repo` » utilisent **tous** les enfants. **Action admin Linear recommandée** : retirer les labels `JeffWeadu/*` du groupe `repo` s’ils ne doivent plus cibler d’agents (sinon risque de mauvais dépôt si un ticket est étiqueté par erreur).
 
 ---
 
@@ -27,7 +28,7 @@ Ce document est le livrable principal du ticket [WEA-12](https://linear.app/wead
 
 ### 2.1 Dépôts étiquetés Linear (`repo` → enfants `owner/repo`)
 
-Alignés sur la génération du **2026-05-02** (voir aussi le tableau dans `GITHUB_LINEAR_INVENTORY_WEA12.md`) :
+Tableau **société** aligné sur la régénération **2026-05-04** (voir section générée dans [`GITHUB_LINEAR_INVENTORY_WEA12.md`](../GITHUB_LINEAR_INVENTORY_WEA12.md), filtre `WeAdU-ltd/`) :
 
 | `owner/repo` | Perso / société | Remarque |
 |--------------|-----------------|----------|
@@ -37,7 +38,7 @@ Alignés sur la génération du **2026-05-02** (voir aussi le tableau dans `GITH
 
 ### 2.2 Export machine (snapshot API partiel)
 
-Fichier : [`github-org-repo-snapshot-2026-05-02.json`](github-org-repo-snapshot-2026-05-02.json) — contient la réponse brute limitée du jeton agent + la liste des trois dépôts déclarés côté Linear pour comparaison.
+Fichier : [`github-org-repo-snapshot-2026-05-02.json`](github-org-repo-snapshot-2026-05-02.json) — contient la réponse brute limitée du jeton agent historique + la liste des dépôts déclarés côté Linear pour comparaison. Une régénération **2026-05-04** avec `gh auth token` dans l’environnement cloud liste encore **uniquement** le dépôt public `WeAdU-ltd/.github` : les **dépôts privés** de l’org restent à inventorier avec un **PAT org** (scope **repo**) ou **Org → People / Repositories** côté admin.
 
 ---
 
@@ -80,5 +81,5 @@ Fichier : [`github-org-repo-snapshot-2026-05-02.json`](github-org-repo-snapshot-
 export LINEAR_API_KEY=…
 export GITHUB_TOKEN=…   # PAT avec droits org + repos attendus
 export LINEAR_TEAM_KEY=WEA
-python3 scripts/linear_github_inventory_wea12.py -o docs/GITHUB_LINEAR_INVENTORY_WEA12.md --github-org WeAdU-ltd
+python3 scripts/linear_github_inventory_wea12.py -o docs/GITHUB_LINEAR_INVENTORY_WEA12.md --github-org WeAdU-ltd --markdown-label-prefix "WeAdU-ltd/"
 ```
