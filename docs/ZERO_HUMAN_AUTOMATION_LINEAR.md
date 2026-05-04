@@ -70,9 +70,13 @@ Certaines automatisations exigent un **jeton d’API** stocké dans **GitHub →
 | Est-ce un fichier dans ce repo ? | **Non.** Aucun secret d’exploitation n’est versionné. |
 | Est-ce dans le message d’un agent ? | **Non** (hors principe sécurité + règles WeAdU). |
 | Où la mettre ? | **GitHub** → *Organization* → *Settings* → *Secrets and variables* → *Actions* → secret dont le **nom** est documenté (ex. `GITHUB_ORG_AUDIT_TOKEN`), avec **accès explicite** aux dépôts concernés. |
-| D’où vient le caractère secret ? | Généré **une fois** dans l’UI GitHub dédiée aux PAT / GitHub App install tokens — puis **collé uniquement** dans le champ « Value » du secret org (copie minimale, pas par chat). |
+| D’où vient le caractère secret ? | Généré **une fois** dans l’UI GitHub (PAT / GitHub App install token) ou **réutilisation** d’un PAT déjà conservé (ex. coffre **1Password**) sous un **autre titre** — même valeur collée dans le champ org si les portées suffisent ; pas de deuxième PAT sans besoin. |
 
 Pour l’audit des protections de branche (WEA-32 / WEA-42), le détail des portées acceptables et le lien vers la procédure PAT : [`docs/GITHUB_BRANCH_PROTECTION_WEA32.md`](./GITHUB_BRANCH_PROTECTION_WEA32.md) § « Origine du jeton… » et [`docs/SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md).
+
+### Liste partagée des alias (optionnel)
+
+Pour éviter les doublons **humains** : dans le vault équipe, certains items peuvent porter un champ ou une note du type **« aussi utilisé comme secret GitHub org : `GITHUB_ORG_AUDIT_TOKEN` »**. Ce dépôt ne peut pas contenir la valeur ; il documente seulement les **noms** attendus par les workflows ([`SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md)).
 
 ---
 
@@ -81,8 +85,9 @@ Pour l’audit des protections de branche (WEA-32 / WEA-42), le détail des port
 Lorsqu’un workflow introduit un **nouveau** nom de secret d’organisation :
 
 1. **Documenter** le nom dans [`SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md) (et le runbook métier si besoin).
-2. **Expliquer dans la même PR** : la valeur n’est pas dans le repo ; elle est créée côté GitHub org par la personne de référence ; liste d’accès des dépôts.
-3. **Ne pas** demander à l’humain non référent de « trouver » une valeur : indiquer **qui** la crée (canal unique) et **où** elle est stockée (UI GitHub), avec lien vers ce fichier ou WEA-15.
+2. **Chercher un PAT ou jeton existant** (GitHub org secrets, vault **1Password** sous d’autres noms) avant de proposer une création ; [`SECRETS_CARTOGRAPHIE_WEA14.md`](./SECRETS_CARTOGRAPHIE_WEA14.md).
+3. **Expliquer dans la même PR** : la valeur n’est pas dans le repo ; réutilisation possible depuis le coffre aligné sur les portées ; sinon création côté référent et collage dans le secret org ; liste d’accès des dépôts.
+4. **Ne pas** demander à l’humain non référent de « trouver » une valeur : indiquer **qui** la crée ou la relie (canal unique) et **où** elle est stockée (UI GitHub), avec lien vers ce fichier ou WEA-15.
 
 ---
 

@@ -68,6 +68,8 @@ Les **valeurs** des secrets (organisation et dépôts, y compris OAuth Gmail / G
 
 Les **noms** des secrets (`GITHUB_ORG_AUDIT_TOKEN`, `LINEAR_API_KEY`, etc.) sont dans [`docs/SECRETS_SOCLE_WEA15.md`](docs/SECRETS_SOCLE_WEA15.md). Les **valeurs** n’existent pas dans le dépôt : elles sont créées **une fois** dans l’UI GitHub (PAT / jeton machine), puis saisies dans *Organization secrets* — jamais dans Linear ni dans le chat des agents.
 
+**Avant** de proposer de créer un nouveau PAT : appliquer [WEA-14](docs/SECRETS_CARTOGRAPHIE_WEA14.md) **y compris 1Password** (même jeton, autre nom d’item) quand l’intégration est réellement accessible ; ne pas supposer l’absence d’un secret existant.
+
 Quand une PR ajoute un workflow qui lit `secrets.NOM` : documenter le nom, pointer ce paragraphe + [`docs/ZERO_HUMAN_AUTOMATION_LINEAR.md`](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md), et indiquer **référent unique pour la valeur** (ci-dessus). Ne pas laisser l’humain non référent se demander où « télécharger » le secret : il n’y a pas de fichier ; seule la création GitHub org compte.
 
 ## PR en parallèle sur ce dépôt (`.github`)

@@ -28,9 +28,15 @@ Ces noms sont ceux **référencés par les workflows** de ce dépôt (`WeAdU-ltd
 
 **Création côté org** : *Organization settings* → *Secrets and variables* → *Actions* → *New organization secret* ; restreindre l’accès aux repositories concernés (politique « repository access »).
 
+### Alias : même jeton, noms différents (GitHub vs coffre)
+
+Le **nom** attendu par un workflow (`secrets.GITHUB_ORG_AUDIT_TOKEN`, etc.) est figé dans ce tableau. Le **même PAT** peut être conservé dans **1Password** sous un autre libellé (« GitHub PAT », …). Tant que les **portées** couvrent le besoin, on **réutilise** le jeton existant dans le champ org — pas de second PAT par défaut. Les correspondances **nom GitHub ↔ titre d’item** se notent dans le coffre (champ *Notes*), pas dans le dépôt.
+
 ### `GITHUB_ORG_AUDIT_TOKEN` — où est la valeur ?
 
 La **valeur** n’est dans aucun fichier du dépôt (et ne doit pas être dans Linear). Elle est le texte d’un **Personal Access Token** (ou équivalent machine) **créé dans l’interface GitHub** par la personne de référence des secrets org (voir [`AGENTS.md`](../AGENTS.md)), puis **collée une seule fois** dans le champ *Value* du secret d’organisation nommé exactement `GITHUB_ORG_AUDIT_TOKEN`, avec **accès au dépôt** `WeAdU-ltd/.github`.
+
+**Réutiliser un PAT déjà stocké (ex. 1Password)** : ce nom GitHub (`GITHUB_ORG_AUDIT_TOKEN`) est **canonical pour Actions**. Si un PAT équivalent existe déjà sous un autre libellé (« GitHub PAT », etc.), **ne pas en créer un second** sans vérifier les portées : même valeur dans ce champ org si lecture repos + protection suffisante ; sinon création ou réduction des scopes ciblée. Voir [WEA-14](../SECRETS_CARTOGRAPHIE_WEA14.md) (chercher partout, y compris 1Password) et [AGENTS.md](../AGENTS.md) (intégration 1Password quand accessible).
 
 **Portées minimales (lecture seule, audit WEA-32)** — au choix :
 

@@ -9,18 +9,20 @@ Document d’ancrage pour le ticket [WEA-14](https://linear.app/weadu/issue/WEA-
 Avant de solliciter un humain pour un mot de passe, une clé API ou un jeton :
 
 1. **Inventaires et docs du dépôt** : `README`, `docs/`, scripts d’inventaire (ex. `scripts/linear_github_inventory_wea12.py`), fichiers `CONTRIBUTING` / runbooks s’ils existent.
-2. **Secrets « d’app »** : coffres ou secrets attachés à l’outil qui exécute le travail (GitHub Actions, environnement CI, variables du runner, secrets du dépôt appelant) plutôt qu’un coffre personnel générique.
-3. **GitHub** : secrets et variables au niveau **organisation**, **dépôt** et **environnement** (`Settings` → `Secrets and variables` → `Actions` / `Dependabot` si utilisé). Pour les workflows réutilisables, les secrets passent depuis le workflow appelant (voir ci-dessous).
-4. **Cursor** : secrets fournis dans l’UI ou la config cloud du workspace (pas dans le chat). Ne pas demander à l’humain une valeur déjà injectée côté agent si elle est documentée comme disponible dans ce canal.
-5. **1Password** (ou équivalent) : **en dernier recours** si rien d’autre ne suffit, et en **évitant les appels répétés ou en rafale** (rate limits, quotas). Une seule lecture structurée vaut mieux que plusieurs requêtes fragmentées.
+2. **Cartographie des noms** : [`SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md) (nom GitHub **canonique** vs libellé éventuel dans un coffre).
+3. **Secrets « d’app »** : coffres ou secrets attachés à l’outil qui exécute le travail (GitHub Actions, environnement CI, variables du runner, secrets du dépôt appelant) plutôt qu’un coffre personnel générique.
+4. **GitHub** : secrets et variables au niveau **organisation**, **dépôt** et **environnement** (`Settings` → `Secrets and variables` → `Actions` / `Dependabot` si utilisé). Pour les workflows réutilisables, les secrets passent depuis le workflow appelant (voir ci-dessous).
+5. **Cursor** : secrets fournis dans l’UI ou la config cloud du workspace (pas dans le chat). Ne pas demander à l’humain une valeur déjà injectée côté agent si elle est documentée comme disponible dans ce canal.
+6. **1Password** (vault équipe) quand l’intégration est disponible : **rechercher un jeton existant** (souvent un PAT GitHub sous un **autre titre** : « GitHub PAT », « gh », etc.) **avant** de proposer d’en créer un nouveau. Vérifier que les **portées** couvrent le besoin ; réutiliser la **même valeur** dans le secret GitHub org attendu plutôt que dupliquer les PAT inutilement. **Ne jamais** coller un secret dans Linear ou le chat ; une seule lecture structurée plutôt qu’une rafale (rate limits).
 
 Si, après ces étapes, l’information manque encore : le noter sur le ticket Linear (écart par rapport aux critères de fait / [règle avant Done](https://linear.app/weadu/document/regle-agents-criteres-de-fait-avant-done-tous-projets-2b32aec9e234)) plutôt que d’inventer une valeur.
 
 ---
 
-## 1Password — usage prudent
+## 1Password — réutilisation et prudence
 
-- Les intégrations CLI / Connect / SDK peuvent être **limitées en débit** ; privilégier les **secrets d’application** (GitHub Encrypted Secrets, secrets du fournisseur cloud, variables d’environnement du job) déjà prévus pour l’automation.
+- **Réutilisation** : pour un besoin « nouveau » côté GitHub (`secrets.FOO`), chercher d’abord si un **PAT ou jeton équivalent** existe déjà dans le vault sous un **autre nom** ; aligner la valeur **sans recréer** si les portées suffisent (section *Alias* dans [`SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md)).
+- **Débit** : les intégrations CLI / Connect / SDK peuvent être **limitées** ; éviter les boucles de recherche ; une consultation ciblée vaut mieux que dix requêtes vagues.
 - Quand 1Password est nécessaire : cibler un **item / vault** connu, documenté pour l’équipe, plutôt qu’une recherche large et répétée.
 
 ---
