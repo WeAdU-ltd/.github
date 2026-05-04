@@ -57,6 +57,9 @@ jobs:
       - name: Cursor secret scan script (syntax)
         run: bash -n scripts/cursor_secret_scan_pre_commit.sh && bash -n .githooks/pre-commit
 
+      - name: Google Ads + Analytics API smoke (WEA-21 dry-run)
+        run: python3 scripts/google_ads_analytics_smoke_wea21.py --dry-run
+
       - name: Install gitleaks
         env:
           GITLEAKS_VERSION: "8.30.1"

@@ -74,7 +74,7 @@ Pour **agents** (refresh token, smoke test lecture + envoi contrôlé, signature
 | `https://www.googleapis.com/auth/userinfo.profile` | Nom / photo de profil |
 | `openid` | OpenID Connect (souvent avec `email`, `profile`) |
 
-Pour les **combinaisons exactes** par produit (Ads vs Analytics Admin, etc.), croiser avec WEA-21 et la doc officielle de chaque API au moment de l’implémentation.
+Pour les **combinaisons exactes** par produit (Ads vs Analytics Admin, etc.), croiser avec [WEA-21](./GOOGLE_ADS_ANALYTICS_API_WEA21.md) (noms des secrets, smoke read, chemins write, risque) et la doc officielle de chaque API au moment de l’implémentation.
 
 ---
 
