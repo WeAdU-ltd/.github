@@ -1,6 +1,6 @@
 # Gmail — accès agents (lecture + envoi) (WEA-24)
 
-Document d’ancrage pour le ticket [WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi). Il s’aligne sur le runbook OAuth Google ([WEA-20](./GOOGLE_OAUTH_WEA20.md)), le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)), la cartographie ([WEA-14](./SECRETS_CARTOGRAPHIE_WEA14.md)) et les notifications humaines ([WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence)).
+Document d’ancrage pour le ticket [WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi). Il s’aligne sur le runbook OAuth Google ([WEA-20](./GOOGLE_OAUTH_WEA20.md)), le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)), la cartographie ([WEA-14](./SECRETS_CARTOGRAPHIE_WEA14.md)) et les notifications humaines ([WEA-19](./NOTIFICATIONS_EMAIL_SLACK_WEA19.md)).
 
 **Dépendance** : [WEA-20](https://linear.app/weadu/issue/WEA-20/google-passe-oauth-gmail-drive-docs-sheets-ads-analytics) doit fournir un client OAuth (type bureau ou web selon le flux), l’écran de consentement et les scopes demandés ; ce document décrit **l’usage agents** une fois le jeton obtenu.
 
@@ -47,7 +47,7 @@ Les **refresh tokens** et **client secrets** ne sont jamais commités. Les stock
 | **Libellés** | Utiliser des libellés dédiés (ex. `Agents/…`) pour tracer le traitement ; ne pas retirer des libellés humains sans procédure. |
 | **Volume** | Pas d’envoi en rafale ; regrouper les notifications ; **une** vérification smoke par exécution de script suffit pour le critère « envoi contrôlé ». |
 | **Destinataires** | En test : **n’envoyer qu’à soi** (adresse du profil `users/me/profile`) sauf procédure explicite ; ne pas utiliser de listes de diffusion pour des essais. |
-| **Horaires** | Respecter [WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence) pour tout ce qui touche l’humain (fenêtre prioritaire e-mail UK, etc.). |
+| **Horaires** | Respecter [WEA-19](./NOTIFICATIONS_EMAIL_SLACK_WEA19.md) pour tout ce qui touche l’humain (fenêtre prioritaire e-mail UK, etc.). |
 
 ---
 

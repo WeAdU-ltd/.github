@@ -1,6 +1,6 @@
 # Slack — app agents et règles anti-notification (WEA-25)
 
-Document d’ancrage pour le ticket [WEA-25](https://linear.app/weadu/issue/WEA-25/slack-app-agents-regles-anti-notification). Il s’aligne sur la cartographie des secrets ([WEA-14](./SECRETS_CARTOGRAPHIE_WEA14.md)), le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) et les règles de notification [WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence).
+Document d’ancrage pour le ticket [WEA-25](https://linear.app/weadu/issue/WEA-25/slack-app-agents-regles-anti-notification). Il s’aligne sur la cartographie des secrets ([WEA-14](./SECRETS_CARTOGRAPHIE_WEA14.md)), le socle secrets ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) et le runbook **qui / quand** des notifications ([WEA-19](./NOTIFICATIONS_EMAIL_SLACK_WEA19.md)).
 
 ---
 
@@ -37,14 +37,14 @@ Une **app Slack** (ou bot) permet aux agents et à l’automation de **publier**
 
 ## 3. Critère : règles documentées (lien WEA-19)
 
-Les règles **produit / humain** (fuseau UK, e-mail prioritaire, fenêtre Slack calme) sont dans [WEA-19 — Notifications](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence). Pour **ce dépôt et les agents**, appliquer en complément :
+Les règles **produit / humain** (fuseau UK, e-mail prioritaire, fenêtre Slack calme) sont dans [`NOTIFICATIONS_EMAIL_SLACK_WEA19.md`](./NOTIFICATIONS_EMAIL_SLACK_WEA19.md) ([Linear WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence)). Pour **ce dépôt et les agents**, appliquer en complément :
 
 | Règle | Détail |
 |--------|--------|
 | **Canaux dédiés** | Utiliser des canaux réservés aux sorties agents / automation, pas le canal général « tout le monde ». |
 | **Fils (threads)** | Répondre dans le fil d’un message plutôt que des messages top-level en rafale sur le canal. |
-| **Mentions** | `@utilisateur` acceptable pour une action ciblée ; **éviter** `@here`, `@channel`, et toute mention de masse sauf procédure d’urgence validée côté [WEA-19](https://linear.app/weadu/issue/WEA-19/notifications-e-mail-prioritaire-5h-23h-uk-slack-calme-20h-7h-urgence). |
-| **Horaires Slack** | Respecter la fenêtre **calme 20h–7h (UK)** pour Slack sauf **blocage total sans action humaine** (voir description WEA-19). L’e-mail reste le canal prioritaire pour l’humain dans les plages définies là-bas. |
+| **Mentions** | `@utilisateur` acceptable pour une action ciblée ; **éviter** `@here`, `@channel`, et toute mention de masse sauf procédure d’urgence validée dans [WEA-19](./NOTIFICATIONS_EMAIL_SLACK_WEA19.md) §3. |
+| **Horaires Slack** | Respecter la fenêtre **calme 20h–7h (UK)** pour Slack sauf **blocage total sans action humaine** (voir [WEA-19](./NOTIFICATIONS_EMAIL_SLACK_WEA19.md) §3). L’e-mail reste le canal prioritaire pour l’humain (05:00–23:00 UK, même doc). |
 | **Intégrations (n8n, CI, etc.)** | Même logique : router les événements non urgents vers canaux/fils dédiés ; ne pas dupliquer massivement e-mail + Slack pour le même événement sans besoin. |
 
 ---
