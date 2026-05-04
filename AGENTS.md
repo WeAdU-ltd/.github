@@ -16,6 +16,7 @@ Les changements Linear (tickets, projet, commentaires) passent par la **clé d�
 
 - **Ne pas** utiliser le **serveur MCP Linear** de Cursor comme chemin principal : le tableau d’intégration peut afficher *Connected* sans que la session d’agent expose d’outils MCP exploitables (état `needsAuth`, cloud agent, autre déconnexion).
 - **Ne pas** demander à l’humain de configurer ou déboguer le MCP pour exécuter un ticket ; étendre un script existant ou un workflow si un cas manque.
+- Ne **pas** proposer en premier « connecter le MCP Linear » : le MCP est **optionnel** (confort IDE) et souvent **`needsAuth`** en cloud ; tant que **`LINEAR_API_KEY`** est disponible, l’**API GraphQL** (scripts du dépôt, ex. `scripts/linear_pr_common.py`) fait le travail.
 
 ## Règles essentielles (rappel)
 
