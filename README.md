@@ -97,7 +97,7 @@ each PR update and calls `gh pr merge --auto --merge` so GitHub **queues the mer
 protection allows it (same pattern as other WeAdU repos such as NEG). After **CI** and any other
 required checks go green, the merge completes without a human clicking Merge. Ensure **Allow
 auto-merge** is enabled on the repository and that **required status checks** include the jobs you
-care about (here: `actionlint` and `gitleaks` from [`ci.yml`](.github/workflows/ci.yml)).
+care about (here: the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.yml), which also runs **gitleaks** so you do not add a second required check).
 
 ## Linear — sync checklist into the PR (WEA-*)
 
