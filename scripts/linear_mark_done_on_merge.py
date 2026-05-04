@@ -100,14 +100,14 @@ def main() -> int:
             team_cache[team_key] = team_completed_state_id(api_key, team_key)
         state_id = team_cache[team_key]
         if not state_id:
+            # Branch/title false positives (e.g. RULES-0643 from "cursor-rules") or unknown teams:
+            # do not fail the workflow — CI failure alert would open noisy triage issues.
             print(f"linear_mark_done_on_merge: no completed state for team {team_key}; skip {ident}", file=sys.stderr)
-            errors += 1
             continue
 
         issue_uuid = issue_internal_id(api_key, ident, team_key, number)
         if not issue_uuid:
             print(f"linear_mark_done_on_merge: issue not found: {ident}", file=sys.stderr)
-            errors += 1
             continue
 
         if team_key == "WEA":

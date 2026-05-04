@@ -40,10 +40,27 @@ def linear_request(api_key: str, query: str, variables: dict[str, Any] | None = 
 
 
 def extract_identifiers_from_text(text: str) -> list[str]:
+    """Collect Linear-style ABC-123 tokens from free text.
+
+    Branch slugs often contain false positives (``hook-7490``, ``rules-0643``, ``wea21-7490``).
+    We only keep identifiers that look intentionally keyed (team starts with uppercase), plus
+    lowercase ``wea-<n>`` which agents sometimes type without caps.
+    """
     seen: set[str] = set()
     out: list[str] = []
     for m in _ISSUE_ID_RE.finditer(text or ""):
-        ident = f"{m.group(1).upper()}-{m.group(2)}"
+        raw_team = m.group(1)
+        num_s = m.group(2)
+        if raw_team[0].isupper():
+            team_key = raw_team.upper()
+        elif raw_team.lower() == "wea" and raw_team.isalpha() and len(raw_team) == 3:
+            team_key = "WEA"
+        else:
+            continue
+        # Slug noise like API-WEA21-7490 → WEA21-7490 after first rule; drop team keys with digits.
+        if any(ch.isdigit() for ch in team_key):
+            continue
+        ident = f"{team_key}-{num_s}"
         if ident not in seen:
             seen.add(ident)
             out.append(ident)
