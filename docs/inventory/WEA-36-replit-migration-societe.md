@@ -25,6 +25,19 @@ Pour tout **nouveau** dépôt applicatif ou pour aligner un existant :
 2. **Secrets** : pas de secrets dans le repo ; créer les secrets **repo** ou **org** `WeAdU-ltd` selon [WEA-15](../SECRETS_SOCLE_WEA15.md) ; label Linear **`repo`** = `WeAdU-ltd/<nom>` pour les tickets agents ([WEA-17](../CHARTE_AGENTS_LINEAR_WEA17.md)).
 3. **Run documenté** (minimum) : dans le `README` du dépôt cible — prérequis (runtime, `LINEAR_API_KEY` si besoin, secrets nommés), commande(s) `dev` / `test` / `deploy`, et **où** s’exécute la charge de prod (GitHub Actions, EC2, autre) si ce n’est pas Replit.
 
+### 2.1 Linear : un parent par Repl, sous-tickets ordonnés
+
+- **Génération** (ré-exécutable, idempotent par ligne `[Repl N]` dans le titre) : [`scripts/linear_create_wea36_repl_issues.py`](../../scripts/linear_create_wea36_repl_issues.py). Prérequis : `LINEAR_API_KEY`. Dry-run par défaut ; `python3 scripts/linear_create_wea36_repl_issues.py --apply` pour créer les issues sur l’équipe **WEA**, projet **Autonomie agents**.
+
+- **Par Repl** : un ticket **parent** `[Repl N] <nom> — migration Replit → GitHub` et **cinq sous-tickets** (ordre logique, chaque étape **bloque** la suivante) :
+  1. **Brief agent Replit** — interroger l’agent Cursor du Repl pour la vérité projet (Socle ne suffit pas).
+  2. **Synthèse** — inventaire / ticket à jour.
+  3. **Dépôt GitHub** créé ou confirmé (`WeAdU-ltd/…`).
+  4. **Code + README** procédure de run.
+  5. **Cutover** — prod hors Replit + résiduel.
+
+- **WEA-36** : le sous-ticket **cutover** de chaque Repl **bloque** [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) (Linear : relation `blocks`). Ainsi **WEA-36** ne peut être terminé que lorsque **tous** les cutovers sont faits (ou la liste résiduelle est tenue à jour ailleurs).
+
 ---
 
 ## 3. Vagues et tableau Repl → GitHub → procédure de run
