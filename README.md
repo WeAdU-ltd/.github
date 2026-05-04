@@ -49,6 +49,7 @@ does not need them.
 
 Anchors in [`docs/`](docs/):
 
+- [Charte agents — Linear, interdits, règle Cursor (WEA-17)](docs/CHARTE_AGENTS_LINEAR_WEA17.md) — ticket source, pas de feature / nouveau dépôt sans humain ; label `repo` ; communication avec l’humain.
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
 - [Gmail agents — lecture + envoi (WEA-24)](docs/GMAIL_AGENTS_WEA24.md) — secrets nommés, conventions, smoke script.
 - [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
