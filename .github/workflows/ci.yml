@@ -37,6 +37,17 @@ jobs:
       - name: 1Password resolve script (syntax)
         run: python3 -m py_compile scripts/onepassword_resolve_ref.py
 
+      - name: WEA-35 socle template init script (syntax + dry-run)
+        run: |
+          set -euo pipefail
+          bash -n scripts/init_wea35_socle_template.sh
+          bash scripts/init_wea35_socle_template.sh --help >/dev/null
+          tmp=$(mktemp -d)
+          bash scripts/init_wea35_socle_template.sh "$tmp"
+          test -f "$tmp/AGENTS.md"
+          test -f "$tmp/.cursor/hooks.json"
+          rm -rf "$tmp"
+
       - name: 1Password SDK (optional import)
         run: |
           set -euo pipefail
