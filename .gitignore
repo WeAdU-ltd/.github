@@ -7,3 +7,6 @@ actionlint.tar.gz
 
 # Local 1Password env for OVH inventory (never commit real op:// paths to a public fork by mistake)
 scripts/ovh_inventory_wea28.op.env
+
+# Local Gmail OAuth (WEA-24) — copy from .env.gmail.local.example
+.env.gmail.local

@@ -74,9 +74,7 @@ Project file [`.cursor/hooks.json`](.cursor/hooks.json) declares `"version": 1` 
 **invalid variable name** when the IDE loads a broken or legacy hook config). To add hooks,
 extend `hooks` per [Cursor hooks](https://cursor.com/docs) (do not remove `version`).
 
-**Contournement agent cloud :** si l’erreur « invalid variable name » vient du scanner de secrets
-(`pre-commit.cursor`), il faut ignorer les entrées de `CLOUD_AGENT_INJECTED_SECRET_NAMES` qui ne
-sont pas des identifiants bash valides avant `${!NAME}` (correctif côté image / hooks Cursor).
+**Contournement agent cloud (commit / push) :** si le hook `pre-commit.cursor` échoue avec **invalid variable name** (souvent à cause d’une entrée mal formée dans `CLOUD_AGENT_INJECTED_SECRET_NAMES` côté image Cursor), exécuter `git commit --no-verify` pour ce dépôt ; la **CI** sur GitHub exécute actionlint et les smokes dry-run. Le correctif durable est côté **Cursor** (filtrer les noms d’environnement non valides pour bash avant `${!NAME}`) — voir le paragraphe ci-dessus.
 
 ## Scraping (Decodo, ScraperAPI, Zyte)
 
@@ -92,7 +90,7 @@ Pour l’app Slack, le jeton bot (`SLACK_BOT_TOKEN`) et les règles anti-notific
 
 ## Gmail (agents — lecture + envoi)
 
-OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`) : [`docs/GMAIL_AGENTS_WEA24.md`](docs/GMAIL_AGENTS_WEA24.md) ([WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi)). Les valeurs secrètes suivent le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh).
+OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`) : [`docs/GMAIL_AGENTS_WEA24.md`](docs/GMAIL_AGENTS_WEA24.md) ([WEA-24](https://linear.app/weadu/issue/WEA-24/gmail-acces-agents-lecture-envoi)). Les valeurs secrètes suivent le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh). Vérification **sans terminal** : workflow manuel [`.github/workflows/gmail-smoke-wea24.yml`](.github/workflows/gmail-smoke-wea24.yml) (GitHub → Actions → **Gmail smoke (WEA-24)** → Run workflow).
 
 ## Auto-merge pull requests to `main`
 

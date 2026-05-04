@@ -66,7 +66,23 @@ Les **refresh tokens** et **client secrets** ne sont jamais commités. Les stock
 
 Le script accepte `--dry-run` : aucun réseau ; utilisé dans [`ci.yml`](../.github/workflows/ci.yml).
 
-### 6.2 Lecture seule (refresh token injecté)
+### 6.2 Sans rien taper à chaque fois (recommandé)
+
+1. **Une seule fois** (ou quand le token change) : un admin crée les trois [secrets GitHub](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) sur ce dépôt : `GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET`, `GMAIL_OAUTH_REFRESH_TOKEN`. Ce n’est **pas** une tâche répétée par PR.
+2. N’importe qui avec le droit **Actions** : **Actions** → workflow **Gmail smoke (WEA-24)** → **Run workflow** — laisser la case *send* décochée pour la lecture seule, ou la cocher pour l’envoi test vers soi. Le journal du job sert de preuve pour le critère « accès testé » (sans coller de secrets).
+3. Toi, en pratique : **tu n’as rien à faire** tant qu’un admin a posé les secrets et qu’un run manuel a réussi ; les agents s’occupent de cocher la check-list PR si le workflow est vert (selon la politique d’équipe).
+
+### 6.3 En local (optionnel)
+
+Copier [`.env.gmail.local.example`](../.env.gmail.local.example) vers `.env.gmail.local` (fichier **ignoré** par git), y coller les trois valeurs, puis :
+
+```bash
+export GMAIL_OAUTH_ENV_FILE="$PWD/.env.gmail.local"
+python3 scripts/gmail_oauth_smoke_wea24.py
+python3 scripts/gmail_oauth_smoke_wea24.py --send
+```
+
+### 6.4 Lecture seule (variables exportées à la main)
 
 ```bash
 export GMAIL_OAUTH_CLIENT_ID="***"
@@ -75,9 +91,9 @@ export GMAIL_OAUTH_REFRESH_TOKEN="***"
 python3 scripts/gmail_oauth_smoke_wea24.py
 ```
 
-### 6.3 Envoi contrôlé (auto vers `me`)
+### 6.5 Envoi contrôlé (auto vers `me`)
 
-Même exports qu’en §6.2, puis :
+Même prérequis qu’en §6.3 ou §6.4, puis :
 
 ```bash
 python3 scripts/gmail_oauth_smoke_wea24.py --send
@@ -89,6 +105,7 @@ Variables optionnelles :
 |----------|------|
 | `GMAIL_OAUTH_SMOKE_SUBJECT` | Sujet du message de test (défaut : texte neutre « WEA-24 … ») |
 | `GMAIL_OAUTH_SMOKE_BODY` | Corps texte brut du message de test |
+| `GMAIL_OAUTH_ENV_FILE` | Chemin d'un fichier `KEY=value` (ex. `.env.gmail.local`) ; ne remplit que les clés **déjà absentes** de l'environnement |
 
 Pour **désactiver** explicitement l’envoi même si un script tiers passe `--send`, définir `GMAIL_OAUTH_SMOKE_SEND=0`.
 

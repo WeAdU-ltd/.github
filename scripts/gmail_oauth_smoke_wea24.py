@@ -11,6 +11,7 @@ Secrets (jamais dans le dépôt) : GMAIL_OAUTH_CLIENT_ID, GMAIL_OAUTH_CLIENT_SEC
 Variables optionnelles :
   GMAIL_OAUTH_SMOKE_SUBJECT, GMAIL_OAUTH_SMOKE_BODY — contenu du mail de test
   GMAIL_OAUTH_SMOKE_SEND=0 — refuse --send même si demandé
+  GMAIL_OAUTH_ENV_FILE — chemin d'un fichier KEY=value (optionnel) ; ne remplit que les clés absentes
 """
 
 from __future__ import annotations
@@ -28,6 +29,27 @@ import urllib.request
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 GMAIL_PROFILE_URL = "https://gmail.googleapis.com/gmail/v1/users/me/profile"
 GMAIL_SEND_URL = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+
+
+def load_optional_env_file(path: str) -> None:
+    """Load KEY=value lines if file exists; do not override existing os.environ."""
+    if not path or not os.path.isfile(path):
+        return
+    with open(path, encoding="utf-8") as f:
+        for raw in f:
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" not in line:
+                continue
+            key, _, val = line.partition("=")
+            key = key.strip()
+            if not key or key in os.environ:
+                continue
+            val = val.strip()
+            if len(val) >= 2 and val[0] == val[-1] and val[0] in "\"'":
+                val = val[1:-1]
+            os.environ[key] = val
 
 
 def post_form(url: str, fields: dict[str, str], timeout: float = 30.0) -> tuple[int, bytes]:
@@ -151,6 +173,10 @@ def main() -> int:
 
     if args.dry_run:
         return run_dry_run()
+
+    env_file = os.environ.get("GMAIL_OAUTH_ENV_FILE", "").strip()
+    if env_file:
+        load_optional_env_file(env_file)
 
     client_id = os.environ.get("GMAIL_OAUTH_CLIENT_ID", "").strip()
     client_secret = os.environ.get("GMAIL_OAUTH_CLIENT_SECRET", "").strip()
