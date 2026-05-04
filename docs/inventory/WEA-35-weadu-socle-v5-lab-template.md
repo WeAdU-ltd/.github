@@ -90,6 +90,8 @@ Produire un export structuré (**Markdown**, aucune valeur de secret) avec :
 
 Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt cible après revue.
 
+**Export Repl ingéré (miroir dépôt)** : [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) — produit par l’agent Cursor **dans** le Repl (2026-05-04), collé ici pour la chaîne migration / audit hors Replit.
+
 ---
 
 _Document vivant ; première intégration dépôt : 2026-05-04._
