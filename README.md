@@ -45,6 +45,29 @@ jobs:
 Caller repositories can omit the SSH and env-file secrets if their deploy command
 does not need them.
 
+### `auto-merge-enable.yml`
+
+Reusable workflow: enables **GitHub auto-merge** on a PR number (`gh pr merge --auto --merge`).
+Use from **any** repo in the org so every project gets the same behavior as this `.github` repo.
+
+```yaml
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  enable-auto-merge:
+    if: github.event.pull_request.draft == false
+    uses: WeAdU-ltd/.github/.github/workflows/auto-merge-enable.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
+    with:
+      pr_number: ${{ github.event.pull_request.number }}
+```
+
+Tighten the `if:` (default branch, same-repo forks only) to match [`.github/workflows/auto-merge-pr.yml`](.github/workflows/auto-merge-pr.yml) if you fork or use unusual bases.
+
 ## Documentation (WeAdU / Linear)
 
 Anchors in [`docs/`](docs/):
@@ -95,12 +118,22 @@ OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`
 
 ## Auto-merge pull requests to `main`
 
-Workflow [`.github/workflows/auto-merge-pr.yml`](.github/workflows/auto-merge-pr.yml) runs on
-each PR update and calls `gh pr merge --auto --merge` so GitHub **queues the merge** when branch
-protection allows it (same pattern as other WeAdU repos such as NEG). After **CI** and any other
-required checks go green, the merge completes without a human clicking Merge. Ensure **Allow
-auto-merge** is enabled on the repository and that **required status checks** include the jobs you
-care about (here: the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.yml), which also runs **gitleaks** so you do not add a second required check).
+Workflow [`.github/workflows/auto-merge-pr.yml`](.github/workflows/auto-merge-pr.yml) calls the reusable [`auto-merge-enable.yml`](.github/workflows/auto-merge-enable.yml) so GitHub **queues the merge** when branch protection allows it (same pattern as other WeAdU repos such as NEG). After **CI** and any other required checks go green, the merge completes without a human clicking Merge.
+
+**Repository setting — enable once per repo (or for the whole org):** GitHub requires **Allow auto-merge** on the repository. To turn it on for **every** repo under `WeAdU-ltd` in one shot (uses your local `gh` login, no token in the repo):
+
+```bash
+gh auth login   # if needed
+python3 scripts/github_enable_auto_merge_org.py --org WeAdU-ltd
+```
+
+Use `--dry-run` first to see which repos would be updated.
+
+**Org-wide for PRs:** copy the caller snippet under [`auto-merge-enable.yml`](#auto-merge-enableyml) into each application repo (or add it via a codemod / template). Until that workflow exists in a repo, only manual Merge remains there — **auto-merge is not a GitHub org-wide toggle for PRs**.
+
+**Checks:** ensure **required status checks** list the jobs you care about. On this repository the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.yml) also runs **gitleaks** (do not add a second required check for gitleaks unless you split jobs).
+
+**Security note:** auto-merge merges when **required** checks pass; it does **not** bypass branch protection or reviews if your rules require them. A PAT does not replace these rules.
 
 ## Linear — sync checklist into the PR (WEA-*)
 

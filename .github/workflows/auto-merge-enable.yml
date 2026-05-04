@@ -1,0 +1,25 @@
+# Reusable: enable GitHub auto-merge on a PR (merge when checks pass).
+# Call from any repo: uses: WeAdU-ltd/.github/.github/workflows/auto-merge-enable.yml@main
+#
+# Caller must use pull_request with permissions: contents: write, pull-requests: write.
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        description: Pull request number to queue for auto-merge
+        required: true
+        type: number
+
+jobs:
+  enable-auto-merge:
+    name: Enable auto-merge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable GitHub auto-merge when checks pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh pr merge "${{ inputs.pr_number }}" --auto --merge \
+            || echo "auto-merge: gh pr merge exited non-zero (already enabled, rules, or mergeability); continuing."
