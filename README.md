@@ -62,6 +62,7 @@ Anchors in [`docs/`](docs/):
   - [GCP (WEA-27)](docs/inventory/WEA-27-google-cloud.md)
   - [OVH (WEA-28)](docs/inventory/WEA-28-ovh-duplicates.md)
   - [AWS EC2 (WEA-29)](docs/inventory/WEA-29-aws-ec2-inventory.md)
+  - [Replit — inventaire ~15 Repls (WEA-33)](docs/inventory/WEA-33-replit-inventory.md)
 
 ## n8n hosting (budget < 20 €/mois)
 
