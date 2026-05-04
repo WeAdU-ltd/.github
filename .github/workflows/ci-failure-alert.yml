@@ -1,0 +1,58 @@
+# Sub-minute detection of failed workflows + Slack + triage issue on WeAdU-ltd/.github.
+# Does NOT auto-merge security-sensitive fixes; humans/agents react from Slack/issue.
+
+name: CI failure alert
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+      - Gmail smoke (WEA-24)
+      - Linear sync PR criteria
+      - PR merge status
+      - Auto-merge PR
+      - Linear Done on merge
+    types:
+      - completed
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ci-failure-alert-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run failure alert (Slack + issue)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_CI_ALERT_WEBHOOK_URL: ${{ secrets.SLACK_CI_ALERT_WEBHOOK_URL }}
+          GITHUB_FAILURE_TRIAGE_REPO: ${{ github.repository }}
+        run: python3 scripts/github_failure_alert.py
+
+  poll:
+    name: Safety poll (10 min, org)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Poll org for recent failures
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_ORG_READ_TOKEN: ${{ secrets.GH_ORG_READ_TOKEN }}
+          GITHUB_ORG: WeAdU-ltd
+          SLACK_CI_ALERT_WEBHOOK_URL: ${{ secrets.SLACK_CI_ALERT_WEBHOOK_URL }}
+          GITHUB_FAILURE_TRIAGE_REPO: ${{ github.repository }}
+          ALERT_LOOKBACK_MIN: "15"
+        run: python3 scripts/github_failure_alert.py --poll --org WeAdU-ltd

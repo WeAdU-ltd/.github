@@ -53,6 +53,7 @@ Anchors in [`docs/`](docs/):
 - [Google OAuth (WEA-20)](docs/GOOGLE_OAUTH_WEA20.md) — scopes, redirect URIs, écran de consentement.
 - [Gmail agents — lecture + envoi (WEA-24)](docs/GMAIL_AGENTS_WEA24.md) — secrets nommés, conventions, smoke script.
 - [GitHub ↔ Linear inventory (WEA-12)](docs/GITHUB_LINEAR_INVENTORY_WEA12.md)
+- [Alertes échec CI / Slack / poll (org)](docs/GITHUB_CI_FAILURE_ALERT.md) — détection rapide, pas de merge automatique.
 - [Branch protection + anti-secrets (WEA-32)](docs/GITHUB_BRANCH_PROTECTION_WEA32.md) — règles `main`, audit API, Gitleaks CI / pre-commit.
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
@@ -106,6 +107,10 @@ care about (here: the **`actionlint`** job from [`ci.yml`](.github/workflows/ci.
 ## Linear — projet « Autonomie agents » (lien charte WEA-17)
 
 Après merge sur `main`, si [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_AGENTS_LINEAR_WEA17.md) change, le workflow [`.github/workflows/linear-sync-autonomie-project.yml`](.github/workflows/linear-sync-autonomie-project.yml) met à jour le projet Linear (contenu + résumé court) pour y garder le lien GitHub vers la charte — sans action manuelle, tant que le secret **`LINEAR_API_KEY`** est disponible pour ce dépôt.
+
+## CI failure alerts (Slack + issue, ≤ ~15 min)
+
+Workflow [`.github/workflows/ci-failure-alert.yml`](.github/workflows/ci-failure-alert.yml) reacts to **failed** runs of the main workflows (immediate `workflow_run`) and runs a **poll every 10 minutes** as a safety net. Configure optional secrets per [`docs/GITHUB_CI_FAILURE_ALERT.md`](docs/GITHUB_CI_FAILURE_ALERT.md). This does **not** auto-fix merges for security reasons; it surfaces links for agents or humans.
 
 ## Linear — sync checklist into the PR (WEA-*)
 
