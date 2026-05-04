@@ -38,6 +38,14 @@ Les changements Linear (tickets, projet, commentaires) passent par la **clé d�
 - **Ne pas** appliquer de correctifs de sécurité (gitleaks, secrets) en **contournant** la revue ; branche + PR + CI verte comme d’habitude.
 - Un **déblocage entièrement automatique** (merge à la place de l’humain sur tout type d’échec) n’est **pas** activé : risque de merger du code non revu ou d’aggraver un incident.
 
+## Principe « zéro humain » (ops / GitHub)
+
+**Objectif** : concentrer l’humain sur la vision et les fonctionnalités ; réduire les allers-retours répétitifs (UI GitHub, PowerShell local, copier-coller de secrets).
+
+Les agents **privilégient** : secrets **organisation** / compte machine, **GitHub Actions** (cron, PR automatique, auto-merge), **rulesets** d’organisation, et des **tickets Linear** pour toute étape encore **ponctuelle** et non automatisée (première SSO, création d’App, etc.).
+
+**Backlog d’implémentation** : gabarit de ticket à créer dans Linear — [`docs/ZERO_HUMAN_AUTOMATION_LINEAR.md`](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md).
+
 ## Délégation : autres agents, autres dépôts, Replit
 
 **Préférence opérationnelle (Jeff)** : gagner du temps en **demandant explicitement à l’humain** d’interroger les **agents Cursor qui ont déjà accès** à un autre projet / un autre dépôt (infra, secrets, prod, etc.) plutôt que de tout refaire depuis ce repo seul.
