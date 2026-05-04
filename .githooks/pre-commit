@@ -1,0 +1,17 @@
+#!/bin/bash
+# WeAdU: run the same secret scanner as Cursor Cloud agents (see scripts/cursor_secret_scan_pre_commit.sh).
+# Enable once per clone: git config core.hooksPath .githooks
+
+set -e
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [ -z "$REPO_ROOT" ]; then
+    exit 0
+fi
+
+SCRIPT="$REPO_ROOT/scripts/cursor_secret_scan_pre_commit.sh"
+if [ -f "$SCRIPT" ] && [ -x "$SCRIPT" ]; then
+    exec "$SCRIPT"
+fi
+
+exit 0
