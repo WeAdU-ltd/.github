@@ -3,6 +3,8 @@
 Ticket : [WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets).  
 Projet Linear : **Autonomie agents (Cursor, GitHub, Google…)**.
 
+**Synchronisation** : à chaque push sur `main` qui modifie ce fichier, le workflow [`.github/workflows/linear-sync-autonomie-project.yml`](../.github/workflows/linear-sync-autonomie-project.yml) vérifie que le projet Linear contient le lien canonique vers ce document (script [`scripts/linear_sync_autonomie_project_doc.py`](../scripts/linear_sync_autonomie_project_doc.py), secret `LINEAR_API_KEY`). Ainsi les agents n’ont pas à éditer le projet à la main pour ce critère.
+
 ## Objectif
 
 Documenter la **charte agents** : le travail se fait **à partir d’un ticket Linear** ; **sans accord humain explicite**, il est **interdit** de lancer une nouvelle **feature produit** ou un nouveau **projet / dépôt**. Le reste (PR, merge, déploiement lorsque les garde-fous Git et l’organisation le permettent) reste **autorisé** selon la politique du dépôt et des workflows (CI, protections de branches, secrets).

@@ -1,0 +1,27 @@
+name: Linear — sync Autonomie project (charte link)
+
+# Keeps the « Autonomie agents » Linear project pointing at the canonical charter on main
+# without manual edits (WEA-17 criterion).
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/CHARTE_AGENTS_LINEAR_WEA17.md
+      - scripts/linear_sync_autonomie_project_doc.py
+      - .github/workflows/linear-sync-autonomie-project.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Ensure charter link on Linear project
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        run: python3 scripts/linear_sync_autonomie_project_doc.py
