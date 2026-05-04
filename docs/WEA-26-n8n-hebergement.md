@@ -66,6 +66,8 @@ Les deux options respectent un budget **inférieur à 20 €/mois** si le Cloud 
 | `N8N_API_KEY` | Clé API n8n pour les appels automatisés ([doc API](https://docs.n8n.io/api/)), si utilisée. |
 | `N8N_BASIC_AUTH_USER` / `N8N_BASIC_AUTH_PASSWORD` | Si auth basique devant l’UI (surtout self-hosted) ; optionnel si SSO ou autre. |
 
+E-mail humain, fuseau UK, SMTP (noms seulement) : [WEA-31](https://linear.app/weadu/issue/WEA-31/n8n-files-e-mail-humain-etalement-5h-23h-uk-integrations) — [`WEA-31-n8n-human-email-queue.md`](./WEA-31-n8n-human-email-queue.md).
+
 Après provisioning humain : renseigner ces entrées dans GitHub/Cursor et **une** ligne de statut dans ce fichier ou sur le ticket Linear (faits / écart).
 
 ---
