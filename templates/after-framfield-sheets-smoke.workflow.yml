@@ -1,0 +1,56 @@
+name: Sheets smoke test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install google-api-python-client google-auth
+
+      - name: Write credentials from secret
+        env:
+          SA_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python - << 'PY'
+          import os, pathlib
+          raw = os.environ.get("SA_JSON", "").strip()
+          if not raw:
+              raise SystemExit("Secret GOOGLE_SERVICE_ACCOUNT_JSON vide ou absent — vérifie le nom dans Settings → Secrets → Actions.")
+          p = pathlib.Path(os.environ["GITHUB_WORKSPACE"]) / "credentials.json"
+          p.write_text(raw, encoding="utf-8")
+          print("Wrote credentials.json, size", p.stat().st_size)
+          PY
+
+      - name: Read spreadsheet title
+        env:
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/credentials.json
+        run: |
+          python << 'EOF'
+          import os
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+
+          path = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+          creds = service_account.Credentials.from_service_account_file(
+              path,
+              scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"],
+          )
+          sid = os.environ["SHEET_ID"].strip()
+          if not sid:
+              raise SystemExit("SHEET_ID manquant")
+          svc = build("sheets", "v4", credentials=creds)
+          meta = svc.spreadsheets().get(spreadsheetId=sid).execute()
+          print("OK —", meta.get("properties", {}).get("title"))
+          EOF
