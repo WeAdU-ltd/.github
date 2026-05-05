@@ -93,6 +93,7 @@ Anchors in [`docs/`](docs/):
   - [Weadu-Socle-V5-Lab → template GitHub + Cursor (WEA-35)](docs/inventory/WEA-35-weadu-socle-v5-lab-template.md) — audit Replit Socle, abandonné / repris, [`templates/wea35-socle-minimal/`](templates/wea35-socle-minimal/README.md), [`scripts/init_wea35_socle_template.sh`](scripts/init_wea35_socle_template.sh)
   - [Weadu-Socle-V5-Lab — runbook migration vers ce dépôt (WEA-43)](docs/inventory/weadu-socle-v5-lab-github-migration.md) — URL canonique `WeAdU-ltd/.github`, run local **de ce repo**, lien snapshot Repl
   - [Chief of Staff (COS) — Replit / EC2 / Git (WEA-49)](docs/inventory/cos-replit-ec2-migration-2026-05-04.md) — prod sur EC2, dépôt applicatif à confirmer, lien [WEA-29](docs/inventory/WEA-29-aws-ec2-inventory.md)
+  - [after-framfield-cockpit — Repl 3 (WEA-55)](docs/inventory/after-framfield-cockpit-replit-2026-05-05.md) — bloqué arbitrage Perso/Société, OAuth [WEA-20](docs/GOOGLE_OAUTH_WEA20.md)
 
 ## n8n hosting (budget < 20 €/mois)
 
