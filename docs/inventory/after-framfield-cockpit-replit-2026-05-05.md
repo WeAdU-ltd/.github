@@ -21,8 +21,8 @@ Un export Markdown produit **dans** le Repl `after-framfield-cockpit` n’est pa
 | Champ | État (doc dépôt, sans ouverture Repl) |
 |-------|--------------------------------------|
 | Déploiement | Redirect OAuth **non stable** (hostname workspace éphémère) — photo mars 2026 [WEA-33](./WEA-33-replit-inventory.md). |
-| Git / GitHub | **`https://github.com/JeffWeadu/after-framfield-cockpit`** — repo **créé** (privé). Suite : premier **push** depuis le Repl ou poste local (§3.2). |
-| Suite | Importer le code depuis le Repl, ajouter un `README` + redirects OAuth stables — [WEA-20](../GOOGLE_OAUTH_WEA20.md). |
+| Git / GitHub | **`https://github.com/JeffWeadu/after-framfield-cockpit`** (privé) — **code + README** sur `main` (commits initiaux + `d71eed1`). |
+| Suite | **OAuth** : enregistrer une redirect **stable** vers l’URL du repo / hébergement cible — [WEA-20](../GOOGLE_OAUTH_WEA20.md). Puis **archiver ou supprimer** le Repl quand tu n’en as plus besoin ; révoquer les secrets Replit à ce moment-là ([WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)). |
 
 ---
 
@@ -91,8 +91,14 @@ Optionnel : ajouter une workflow GitHub Actions quand la stack est fixée.
 
 ## 5. Cutover (WEA-60)
 
-Tant que le périmètre repo et les redirect OAuth **production** ne sont pas fixés, le Repl peut rester dans la [liste résiduelle §5](./WEA-36-replit-migration-societe.md) ; fermeture après cutover + [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+**État cutover « doc WeAdU » (2026-05-05)** :
+
+- **Vérité code** : le dépôt **`JeffWeadu/after-framfield-cockpit`** est la **référence** (historique Git sur `main`, README présent).
+- **Replit** : peut rester ouvert tant que tu l’utilises pour **dev** ou tant que les **redirects OAuth** pointent encore vers un hostname workspace **éphémère** — dès que la prod ou les tests passent par des URLs **stables**, mets à jour la **Google Cloud Console** (voir [WEA-20](../GOOGLE_OAUTH_WEA20.md)).
+- **Secrets Replit** : les retirer / les faire tourner **quand** tu fermes ou archives le Repl (chaîne [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)) ; pas d’action automatique depuis ce dépôt `.github`.
+
+La [liste résiduelle §5](./WEA-36-replit-migration-societe.md) mentionne encore le Repl **#3** tant que **OAuth non stabilisé** ou **Repl non fermé** ; retire la ligne quand les deux sont vrais.
 
 ---
 
-_Document vivant ; création : 2026-05-05 ; repo créé confirmé : 2026-05-05._
+_Document vivant ; création : 2026-05-05 ; cutover doc : 2026-05-05._
