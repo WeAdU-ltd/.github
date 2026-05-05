@@ -2,7 +2,7 @@
 
 **Linear** : parent [WEA-55](https://linear.app/weadu/issue/WEA-55/repl-3-after-framfield-cockpit-migration-replit-github-persosociete-a-trancher) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) #3.
 
-**Décision (2026-05-05 — Jeff)** : périmètre **personnel** — dépôt cible sur le compte GitHub **`JeffWeadu`** : `https://github.com/JeffWeadu/after-framfield-cockpit`. **Statut (2026-05-05)** : dépôt **créé** sur GitHub (privé — l’agent ne peut pas l’ouvrir en API ; validation = confirmation humaine). **Secrets** : isolation [WEA-13](./WEA-13-github-access-model.md) / [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces) — rien d’applicatif ici.
+**Décision (2026-05-05 — Jeff)** : périmètre **personnel** — dépôt cible sur le compte GitHub **`JeffWeadu`** : `https://github.com/JeffWeadu/after-framfield-cockpit`. **Repl Replit** : **supprimé** (**2026-05-05**, confirmation humaine). **Prod** : **Google Sheet** (pas d’URL Replit). **Secrets** : isolation [WEA-13](./WEA-13-github-access-model.md) / [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces) ; jetons côté **GitHub Actions** + 1Password — plus de Secrets Replit pour ce projet.
 
 ---
 
@@ -20,9 +20,9 @@ Un export Markdown produit **dans** le Repl `after-framfield-cockpit` n’est pa
 
 | Champ | État (doc dépôt, sans ouverture Repl) |
 |-------|--------------------------------------|
-| Déploiement | Redirect OAuth **non stable** (hostname workspace éphémère) — photo mars 2026 [WEA-33](./WEA-33-replit-inventory.md). |
-| Git / GitHub | **`https://github.com/JeffWeadu/after-framfield-cockpit`** (privé) — **code + README** sur `main` (commits initiaux + `d71eed1`). |
-| Suite | **OAuth** : enregistrer une redirect **stable** vers l’URL du repo / hébergement cible — [WEA-20](../GOOGLE_OAUTH_WEA20.md). Puis **archiver ou supprimer** le Repl quand tu n’en as plus besoin ; révoquer les secrets Replit à ce moment-là ([WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)). |
+| Déploiement | **Google Sheet** (prod) ; **Repl Replit supprimé** (**2026-05-05**). |
+| Git / GitHub | **`https://github.com/JeffWeadu/after-framfield-cockpit`** (privé) — **code + README** + workflow **Sheets smoke test** sur `main`. |
+| Suite | Vérifier les **redirects OAuth** dans Google Cloud si tu utilises encore un flux navigateur (sinon **compte de service** suffit pour l’API) — [WEA-20](../GOOGLE_OAUTH_WEA20.md). Suivi global fermeture Replit : [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete). |
 
 ---
 
@@ -91,14 +91,10 @@ Optionnel : ajouter une workflow GitHub Actions quand la stack est fixée.
 
 ## 5. Cutover (WEA-60)
 
-**État cutover « doc WeAdU » (2026-05-05)** :
+**Statut (2026-05-05)** : **Repl supprimé** sur Replit ; **vérité code** = repo GitHub privé ; **accès Sheet** = compte de service + secrets GitHub (smoke Actions vert). **Résiduelle WEA-36 §5** : ligne **Repl #3 retirée** du tableau migration dans ce dépôt.
 
-- **Vérité code** : le dépôt **`JeffWeadu/after-framfield-cockpit`** est la **référence** (historique Git sur `main`, README présent).
-- **Replit** : peut rester ouvert tant que tu l’utilises pour **dev** ou tant que les **redirects OAuth** pointent encore vers un hostname workspace **éphémère** — dès que la prod ou les tests passent par des URLs **stables**, mets à jour la **Google Cloud Console** (voir [WEA-20](../GOOGLE_OAUTH_WEA20.md)).
-- **Secrets Replit** : les retirer / les faire tourner **quand** tu fermes ou archives le Repl (chaîne [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)) ; pas d’action automatique depuis ce dépôt `.github`.
-
-La [liste résiduelle §5](./WEA-36-replit-migration-societe.md) mentionne encore le Repl **#3** tant que **OAuth non stabilisé** ou **Repl non fermé** ; retire la ligne quand les deux sont vrais.
+**OAuth** : si des redirect URIs Replit **éphémères** restent dans Google Cloud Console pour un ancien client OAuth, les **retirer** ou les remplacer par des URLs **stables** ([WEA-20](../GOOGLE_OAUTH_WEA20.md)) — nettoyage manuel dans la console Google.
 
 ---
 
-_Document vivant ; création : 2026-05-05 ; cutover doc : 2026-05-05._
+_Document vivant ; création : 2026-05-05 ; cutover doc : 2026-05-05 ; Repl supprimé : 2026-05-05._
