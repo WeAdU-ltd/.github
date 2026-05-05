@@ -85,6 +85,8 @@ Optionnel : ajouter une workflow GitHub Actions quand la stack est fixée.
 
 **Critères WEA-59** : cocher sur Linear quand ce README est dans le repo **et** le code importé ; CI optionnelle pour un repo perso.
 
+**Automatisation (machine Jeff)** : script [`push_framfield_readme.ps1`](https://github.com/WeAdU-ltd/.github/blob/main/scripts/push_framfield_readme.ps1) — crée `README.md` à la racine du clone local et pousse sur `origin/main` (lit le même `framfield_github_pat.txt` que pour le premier push).
+
 ---
 
 ## 5. Cutover (WEA-60)
