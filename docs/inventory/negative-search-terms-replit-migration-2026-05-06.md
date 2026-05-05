@@ -35,6 +35,8 @@ Export Markdown **dans** le Repl : non reproductible depuis l’agent GitHub seu
 
 Importer le code depuis le Repl ; README run + CI selon le dépôt cible et [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) si besoin.
 
+**État dépôt (agent GitHub, 2026-05-05)** : le dépôt cible contient déjà une base applicative riche (pytest, workflows AWS, README racine). PR **doc** ajoutant une section **Replit migration** avec lien vers ce runbook + WEA-61 : https://github.com/WeAdU-ltd/Negative-Terms/pull/680 — à fusionner pour cocher le critère « README / traçabilité migration » côté ticket ; l’alignement exact du code avec le Repl reste à valider depuis Replit ou un diff manuel.
+
 ---
 
 ## 5. Cutover (WEA-66)
