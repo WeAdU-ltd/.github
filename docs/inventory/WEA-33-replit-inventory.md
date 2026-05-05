@@ -6,7 +6,7 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 
 **Secrets** : ne pas copier de valeurs dans ce fichier. Les jetons vivent dans **Secrets** de chaque Repl, le **socle secrets** ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) et 1Password si besoin. Ici : **noms de variables ou nature**, pas les contenus.
 
-**Source des lignes ci-dessous** : export consolidé **Socle V5.1** (Repl *Weadu-Socle-V5-Lab*), **2026-03-29**, croisé avec `config/infra_projects.json`, snapshot CSV équipe **2026-03-17**, et docs internes Socle. **Mise à jour Socle (2026-05-04)** : export agent Repl sans valeurs de secrets → [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) (ticket [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration)). **Mise à jour COS / EC2 (2026-05-05)** : runbook sans accès Repl → [`cos-replit-ec2-migration-2026-05-04.md`](./cos-replit-ec2-migration-2026-05-04.md) (chaîne [WEA-49](https://linear.app/weadu/issue/WEA-49/repl-2-chief-of-staff-virtuel-ia-cos-migration-replit-github-societe)). Les autres lignes du tableau restent sur la photo mars 2026 jusqu’à passage équivalent.
+**Source des lignes ci-dessous** : export consolidé **Socle V5.1** (Repl *Weadu-Socle-V5-Lab*), **2026-03-29**, croisé avec `config/infra_projects.json`, snapshot CSV équipe **2026-03-17**, et docs internes Socle. **Mise à jour Socle (2026-05-04)** : export agent Repl sans valeurs de secrets → [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) (ticket [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration)). **Mise à jour COS / EC2 (2026-05-05)** : runbook sans accès Repl → [`cos-replit-ec2-migration-2026-05-04.md`](./cos-replit-ec2-migration-2026-05-04.md) (chaîne [WEA-49](https://linear.app/weadu/issue/WEA-49/repl-2-chief-of-staff-virtuel-ia-cos-migration-replit-github-societe)). **Mise à jour Linear (2026-05-05)** : la chaîne d’épique **[Repl 11] suspended accounts clean up** a été **retirée** sur Linear (pas de migration GitHub prévue pour ce Repl) ; la ligne **#11** reste dans l’inventaire Socle pour traçabilité. Les autres lignes du tableau restent sur la photo mars 2026 jusqu’à passage équivalent.
 
 **Limite de fraîcheur** : si Replit n’est **plus utilisé** depuis un moment, les changements faits **ailleurs** (GitHub, poste local, EC2, secrets hors Repl) **ne sont pas** reflétés dans Socle ni dans l’UI Replit. Ce tableau reste une **photo à fin mars 2026** utile pour la chaîne migration / fermeture ([WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) → [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)) ; la **vérité opérationnelle actuelle** se lit plutôt dans les **dépôts GitHub** et les **hébergements** réellement en prod (croiser [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces), [WEA-29](https://linear.app/weadu/issue/WEA-29/aws-inventaire-ec2-ubuntu-windows-taches-selenium)).
 
@@ -28,7 +28,7 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 | Lignes inventoriées (principales) | **21** |
 | Statut **Vérifié** (colonnes complètes depuis le Repl courant) | **1** (Socle) |
 | Statut **Partiel** | **20** |
-| Entrées exclues / à réconcilier (hors tableau) | **3** (voir §4) |
+| Entrées exclues / à réconcilier (hors tableau) | **4** (voir §4) |
 
 ---
 
@@ -46,7 +46,7 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 | 8 | Waste Watcher | `f09a27de-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
 | 9 | Automatic Google Ads tracking monitoring | `7fc2b09c-…` (infra *Brand-crea-bids*) | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | **À réconcilier** avec UUID `6b3e66a1-…` (CSV équipe, autre Repl / rename) |
 | 10 | Wellbots real-time figures | `6301f251-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
-| 11 | suspended accounts clean up | `139389d0-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
+| 11 | suspended accounts clean up | `139389d0-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | **Hors migration Linear** : épique `[Repl 11] …` supprimée sur Linear (**2026-05-05**) — pas de ticket de chaîne WEA-36 ; le Repl peut rester sur Replit ou être archivé hors projet migration. |
 | 12 | Dashboard — Carmino & monPL | `89725b9e-…` | possible passage par hub dashboard EC2 ; à confirmer | **Partiel** | inconnu | inconnu | inconnu | inconnu (clés dashboard côté vault Socle) | inconnu | **P2** | Société | Absent CSV 2026-03-17 |
 | 13 | Recommandations mngt | `ad9b5532-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
 | 14 | Ads Performance Analyze | `cb5cc4be-…` | absent CSV 2026-03-17 | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
@@ -69,6 +69,7 @@ _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repri
 | **Obsolete** | `8a0d25c6-…` | Archivé / exclu inventaire actif |
 | **Doublon nom « Automatic Google Ads… »** | `7fc2b09c-…` vs `6b3e66a1-…` | Vérifier dans le dashboard équipe : un ou deux Repls |
 | **Divers** | `d6bcecff-…` | Déjà ligne 21 ; décider enregistrement infra ou archivage |
+| **suspended accounts clean up (ligne #11)** | `139389d0-…` | **Hors périmètre migration GitHub** (décision **2026-05-05**) : pas d’épique Linear `[Repl 11]` ; ne pas recréer via `linear_create_wea36_repl_issues.py` |
 
 ---
 
@@ -85,4 +86,4 @@ _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repri
 
 ---
 
-_Document vivant ; dernière intégration dépôt : données Socle 2026-03-29._
+_Document vivant ; dernière intégration dépôt : données Socle 2026-03-29 ; alignement chaîne Linear 2026-05-05 (Repl #11 hors migration)._
