@@ -35,7 +35,7 @@ Export Markdown **dans** le Repl : non reproductible depuis l’agent GitHub seu
 
 Importer le code depuis le Repl ; README + CI selon le dépôt et [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) si besoin.
 
-**État dépôt (agent GitHub, 2026-05-05)** : le dépôt avait surtout `AGENTS.md` et `legacy/README.md` à la racine. PR **README racine** (run Docker / venv, noms de variables, lien runbook + WEA-67) : https://github.com/WeAdU-ltd/SH-Checker-Bids/pull/2 — à fusionner pour le critère README ; vérifier ensuite que le contenu correspond bien au dernier état du Repl avant cutover.
+**État dépôt (agent GitHub, 2026-05-05)** : le dépôt avait surtout `AGENTS.md` et `legacy/README.md` à la racine. PR **README racine** (run Docker / venv, noms de variables, lien runbook + WEA-67) **fusionnée sur `main`** : https://github.com/WeAdU-ltd/SH-Checker-Bids/pull/2 — vérifier encore la parité code vs Repl avant cutover (WEA-72).
 
 ---
 
