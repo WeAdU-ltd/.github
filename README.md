@@ -82,6 +82,7 @@ Anchors in [`docs/`](docs/):
 - [Alertes échec CI / Slack / poll (org)](docs/GITHUB_CI_FAILURE_ALERT.md) — détection rapide, pas de merge automatique.
 - [Branch protection + anti-secrets (WEA-32)](docs/GITHUB_BRANCH_PROTECTION_WEA32.md) — règles `main`, audit API, Gitleaks CI / pre-commit.
 - [Automation « zéro humain » — gabarit Linear + secrets org](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md) — gabarit ticket, audit sans poste local ; valeurs des secrets uniquement côté GitHub org (pas dans ce dépôt).
+- [GitHub Actions — runner self-hosted (VM cloud)](docs/GITHUB_SELF_HOSTED_RUNNER.md) — automation sans poste local ; smoke manuel [`self-hosted-runner-smoke.yml`](.github/workflows/self-hosted-runner-smoke.yml).
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :

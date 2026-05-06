@@ -1,0 +1,21 @@
+# Smoke test — runner self-hosted (manuel uniquement)
+# Déclencher depuis l’onglet Actions après installation du runner (voir docs/GITHUB_SELF_HOSTED_RUNNER.md).
+
+name: Self-hosted runner smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: [self-hosted, weadu-automation]
+    steps:
+      - name: Runner identity
+        run: |
+          set -euo pipefail
+          echo "OK — self-hosted runner responded."
+          uname -a
+          whoami

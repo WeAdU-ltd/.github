@@ -53,6 +53,7 @@ Ce fichier vit dans le dépôt pour que les agents et la CI renvoient toujours v
 - **Jobs planifiés** (cron), PR automatiques, auto-merge quand la CI est verte : pas de merge manuel répété pour la même routine.
 - **Noms de secrets figés** dans [`docs/SECRETS_SOCLE_WEA15.md`](./SECRETS_SOCLE_WEA15.md) — pas de chasse au libellé dans le chat.
 - **Commentaires Linear** : les agents postent via **`LINEAR_API_KEY`** et le script [`scripts/linear_issue_comment.py`](../scripts/linear_issue_comment.py) (ou équivalent dans `scripts/linear_*.py`) — pas de « copie ce bloc dans Linear » pour l’humain.
+- **Runner GitHub self-hosted** : VM dédiée dans le cloud + procédure [`GITHUB_SELF_HOSTED_RUNNER.md`](./GITHUB_SELF_HOSTED_RUNNER.md) — exécution de jobs sans poste local ni SSH personnel vers la prod ; smoke manuel [`/.github/workflows/self-hosted-runner-smoke.yml`](../.github/workflows/self-hosted-runner-smoke.yml) après enregistrement du runner.
 
 ---
 
