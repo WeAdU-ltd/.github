@@ -21,4 +21,8 @@ Date d’intégration : 2026-05-06. **Sans valeurs secrètes** ; les adresses IP
 2. Planifier migration PG (`kv_state`, `ideas`) ou abandon si fonctionnalités déplacées.
 3. Ne pas publier d’IP ou de chemins machine dans les repos publics ; croiser WEA-29.
 
+### Voir aussi (P0 suivant)
+
+Repl 2 — **Chief of Staff (COS)** : prod sur EC2 — [`cos-replit-ec2-migration-2026-05-04.md`](./cos-replit-ec2-migration-2026-05-04.md).
+
 _Preuve Linear : commentaire agent posté via API sur le ticket parent Repl 1 (`scripts/linear_issue_comment.py`)._
