@@ -38,6 +38,8 @@ Pour tout **nouveau** dépôt applicatif ou pour aligner un existant :
 
 - **WEA-36** : le sous-ticket **cutover** de chaque Repl **bloque** [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) (relation Linear `blocks`). Ainsi **WEA-36** ne peut être terminé que lorsque **tous** les cutovers sont faits (ou après retrait manuel des relations si une ligne est abandonnée).
 
+- **Commentaires Linear (preuves, exports agent)** : les agents postent via [`scripts/linear_issue_comment.py`](../../scripts/linear_issue_comment.py) (stdin ou `--file`) — **ne pas** demander à l’humain de coller dans l’UI. Exemple miroir dépôt (Repl 1, sans IP) : [`WEA-36-export-repl-01-weadu-socle-v5-lab.md`](./WEA-36-export-repl-01-weadu-socle-v5-lab.md).
+
 ---
 
 ## 3. Vagues et tableau Repl → GitHub → procédure de run

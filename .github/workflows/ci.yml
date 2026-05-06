@@ -40,6 +40,9 @@ jobs:
       - name: WEA-36 Linear Repl issues script (syntax)
         run: python3 -m py_compile scripts/linear_create_wea36_repl_issues.py
 
+      - name: Linear issue comment script (syntax)
+        run: python3 -m py_compile scripts/linear_issue_comment.py
+
       - name: WEA-35 socle template init script (syntax + dry-run)
         run: |
           set -euo pipefail
