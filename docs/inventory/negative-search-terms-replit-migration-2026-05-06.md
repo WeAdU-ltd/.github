@@ -35,12 +35,23 @@ Export Markdown **dans** le Repl : non reproductible depuis l’agent GitHub seu
 
 Importer le code depuis le Repl ; README run + CI selon le dépôt cible et [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) si besoin.
 
-**État dépôt (agent GitHub, 2026-05-05)** : le dépôt cible contient déjà une base applicative riche (pytest, workflows AWS, README racine). PR **doc** ajoutant une section **Replit migration** avec lien vers ce runbook + WEA-61 : https://github.com/WeAdU-ltd/Negative-Terms/pull/680 — **auto-merge (squash) activé** sur la PR ; elle part en merge quand les garde-fous CI / review du dépôt sont verts. L’alignement exact du code avec le Repl reste à valider depuis Replit ou un diff manuel avant cutover (WEA-66).
-
-## 5. Cutover (WEA-66)
-
-Quand la prod ne dépend plus du Repl : retirer la ligne **#4** dans [WEA-36 §5](./WEA-36-replit-migration-societe.md) ; secrets Replit → [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+**État dépôt** : base applicative sur `main`, CI GitHub, déploiements AWS documentés (voir README du dépôt applicatif).
 
 ---
 
-_Document vivant ; création : 2026-05-06._
+## 5. Cutover (WEA-66) — validation agent dépôt `.github` (2026-05-06)
+
+Source : lecture API GitHub du dépôt **`WeAdU-ltd/Negative-Terms`** (`README.md`, `docs/STAGING_AND_E2E_BASE_URL_NEG220.md`, `docs/STAGING_WORKFLOW.md`, `.github/workflows/deploy-aws.yml`, `staging-url-smoke.yml`, `scripts/pull_from_replit.py`).
+
+| Question | Verdict |
+|----------|---------|
+| **Production** dépend-elle du Repl pour servir le site public ? | **Non.** Prod documentée : `https://negative-terms.generads.com` ; mise à jour **Promote production (AWS)** depuis GitHub (NEG-232 / NEG-228). |
+| **Staging principal** est-il sur AWS ? | **Oui.** `https://staging-negative-terms.generads.com` — alimenté par **Main push CI** (`main`) et workflow **Deploy to AWS staging** (branche `staging`). |
+| **Replit** joue-t-il encore un rôle ? | **Optionnel / résiduel uniquement** : `https://negative-terms.replit.app` reste dans la doc applicative comme origine **staging / E2E** et valeur canonique suggérée pour `E2E_BASE_URL` — **hors pipeline AWS** (sync manuelle depuis le workspace Replit). Ce n’est **pas** la prod. |
+| **`pull_from_replit.py`** | Marqué **DEPRECATED / obsolete** dans le dépôt — ne pas utiliser comme chemin opérationnel. |
+
+**Décision pour la chaîne WEA-36** : le **cutover prod** (clients → AWS, pas Replit) est **assumé fait** au sens inventaire. Ce qui peut rester ouvert est uniquement la **fermeture du Repl** ou le **repointage doc** de `E2E_BASE_URL` vers le staging AWS si l’équipe veut **zéro URL Replit** dans les docs applicatives — travail dans le dépôt **Negative-Terms**, pas arbitrage par l’humain sur ce ticket.
+
+---
+
+_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06._
