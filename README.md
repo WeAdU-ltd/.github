@@ -92,6 +92,11 @@ Anchors in [`docs/`](docs/):
   - [Replit — migration vagues repos société (WEA-36)](docs/inventory/WEA-36-replit-migration-societe.md) — tableau Repl → GitHub → procédure de run, liste résiduelle Replit
   - [WEA-36 — export agent Repl 1 (Socle, miroir)](docs/inventory/WEA-36-export-repl-01-weadu-socle-v5-lab.md) — sans IP / secrets
   - [Weadu-Socle-V5-Lab → template GitHub + Cursor (WEA-35)](docs/inventory/WEA-35-weadu-socle-v5-lab-template.md) — audit Replit Socle, abandonné / repris, [`templates/wea35-socle-minimal/`](templates/wea35-socle-minimal/README.md), [`scripts/init_wea35_socle_template.sh`](scripts/init_wea35_socle_template.sh)
+  - [Weadu-Socle-V5-Lab — runbook migration vers ce dépôt (WEA-43)](docs/inventory/weadu-socle-v5-lab-github-migration.md) — URL canonique `WeAdU-ltd/.github`, run local **de ce repo**, lien snapshot Repl
+  - [Chief of Staff (COS) — Replit / EC2 / Git (WEA-49)](docs/inventory/cos-replit-ec2-migration-2026-05-04.md) — prod sur EC2, dépôt applicatif à confirmer, lien [WEA-29](docs/inventory/WEA-29-aws-ec2-inventory.md)
+  - [after-framfield-cockpit — Repl 3 (WEA-55)](docs/inventory/after-framfield-cockpit-replit-2026-05-05.md) — perso GitHub ; Repl supprimé **2026-05-05**
+  - [negative-search-terms-tool — Repl 4 → Negative-Terms (WEA-61)](docs/inventory/negative-search-terms-replit-migration-2026-05-06.md)
+  - [wellbots-shopping-ads-checker — Repl 5 → SH-Checker-Bids (WEA-67)](docs/inventory/wellbots-shopping-ads-checker-replit-migration-2026-05-06.md)
 
 ## n8n hosting (budget < 20 €/mois)
 

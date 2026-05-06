@@ -83,7 +83,15 @@ REPL_EPICS: list[dict[str, Any]] = [
     {"num": 8, "name": "Waste Watcher", "id_prefix": "f09a27de", "prio": "P2", "scope": "société", "note": ""},
     {"num": 9, "name": "Automatic Google Ads tracking monitoring", "id_prefix": "7fc2b09c", "prio": "P2", "scope": "société", "note": "Réconcilier UUID 6b3e66a1 / Brand-crea-bids"},
     {"num": 10, "name": "Wellbots real-time figures", "id_prefix": "6301f251", "prio": "P2", "scope": "société", "note": ""},
-    {"num": 11, "name": "suspended accounts clean up", "id_prefix": "139389d0", "prio": "P2", "scope": "société", "note": ""},
+    {
+        "num": 11,
+        "name": "suspended accounts clean up",
+        "id_prefix": "139389d0",
+        "prio": "P2",
+        "scope": "société",
+        "note": "Hors migration GitHub : épique Linear [Repl 11] supprimée 2026-05-05 (WEA-33 §4).",
+        "skip_linear_epic": True,
+    },
     {"num": 12, "name": "Dashboard — Carmino & monPL", "id_prefix": "89725b9e", "prio": "P2", "scope": "société", "note": "Possible hub EC2"},
     {"num": 13, "name": "Recommandations mngt", "id_prefix": "ad9b5532", "prio": "P2", "scope": "société", "note": ""},
     {"num": 14, "name": "Ads Performance Analyze", "id_prefix": "cb5cc4be", "prio": "P2", "scope": "société", "note": ""},
@@ -306,6 +314,17 @@ def main() -> int:
         if not epics:
             print(f"No Repl matching slug {args.only_slug!r}", file=sys.stderr)
             return 1
+        if epics[0].get("skip_linear_epic"):
+            print(
+                f"Repl {args.only_slug!r} is excluded from Linear migration epics (see WEA-33 §4).",
+                file=sys.stderr,
+            )
+            return 1
+
+    epics = [e for e in epics if not e.get("skip_linear_epic")]
+    if not epics:
+        print("No Repl epics to process after skip_linear_epic filter.", file=sys.stderr)
+        return 0
 
     wea36_id = _fetch_issue_id(api_key, "WEA-36")
 

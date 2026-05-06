@@ -9,6 +9,9 @@ Variables d'environnement :
   LINEAR_TEAM_KEY  — clé d'équipe Linear (défaut : WEA)
 
 Contenu aligné sur la proposition Negative-Terms#638 (ticket WEA-12).
+
+Option --markdown-label-prefix : restreindre le tableau des labels dans le MD
+(ex. WeAdU-ltd/) tout en gardant tous les labels pour les tickets sans repo.
 """
 
 from __future__ import annotations
@@ -227,20 +230,31 @@ def _build_markdown_tables(
     missing_repo_labels: list[str],
     orphan_issues: list[dict[str, str]],
     generated_at: str,
+    markdown_label_prefix: str | None = None,
 ) -> str:
     lines: list[str] = []
     lines.append("")
     lines.append(f"_Généré le {generated_at} (UTC)._")
+    if markdown_label_prefix:
+        lines.append(
+            f"_Tableau des labels `repo` **filtré** : noms commençant par `{markdown_label_prefix}` "
+            "(périmètre société WeAdU-ltd). Les calculs « dépôts sans label » et « tickets sans repo » "
+            "restent basés sur **tous** les enfants du groupe `repo` dans Linear._"
+        )
     lines.append("")
     lines.append("### Labels Linear (groupe `repo`) → dépôt GitHub")
     lines.append("")
     lines.append("| Label Linear (`owner/repo`) | URL GitHub |")
     lines.append("|----------------------------|------------|")
-    for lb in repo_labels:
+    table_labels = repo_labels
+    if markdown_label_prefix:
+        pfx = markdown_label_prefix.strip()
+        table_labels = [lb for lb in repo_labels if (lb.get("name") or "").startswith(pfx)]
+    for lb in table_labels:
         name = lb["name"]
         url = f"https://github.com/{name}"
         lines.append(f"| `{name}` | {url} |")
-    if len(repo_labels) == 0:
+    if len(table_labels) == 0:
         lines.append("| — | — |")
     lines.append("")
     lines.append("### Dépôts GitHub sans label Linear correspondant")
@@ -306,6 +320,16 @@ def main() -> int:
         default=50,
         help="Nombre max de tickets sans repo à lister (défaut: 50)",
     )
+    parser.add_argument(
+        "--markdown-label-prefix",
+        default=None,
+        metavar="PREFIX",
+        help=(
+            "Si défini (ex. WeAdU-ltd/), le tableau « Labels repo » du markdown "
+            "ne liste que les labels dont le nom commence par ce préfixe. "
+            "Les autres calculs utilisent toujours tous les labels enfants `repo`."
+        ),
+    )
     args = parser.parse_args()
 
     linear_key = os.environ.get("LINEAR_API_KEY", "").strip()
@@ -351,7 +375,14 @@ def main() -> int:
     )
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-    block = _build_markdown_tables(repo_labels, github_orgs, missing, orphan_issues, now)
+    block = _build_markdown_tables(
+        repo_labels,
+        github_orgs,
+        missing,
+        orphan_issues,
+        now,
+        markdown_label_prefix=args.markdown_label_prefix,
+    )
 
     out_path = args.output
     try:

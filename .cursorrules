@@ -8,6 +8,7 @@ Tu dois appliquer intégralement les directives ci-dessous sur ce dépôt et tou
 - Tu dois enchaîner les étapes logiques d'une tâche sans t'arrêter à chaque micro-étape lorsque la suite est clairement déduite du objectif (assume le « oui » logique).
 - Si une même erreur se produit deux fois de suite lors d'une tentative de correction, tu dois t'arrêter immédiatement et demander l'intervention humaine (protocole stop-loss).
 - Tu ne dois jamais proposer des actions manuelles dans l'interface graphique lorsqu'une commande en ligne de commande ou un script peut accomplir la même chose (CLI prioritaire sur l'UI).
+- **PowerShell 7 tout-en-un (poste Windows / Jeff)** : ne pas demander « ouvre GitHub et clique… » quand l’équivalent est faisable par **un seul bloc PS7 copier-coller** avec **chemins absolus** (`Join-Path`, `G:\…`), `Invoke-WebRequest`/`gh`/`git`, et secrets lus depuis **un fichier local** déjà conventionné (ex. `framfield_github_pat.txt`) — même règle d’esprit que « Terminal : session vide + commandes tout-en-un ». Exception : OAuth navigateur, 2FA, paiement, ou action qu’aucun CLI ne peut réaliser sans interaction humaine. Sur **repo hors accès agent** (perso, autre org), l’agent ne peut pas pousser à la place : il livre le **bloc PS7** pour la machine qui a les droits.
 
 ## B. Exécution (chaînage et artifact-first)
 

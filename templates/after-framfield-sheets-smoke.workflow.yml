@@ -1,0 +1,86 @@
+name: Sheets smoke test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install google-api-python-client google-auth google-auth-httplib2
+
+      - name: Write credentials from secret
+        env:
+          SA_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python - << 'PY'
+          import json, os, pathlib
+          raw = os.environ.get("SA_JSON", "").strip()
+          if not raw:
+              raise SystemExit(
+                  "Secret GOOGLE_SERVICE_ACCOUNT_JSON vide ou absent — "
+                  "Settings → Secrets and variables → Actions → nom exact."
+              )
+          if raw.startswith("\ufeff"):
+              raw = raw.lstrip("\ufeff")
+          try:
+              data = json.loads(raw)
+          except json.JSONDecodeError as e:
+              raise SystemExit(f"JSON invalide (secret mal collé ?) : {e}") from e
+          if data.get("type") != "service_account":
+              raise SystemExit("Le JSON n'est pas un compte de service (type != service_account).")
+          p = pathlib.Path(os.environ["GITHUB_WORKSPACE"]) / "credentials.json"
+          p.write_text(json.dumps(data), encoding="utf-8")
+          print("Wrote credentials.json, bytes", p.stat().st_size)
+          print("Service account email:", data.get("client_email", "?"))
+          PY
+
+      - name: Read spreadsheet title
+        env:
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/credentials.json
+        run: |
+          python << 'EOF'
+          import json, os
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.errors import HttpError
+
+          path = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+          sid = (os.environ.get("SHEET_ID") or "").strip()
+          if not sid:
+              raise SystemExit("SHEET_ID vide — ajoute le secret SHEET_ID (ID du Sheet dans l'URL).")
+
+          creds = service_account.Credentials.from_service_account_file(
+              path,
+              scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"],
+          )
+          svc = build("sheets", "v4", credentials=creds, cache_discovery=False)
+          try:
+              meta = svc.spreadsheets().get(spreadsheetId=sid).execute()
+          except HttpError as e:
+              print("HttpError status:", e.resp.status)
+              try:
+                  err = json.loads(e.content.decode()) if e.content else {}
+                  print("API message:", err.get("error", {}).get("message", e))
+              except Exception:
+                  print("Raw:", e.content[:500] if e.content else "")
+              if e.resp.status == 403:
+                  print(
+                      "→ Vérifie : (1) Google Sheets API activée sur le projet GCP du compte de service ; "
+                      "(2) le Sheet est partagé avec l'email du compte de service (voir step précédent)."
+                  )
+              if e.resp.status == 404:
+                  print("→ Vérifie : SHEET_ID = segment après /d/ dans l'URL du Sheet.")
+              raise
+          print("OK —", meta.get("properties", {}).get("title"))
+          EOF

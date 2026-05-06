@@ -70,4 +70,28 @@ Aucun écart ouvert pour les deux critères du ticket **une fois** la PR qui ajo
 
 ---
 
+## 7. WEA-44 — Brief agent Cursor **dans** le Repl (export migration)
+
+Le ticket [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration) demande un export **à jour** depuis l’agent Cursor **du Repl** (dépendances réelles, noms des secrets Replit, commandes de run, volumétrie DB, déploiement `.replit.app`, etc.). **Un agent exécuté uniquement sur ce dépôt GitHub (Cursor Cloud, CI) n’a pas accès au filesystem ni au runtime Replit** : on ne peut pas produire ici l’export runtime à la place du Repl.
+
+**Justification documentée (critère de fait WEA-44)** : la preuve d’inaccessibilité depuis cet environnement est ce paragraphe, plus l’inventaire **figé** [WEA-33](./WEA-33-replit-inventory.md) (Socle V5.1, mars 2026) pour la vue « ce qu’on savait sans ouvrir le Repl ».
+
+### Consigne (à coller dans le chat de l’agent Cursor **du** Repl)
+
+Produire un export structuré (**Markdown**, aucune valeur de secret) avec :
+
+1. **Stack** : langage, frameworks, fichiers d’entrée (`main`, `package.json`, `requirements.txt`, etc.).
+2. **Run local** : commandes exactes pour lancer en dev.
+3. **Git** : remote(s) connus, branche par défaut, dernier commit court.
+4. **Secrets** : liste des **noms** de variables (pas les valeurs) dans Replit Secrets.
+5. **Base Replit** : oui/non ; tables ou usage si pertinent.
+6. **Déploiement** : URL `.replit.app`, Always On / autoscale, charge prod vs expérimentation.
+7. **Externes** : AWS/GCP/API/OAuth redirect si visible dans le code ou la config.
+
+Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt cible après revue.
+
+**Export Repl ingéré (miroir dépôt)** : [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) — produit par l’agent Cursor **dans** le Repl (2026-05-04), collé ici pour la chaîne migration / audit hors Replit.
+
+---
+
 _Document vivant ; première intégration dépôt : 2026-05-04._
