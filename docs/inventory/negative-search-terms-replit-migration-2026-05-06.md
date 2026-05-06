@@ -47,10 +47,10 @@ Source : lecture API GitHub du dépôt **`WeAdU-ltd/Negative-Terms`** (`README.m
 |----------|---------|
 | **Production** dépend-elle du Repl pour servir le site public ? | **Non.** Prod documentée : `https://negative-terms.generads.com` ; mise à jour **Promote production (AWS)** depuis GitHub (NEG-232 / NEG-228). |
 | **Staging principal** est-il sur AWS ? | **Oui.** `https://staging-negative-terms.generads.com` — alimenté par **Main push CI** (`main`) et workflow **Deploy to AWS staging** (branche `staging`). |
-| **Replit** joue-t-il encore un rôle ? | **Optionnel / résiduel uniquement** : `https://negative-terms.replit.app` reste dans la doc applicative comme origine **staging / E2E** et valeur canonique suggérée pour `E2E_BASE_URL` — **hors pipeline AWS** (sync manuelle depuis le workspace Replit). Ce n’est **pas** la prod. |
+| **Replit** joue-t-il encore un rôle ? | **Non (Repl supprimé, 2026-05).** Le Repl **negative-search-terms-tool** / **`negative-terms.replit.app`** n’existe plus côté Replit. Toute référence restante dans le dépôt applicatif est **obsolète** ; **staging / E2E** doivent pointer vers **staging AWS** (`https://staging-negative-terms.generads.com`) ou une autre base explicitement documentée. |
 | **`pull_from_replit.py`** | Marqué **DEPRECATED / obsolete** dans le dépôt — ne pas utiliser comme chemin opérationnel. |
 
-**Décision pour la chaîne WEA-36** : le **cutover prod** (clients → AWS, pas Replit) est **assumé fait** au sens inventaire. Ce qui peut rester ouvert est uniquement la **fermeture du Repl** ou le **repointage doc** de `E2E_BASE_URL` vers le staging AWS si l’équipe veut **zéro URL Replit** dans les docs applicatives — travail dans le dépôt **Negative-Terms**, pas arbitrage par l’humain sur ce ticket.
+**Décision pour la chaîne WEA-36** : le **cutover prod** (clients → AWS, pas Replit) est **assumé fait** au sens inventaire. **Suite obligatoire dans** [`WeAdU-ltd/Negative-Terms`](https://github.com/WeAdU-ltd/Negative-Terms) : PR qui retire **`negative-terms.replit.app`** de la doc et des variables d’environnement / workflows qui l’encodent encore ; aligner `E2E_BASE_URL` / NEG-220 sur le **staging AWS** (ou document explicite si un autre hostname de test est choisi).
 
 ---
 
@@ -62,4 +62,4 @@ Voir : [Repl #5 — wellbots-shopping-ads-checker](./wellbots-shopping-ads-check
 
 ---
 
-_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06 ; §6 vision NEG + SH : 2026-05._
+_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06 ; §6 vision NEG + SH : 2026-05 ; Repl Replit supprimé : 2026-05._
