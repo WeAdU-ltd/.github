@@ -15,6 +15,9 @@
 | **IPv6 publique** | `2a05:d01c:8cd:f200:a6d6:1136:71da:8cef` |
 | **Utilisateur SSH** | `ubuntu` |
 | **Nom logique clé Lightsail** | `weadu-github-runner-london` (paire générée dans la console ; **fichier `.pem` uniquement chez le référent**) |
+| **GitHub — nom runner** | `github-runner-weadu-01` |
+| **Labels GitHub** | `self-hosted`, `Linux`, `X64`, `weadu-automation` |
+| **Smoke Actions** | Workflow [`self-hosted-runner-smoke.yml`](../../.github/workflows/self-hosted-runner-smoke.yml) — **réussi** sur `main` (jobs sur `runs-on: [self-hosted, weadu-automation]`) |
 
 ## Ce qui reste hors dépôt
 

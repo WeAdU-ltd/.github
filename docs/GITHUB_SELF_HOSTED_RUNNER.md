@@ -109,6 +109,14 @@ Ne pas migrer la **CI principale** (`ci.yml`) tant que ce smoke n’a pas réuss
 
 ---
 
+## Dépannage — job **Queued** ou « Waiting for a runner »
+
+1. **Runner org** : *Organization* → *Settings* → *Actions* → *Runners* — le runner doit être **Idle / Online** avec les **labels** attendus par le workflow (ex. `self-hosted` **et** `weadu-automation`).
+2. **Groupe Default vs dépôt public** : si la politique du groupe **Default** est *All repositories, excluding public repositories* et que le dépôt workflow est **public**, les jobs **ne sont jamais pris**. Corriger via *Actions* → *Runner groups* → **Default** → inclure le dépôt concerné ou élargir la politique.
+3. **Approbation** : les nouveaux runners peuvent nécessiter une **approbation** org avant la première exécution.
+
+---
+
 ## Références
 
 - [GitHub — Adding self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners)
