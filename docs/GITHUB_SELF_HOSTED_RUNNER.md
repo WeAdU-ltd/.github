@@ -40,6 +40,26 @@ Sans ouvrir le SSH public :
 
 Si tu dois utiliser SSH temporairement pour bootstrap : ouvre le port **22** seulement depuis **ton IP**, installe le runner, puis **retire** la règle SG ou passe à SSM uniquement.
 
+### Lightsail + Windows (clé `.pem`)
+
+`chmod` n’existe pas dans PowerShell : restreindre l’accès au fichier clé avant `ssh` :
+
+```powershell
+$key = 'G:\Shared drives\Tech Projects\Tech-only\keys\weadu-github-runner-london.pem'
+icacls $key /inheritance:r
+icacls $key /grant:r "$($env:USERNAME):(R)"
+```
+
+Puis :
+
+```powershell
+ssh -i $key ubuntu@ADRESSE_IP_PUBLIQUE
+```
+
+Attendre que l’instance soit **Running** dans Lightsail avant de te connecter.
+
+**Fiche instance** (IP, zone, nom) : [`inventory/github-runner-lightsail-weadu-01.md`](./inventory/github-runner-lightsail-weadu-01.md) — mis à jour quand l’infra change.
+
 ---
 
 ## Étape 3 — Créer le runner côté GitHub (jeton)
