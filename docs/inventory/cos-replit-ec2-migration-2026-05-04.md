@@ -25,6 +25,14 @@ Un **export structuré produit par l’agent Cursor à l’intérieur du Repl** 
 | **Pont depuis Socle** | SSH / push secrets / health COS — [snapshot Socle](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) §6 *AWS Lightsail (EC2)*. |
 | **Dépôt GitHub applicatif** | **Non identifié** dans ce dépôt ([snapshot GitHub org](./github-org-repo-snapshot-2026-05-02.json) sans entrée COS évidente). Nom canonique **à trancher** : création future `WeAdU-ltd/<repo-cos>` ou équivalent — voir §4. |
 
+### 2.1 Automation GitHub OIDC + SSM (hôte Windows, 2026-05)
+
+| Élément | Détail |
+|---------|--------|
+| **CI / agents** | Workflows **`AWS OIDC smoke`** et **`AWS SSM send-command smoke`** sur **`WeAdU-ltd/.github`** ; secret repo **`AWS_ROLE_ARN`** ; rôle IAM **`WeAdUGitHubOIDC-SSM`**. |
+| **Instance SSM (hybrid)** | **`mi-08ba03ce367298b11`** — **`eu-west-2`** — Windows COS (Lightsail **Windows_Server_2022-1**). |
+| **Doc** | [`docs/AWS_GITHUB_OIDC_SSM.md`](../AWS_GITHUB_OIDC_SSM.md) — OIDC, smoke SSM, policy Lightsail lecture seule optionnelle. |
+
 ---
 
 ## 3. Dépôt GitHub (WEA-52)
@@ -54,4 +62,4 @@ Le label Linear groupe **`repo`** ne s’assigne pas directement sur un ticket ;
 
 ---
 
-_Document vivant ; création : 2026-05-04 ; mise à jour inventaire : 2026-05-05._
+_Document vivant ; création : 2026-05-04 ; mise à jour inventaire : 2026-05-05 ; automation OIDC/SSM : 2026-05._

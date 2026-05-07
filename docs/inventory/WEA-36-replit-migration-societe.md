@@ -83,6 +83,8 @@ Les **priorités P0–P3** reprennent [WEA-33](./WEA-33-replit-inventory.md). Le
 | **5 — wellbots-shopping-ads-checker** | **Dépôt cible** [`WeAdU-ltd/SH-Checker-Bids`](https://github.com/WeAdU-ltd/SH-Checker-Bids) **confirmé** ; idem migration depuis Repl — [runbook](./wellbots-shopping-ads-checker-replit-migration-2026-05-06.md) ; chaîne [WEA-67](https://linear.app/weadu/issue/WEA-67/repl-5-wellbots-shopping-ads-checker-migration-replit-github-societe). | Idem ligne #4 ; puis retirer cette ligne ([WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)). |
 | _Autres_ | _À remplir au fil de la migration_ | Basculer DNS / secrets vers GitHub ou hébergement cible ; puis retirer la ligne |
 
+**Note — COS (infra).** L’**accès agents / GitHub Actions** à l’hôte Windows via **SSM** (OIDC, instance managée **`mi-08ba03ce367298b11`**) est documenté dans [`cos-replit-ec2-migration-2026-05-04.md`](./cos-replit-ec2-migration-2026-05-04.md) §2.1 et [`AWS_GITHUB_OIDC_SSM.md`](../AWS_GITHUB_OIDC_SSM.md) ; cela ne remplace pas la ligne **#2** tant que le **dépôt applicatif** et le **Repl** ne sont pas traités.
+
 Mettre à jour ce tableau quand un Repl n’a plus de déploiement actif ni secret métier unique côté Replit.
 
 ---

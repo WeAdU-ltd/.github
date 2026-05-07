@@ -84,6 +84,7 @@ Anchors in [`docs/`](docs/):
 - [Automation « zéro humain » — gabarit Linear + secrets org](docs/ZERO_HUMAN_AUTOMATION_LINEAR.md) — gabarit ticket, audit sans poste local ; valeurs des secrets uniquement côté GitHub org (pas dans ce dépôt).
 - [Runner GitHub self-hosted (Lightsail `github-runner-weadu-01`)](docs/inventory/github-runner-lightsail-weadu-01.md) — fiche instance (IP, zone) ; clé `.pem` hors dépôt.
 - [GitHub Actions — runner self-hosted (procédure)](docs/GITHUB_SELF_HOSTED_RUNNER.md) — automation sans poste local ; smoke manuel [`self-hosted-runner-smoke.yml`](.github/workflows/self-hosted-runner-smoke.yml).
+- [AWS — GitHub OIDC + SSM](docs/AWS_GITHUB_OIDC_SSM.md) — rôle **`WeAdUGitHubOIDC-SSM`**, workflows smoke, secret **`AWS_ROLE_ARN`** ; policy Lightsail lecture [`docs/policies/WeAdU-GitHubOIDC-LightsailReadOnly.json`](docs/policies/WeAdU-GitHubOIDC-LightsailReadOnly.json).
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
