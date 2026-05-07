@@ -36,4 +36,4 @@ Liens officiels (à suivre dans l’ordre du wizard AWS affiché pour ta situati
 
 ---
 
-_Miroir procédural ; pas de secrets dans ce fichier._
+_Miroir procédural ; pas de secrets dans ce fichier._ Les agents **WeAdU** doivent, quand ils guident un humain, **reproduire dans le chat ou sur Linear** les étapes utiles de ce document — pas seulement renvoyer vers ce fichier ([`AGENTS.md`](../AGENTS.md) section *Communication*).

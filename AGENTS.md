@@ -19,9 +19,13 @@ Les changements Linear (tickets, projet, commentaires) passent par la **clé d�
 - Ne **pas** proposer en premier « connecter le MCP Linear » : le MCP est **optionnel** (confort IDE) et souvent **`needsAuth`** en cloud ; tant que **`LINEAR_API_KEY`** est disponible, l’**API GraphQL** (scripts du dépôt, ex. `scripts/linear_pr_common.py`) fait le travail.
 - **Commentaires et preuves sur Linear** : poster avec **`scripts/linear_issue_comment.py`** (ou `comment_create` dans un script) ; **ne jamais** demander à l’humain de coller un livrable, un tableau ou une synthèse dans l’UI Linear. Si la clé API est absente dans la session, le dire explicitement (*non accessible : LINEAR_API_KEY*) après une tentative, pas une demande de copier-coller.
 
+## Communication — ne pas renvoyer vers l’ouverture de fichiers
+
+Si une procédure ou un extrait d’un fichier du dépôt suffit pour agir : **reproduire dans le message** (chat ou commentaire Linear) les **étapes ou le tableau utiles**, pas seulement « ouvre `docs/…` » ou un lien seul. Les fichiers restent la **source versionnée** ; l’humain ne doit pas perdre du temps à ouvrir un fichier quand l’agent peut en copier le contenu **nécessaire** dans la réponse. Exception raisonnable : fichiers **énormes**, **générés**, ou quand l’action est uniquement un **merge / PR** côté Git — dans ce cas résumer quand même l’intention.
+
 ## AWS — contrôle serveurs (SSM)
 
-Pour **checks répétitifs** ou **commandes** sur des VMs AWS : viser **Systems Manager** (instance **Online** dans **Fleet Manager**) + **GitHub Actions** / OIDC — pas demander à l’humain du **RDP** pour la routine. Voir [`docs/AWS_SSM_WEADU_STANDARD.md`](docs/AWS_SSM_WEADU_STANDARD.md).
+Pour **checks répétitifs** ou **commandes** sur des VMs AWS : viser **Systems Manager** (instance **Online** dans **Fleet Manager**) + **GitHub Actions** / OIDC — pas demander à l’humain du **RDP** pour la routine. Norme versionnée : [`docs/AWS_SSM_WEADU_STANDARD.md`](docs/AWS_SSM_WEADU_STANDARD.md) ; quand tu guides un humain, **inclure les étapes pertinentes dans le message** (cf. section ci-dessus).
 
 ## Migration Replit — preuve sans arbitrage URL (WEA-36)
 
