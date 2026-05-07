@@ -47,10 +47,17 @@ Source : lecture API GitHub du dépôt **`WeAdU-ltd/Negative-Terms`** (`README.m
 |----------|---------|
 | **Production** dépend-elle du Repl pour servir le site public ? | **Non.** Prod documentée : `https://negative-terms.generads.com` ; mise à jour **Promote production (AWS)** depuis GitHub (NEG-232 / NEG-228). |
 | **Staging principal** est-il sur AWS ? | **Oui.** `https://staging-negative-terms.generads.com` — alimenté par **Main push CI** (`main`) et workflow **Deploy to AWS staging** (branche `staging`). |
-| **Replit** joue-t-il encore un rôle ? | **Optionnel / résiduel uniquement** : `https://negative-terms.replit.app` reste dans la doc applicative comme origine **staging / E2E** et valeur canonique suggérée pour `E2E_BASE_URL` — **hors pipeline AWS** (sync manuelle depuis le workspace Replit). Ce n’est **pas** la prod. |
+| **Replit** joue-t-il encore un rôle ? | **Non (Repl supprimé, 2026-05).** Le Repl **negative-search-terms-tool** / **`negative-terms.replit.app`** n’existe plus côté Replit. Toute référence restante dans le dépôt applicatif est **obsolète** ; **staging / E2E** doivent pointer vers **staging AWS** (`https://staging-negative-terms.generads.com`) ou une autre base explicitement documentée. |
 | **`pull_from_replit.py`** | Marqué **DEPRECATED / obsolete** dans le dépôt — ne pas utiliser comme chemin opérationnel. |
 
-**Décision pour la chaîne WEA-36** : le **cutover prod** (clients → AWS, pas Replit) est **assumé fait** au sens inventaire. Ce qui peut rester ouvert est uniquement la **fermeture du Repl** ou le **repointage doc** de `E2E_BASE_URL` vers le staging AWS si l’équipe veut **zéro URL Replit** dans les docs applicatives — travail dans le dépôt **Negative-Terms**, pas arbitrage par l’humain sur ce ticket.
+**Décision pour la chaîne WEA-36** : le **cutover prod** (clients → AWS, pas Replit) est **assumé fait** au sens inventaire.
+
+**PR dépôt applicatif — doc / exemples / scripts :** [**WeAdU-ltd/Negative-Terms#704**](https://github.com/WeAdU-ltd/Negative-Terms/pull/704) aligne la doc (NEG-220, NEG-230, README), les exemples E2E, les commentaires du workflow **staging-url-smoke**, et **`pull_from_replit.py`** (dépréciation + défaut staging AWS) sur **`https://staging-negative-terms.generads.com`** ; la CI applicative a été exécutée en vert côté PR.
+
+**Reste optionnel (pas bloquant code dans la PR)** :
+
+- **Secrets / variables GitHub** : si **`E2E_BASE_URL`** ou **`STAGING_E2E_BASE_URL`** (org ou repo) pointent encore vers l’ancien host Replit, les mettre sur **`https://staging-negative-terms.generads.com`** — pas de changement de code nécessaire pour cela.
+- **`replit.md`** : peut encore mentionner une URL Replit ; ce fichier relève de la gouvernance agents (**[`AGENTS.md`](../../AGENTS.md)**) et n’a pas été modifié dans #704 — correction **manuelle** seulement si tu veux une « mémoire projet » sans URL Replit (ne pas confondre avec le **vault 1Password** nommé « Replit », qui est un coffre d’organisation, pas la plateforme replit.com).
 
 ---
 
@@ -62,4 +69,4 @@ Voir : [Repl #5 — wellbots-shopping-ads-checker](./wellbots-shopping-ads-check
 
 ---
 
-_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06 ; §6 vision NEG + SH : 2026-05._
+_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06 ; §6 vision NEG + SH : 2026-05 ; Repl Replit supprimé : 2026-05 ; PR applicative doc : [#704](https://github.com/WeAdU-ltd/Negative-Terms/pull/704)._
