@@ -7,7 +7,7 @@
 | Élément | Règle |
 |---------|--------|
 | **Vérité « managée ou non »** | Console **Systems Manager → Fleet Manager → Managed nodes** ; statut **Online** = prêt pour automation. |
-| **Automation** | **GitHub Actions** + rôle IAM (idéal : **OIDC** org `WeAdU-ltd`, pas de clés longues durée dans les repos) avec droits **`ssm:SendCommand`** (et dérivés) **limités** aux instances / tags concernés. |
+| **Automation** | **GitHub Actions** + rôle IAM (**OIDC** org `WeAdU-ltd`, pas de clés longues durée dans les repos) avec droits **`ssm:SendCommand`** (et dérivés) **limités** aux instances / tags concernés. Détail OIDC + vérif : [`AWS_GITHUB_OIDC_SSM.md`](./AWS_GITHUB_OIDC_SSM.md). |
 | **RDP / SSH** | **Dépannage humain** ou bootstrap — pas la voie par défaut pour checks planifiés. |
 
 ## EC2 Linux / Windows (compte déjà avec Default Host Management)
