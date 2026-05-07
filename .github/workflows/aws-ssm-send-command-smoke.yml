@@ -1,0 +1,67 @@
+# Smoke — envoyer une commande SSM Run Command vers une instance managée (Windows).
+# Déclenchement manuel. Prérequis : secret AWS_ROLE_ARN, politiques SSM sur le rôle OIDC.
+#
+# Instance documentée : COS Windows Lightsail en hybrid activation (Fleet Manager mi-*).
+
+name: AWS SSM send-command smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  run-command:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: eu-west-2
+      MANAGED_INSTANCE_ID: mi-08ba03ce367298b11
+    steps:
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Send PowerShell command (hostname)
+        run: |
+          set -euo pipefail
+          CID=$(aws ssm send-command \
+            --region "$AWS_REGION" \
+            --instance-ids "$MANAGED_INSTANCE_ID" \
+            --document-name "AWS-RunPowerShellScript" \
+            --comment "GitHub Actions SSM smoke — WeAdU .github" \
+            --parameters "{\"commands\":[\"hostname\"]}" \
+            --query Command.CommandId \
+            --output text)
+          echo "CommandId=$CID"
+
+          for i in $(seq 1 45); do
+            STATUS=$(aws ssm get-command-invocation \
+              --region "$AWS_REGION" \
+              --command-id "$CID" \
+              --instance-id "$MANAGED_INSTANCE_ID" \
+              --query Status \
+              --output text 2>/dev/null || echo "Pending")
+            echo "poll $i Status=$STATUS"
+            case "$STATUS" in
+              Success) break ;;
+              Failed|Cancelled|TimedOut)
+                aws ssm get-command-invocation \
+                  --region "$AWS_REGION" \
+                  --command-id "$CID" \
+                  --instance-id "$MANAGED_INSTANCE_ID" \
+                  --output json
+                exit 1
+                ;;
+            esac
+            sleep 2
+          done
+
+          aws ssm get-command-invocation \
+            --region "$AWS_REGION" \
+            --command-id "$CID" \
+            --instance-id "$MANAGED_INSTANCE_ID" \
+            --output json
