@@ -18,8 +18,8 @@ Export Markdown **dans** le Repl : non reproductible depuis l’agent GitHub seu
 
 | Champ | État (doc dépôt) |
 |-------|------------------|
-| **Inventaire WEA-33** | Ligne #5 — snapshot mars 2026 ; croiser avec export Repl quand disponible. |
-| **Git cible** | `WeAdU-ltd/SH-Checker-Bids` — aligner import depuis Repl. |
+| **Inventaire WEA-33** | Ligne #5 — migration chaîne **terminée** (**2026-05**) ; inventaire tableau mis à jour. |
+| **Git cible** | `WeAdU-ltd/SH-Checker-Bids` — code et CI sur **`main`** ; déploiement **EC2** via workflow (voir §5). |
 
 ---
 
@@ -47,10 +47,10 @@ Source : lecture API GitHub du dépôt **`WeAdU-ltd/SH-Checker-Bids`** (`README.
 |----------|---------|
 | **La prod documentée** passe-t-elle par le Repl ? | **Non.** Le README décrit un déploiement **GitHub Actions → EC2** : workflow **`Deploy to EC2`** sur push vers `main` (`appleboy/ssh-action`), script distant `git pull` sous `C:/Users/Administrator/wellbots` puis **`nssm restart Wellbots`**. Secrets repo attendus : `EC2_HOST`, `EC2_SSH_KEY`. Ce chemin est **hors Replit** pour la livraison de code sur l’hôte de prod. |
 | **URL publique** listée dans ce dépôt ? | **Non** dans le README relu : pas d’équivalent `*.generads.com` explicite ; la prod est décrite comme **service Windows** sur l’hôte synchronisé depuis GitHub. |
-| **Replit** joue-t-il encore un rôle ? | **Résiduel possible uniquement** : l’ancien Repl peut rester ouvert tant qu’il n’est pas fermé ; ce n’est **pas** le pipeline de prod documenté ci-dessus. |
+| **Replit** joue-t-il encore un rôle pour la prod documentée ? | **Non** pour le pipeline **GitHub → EC2**. Fermeture du Repl / nettoyage secrets et références : optionnel, [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete). |
 | **Parité / features** | Une réponse API dans `main.py` mentionne un connecteur Google Sheets « Replit only » — à traiter dans le dépôt applicatif si la prod EC2 doit l’équivalent. |
 
-**Décision pour la chaîne WEA-36** : le **cutover prod** (synchronisation opérationnelle depuis **GitHub vers EC2**, pas depuis Replit comme canal documenté) est **noté fait** pour l’inventaire. **Fermeture du Repl** et suppression des secrets / URLs Replit résiduels : [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete) et travail dans **SH-Checker-Bids**.
+**Décision pour la chaîne WEA-36** : la **migration Replit → GitHub** et le **cutover prod** (**GitHub → EC2**, pas Replit comme canal documenté) sont **clos** pour l’inventaire (**2026-05**, confirmé équipe). La ligne **#5** est **retirée** du tableau résiduel [WEA-36 §5](./WEA-36-replit-migration-societe.md) ; paragraphe **Historique — Repl #5**. Suite dans le dépôt applicatif : parité fonctionnelle (ex. connecteur noté « Replit only » dans le code) si la prod EC2 doit l’équivalent ; [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete) pour Repl / secrets.
 
 ---
 
@@ -64,4 +64,4 @@ Voir aussi : [Repl #4 — negative-search-terms-tool](./negative-search-terms-re
 
 ---
 
-_Document vivant ; création : 2026-05-06 ; validation cutover §5 : 2026-05-07 ; §6 vision NEG + SH : 2026-05._
+_Document vivant ; création : 2026-05-06 ; validation cutover §5 : 2026-05-07 ; chaîne migration terminée (inventaire) : **2026-05** ; §6 vision NEG + SH : 2026-05._

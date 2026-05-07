@@ -100,7 +100,7 @@ Anchors in [`docs/`](docs/):
   - [Chief of Staff (COS) — Replit / EC2 / Git (WEA-49)](docs/inventory/cos-replit-ec2-migration-2026-05-04.md) — repo applicatif [`WeAdU-ltd/cos`](https://github.com/WeAdU-ltd/cos) ; code sur **`main`** ; **Repl COS fermé** (**2026-05**) ; lien [WEA-29](docs/inventory/WEA-29-aws-ec2-inventory.md)
   - [after-framfield-cockpit — Repl 3 (WEA-55)](docs/inventory/after-framfield-cockpit-replit-2026-05-05.md) — perso GitHub ; Repl supprimé **2026-05-05**
   - [negative-search-terms-tool — Repl 4 → Negative-Terms (WEA-61)](docs/inventory/negative-search-terms-replit-migration-2026-05-06.md)
-  - [wellbots-shopping-ads-checker — Repl 5 → SH-Checker-Bids (WEA-67)](docs/inventory/wellbots-shopping-ads-checker-replit-migration-2026-05-06.md)
+  - [wellbots-shopping-ads-checker — Repl 5 → SH-Checker-Bids (WEA-67)](docs/inventory/wellbots-shopping-ads-checker-replit-migration-2026-05-06.md) — chaîne migration **terminée** (**2026-05**)
 
 ## n8n hosting (budget < 20 €/mois)
 
