@@ -43,6 +43,9 @@ jobs:
       - name: Linear issue comment script (syntax)
         run: python3 -m py_compile scripts/linear_issue_comment.py
 
+      - name: AWS GitHub OIDC probe script (syntax)
+        run: bash -n scripts/aws_github_oidc_probe.sh
+
       - name: WEA-35 socle template init script (syntax + dry-run)
         run: |
           set -euo pipefail
