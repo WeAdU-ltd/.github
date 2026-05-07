@@ -54,4 +54,12 @@ Source : lecture API GitHub du dépôt **`WeAdU-ltd/Negative-Terms`** (`README.m
 
 ---
 
-_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06._
+## 6. Intégration visée avec SH-Checker-Bids (hors cutover immédiat)
+
+Objectif **moyen terme** : articuler **Negative-Terms** et [**SH-Checker-Bids**](https://github.com/WeAdU-ltd/SH-Checker-Bids) comme **outillage commun** Google Ads (flux de données, contrôles complémentaires). À traiter dans les dépôts applicatifs ou un ticket Linear produit ; **pas** dans ce runbook de migration Replit.
+
+Voir : [Repl #5 — wellbots-shopping-ads-checker](./wellbots-shopping-ads-checker-replit-migration-2026-05-06.md) §6.
+
+---
+
+_Document vivant ; création : 2026-05-06 ; validation cutover : 2026-05-06 ; §6 vision NEG + SH : 2026-05._
