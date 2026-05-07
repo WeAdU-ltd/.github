@@ -4,7 +4,7 @@
     {
       "Sid": "LightsailReadOnly",
       "Effect": "Allow",
-      "Action": ["lightsail:Get*", "lightsail:List*"],
+      "Action": ["lightsail:Get*"],
       "Resource": "*"
     }
   ]

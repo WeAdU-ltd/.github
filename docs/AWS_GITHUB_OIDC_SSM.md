@@ -23,7 +23,7 @@
 
 AWS ne fournit **pas** de politique managée du type `AmazonLightsailReadOnlyAccess` à attacher comme les autres services. Le fichier canonique est :
 
-**[`docs/policies/WeAdU-GitHubOIDC-LightsailReadOnly.json`](./policies/WeAdU-GitHubOIDC-LightsailReadOnly.json)** (`lightsail:Get*`, `lightsail:List*` sur `*`).
+**[`docs/policies/WeAdU-GitHubOIDC-LightsailReadOnly.json`](./policies/WeAdU-GitHubOIDC-LightsailReadOnly.json)** (`lightsail:Get*` sur `*` — lecture / inventaire Lightsail ; sans `List*` pour éviter erreurs de validation IAM sur certains écrans).
 
 ### Attacher cette policy au rôle OIDC (une fois)
 
