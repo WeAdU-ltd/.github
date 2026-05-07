@@ -1,0 +1,24 @@
+# Smoke — OIDC GitHub → AWS (manuel uniquement).
+# Prérequis : secret repo `AWS_ROLE_ARN`, rôle IAM `WeAdUGitHubOIDC-SSM`, trust policy repo `WeAdU-ltd/.github`.
+
+name: AWS OIDC smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: eu-west-2
+
+      - name: STS identity
+        run: aws sts get-caller-identity
