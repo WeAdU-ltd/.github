@@ -23,7 +23,7 @@ Un **export structuré produit par l’agent Cursor à l’intérieur du Repl** 
 | **Prod** | Trafic public via **EC2** (`leadgen.generads.com` → Caddy → app) — [WEA-33](./WEA-33-replit-inventory.md) ligne #2 ; pas de dépendance Replit pour la prod web décrite là. |
 | **Hôte Windows** | Tâches planifiées `\WeAdU\` : `WeAdU-COS`, `WeAdU-COS-Watchdog` — [WEA-29](./WEA-29-aws-ec2-inventory.md) §3.1. |
 | **Pont depuis Socle** | SSH / push secrets / health COS — [snapshot Socle](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) §6 *AWS Lightsail (EC2)*. |
-| **Dépôt GitHub applicatif** | **Créé (2026-05)** : **`https://github.com/WeAdU-ltd/cos`** (privé) — le code source reste **à y importer** depuis l’hôte Windows / le Repl. |
+| **Dépôt GitHub applicatif** | **`https://github.com/WeAdU-ltd/cos`** (privé) — **import initial du code fait** (**2026-05-08**) depuis l’hôte Windows via [`cos_push_from_windows.ps1`](../../scripts/cos_push_from_windows.ps1) ; reste : README / CI / fermeture Repl si encore présent. |
 
 ### 2.1 Automation GitHub OIDC + SSM (hôte Windows, 2026-05)
 
@@ -40,7 +40,7 @@ Un **export structuré produit par l’agent Cursor à l’intérieur du Repl** 
 | Rôle | URL / statut |
 |------|----------------|
 | **Doc / procédure (ce dépôt)** | `https://github.com/WeAdU-ltd/.github` — ce fichier. |
-| **Code applicatif COS** | **`https://github.com/WeAdU-ltd/cos`** — README + import du code à finaliser (voir §4). |
+| **Code applicatif COS** | **`https://github.com/WeAdU-ltd/cos`** — code sur **`main`** ; affiner **README** / **CI** si besoin (voir §4). |
 
 Le label Linear groupe **`repo`** sur les tickets applicatifs : **`WeAdU-ltd/cos`** pour le code COS ; alignement **`.github`** via **`WeAdU-ltd/.github`** pour la doc infrastructure.
 
@@ -48,8 +48,8 @@ Le label Linear groupe **`repo`** sur les tickets applicatifs : **`WeAdU-ltd/cos
 
 ## 4. Code + README + CI (WEA-53)
 
-- **Aujourd’hui** : le run **opérationnel** documenté pour COS est **sur l’instance Windows** (Caddy, tâches WeAdU-COS, secrets poussés depuis Socle) ; le **dépôt** applicatif cible est **`https://github.com/WeAdU-ltd/cos`**. L’**import** du code dans ce repo n’est **pas** encore fait depuis ce runbook.
-- **Cible** : compléter le **`README`** dans **`cos`** (prérequis Windows, secrets **nommés**, commande de build/run) + **importer** le code depuis l’hôte / Repl ; CI minimale ou alignement [template WEA-35](./WEA-35-weadu-socle-v5-lab-template.md).
+- **Aujourd’hui** : le run **opérationnel** reste **sur l’instance Windows** (Caddy, tâches WeAdU-COS, secrets poussés depuis Socle). Le dépôt **`WeAdU-ltd/cos`** contient une copie **importée** du workspace (`C:\Scripts\weadu\cos`) — procédure : [`cos_push_from_windows.ps1`](../../scripts/cos_push_from_windows.ps1).
+- **Suite** : stabiliser le **`README`** dans **`cos`** (prérequis Windows, secrets **nommés**, commande de build/run) ; CI minimale ou alignement [template WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) ; fermer le Repl Replit COS quand plus nécessaire ([WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)).
 - **Référence infra** : [WEA-29](./WEA-29-aws-ec2-inventory.md) §3–4 (hôte, durcissement, sauvegardes).
 
 ---
@@ -62,4 +62,4 @@ Le label Linear groupe **`repo`** sur les tickets applicatifs : **`WeAdU-ltd/cos
 
 ---
 
-_Document vivant ; création : 2026-05-04 ; mise à jour inventaire : 2026-05-05 ; automation OIDC/SSM : 2026-05 ; dépôt applicatif `WeAdU-ltd/cos` : 2026-05._
+_Document vivant ; création : 2026-05-04 ; mise à jour inventaire : 2026-05-05 ; automation OIDC/SSM : 2026-05 ; dépôt applicatif `WeAdU-ltd/cos` : 2026-05 ; import code initial : 2026-05-08._
