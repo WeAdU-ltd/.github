@@ -78,6 +78,10 @@ try {
 
     & git remote add $RemoteName $authenticatedRemote
 
+    # Identité commit (obligatoire sur une machine sans config globale, ex. EC2)
+    & git config user.email "cos-import@weadu.com"
+    & git config user.name "WeAdU COS Windows Import"
+
     & git add -A
     & git diff --cached --quiet
     if ($LASTEXITCODE -eq 0) {
@@ -88,16 +92,40 @@ try {
 
     & git branch -M main
 
-    & git fetch $RemoteName main 2>$null
-    $fetchOk = $LASTEXITCODE -eq 0
+    # git envoie du texte sur stderr : éviter que PowerShell (StrictMode) arrête le script
+    $prevEa = $ErrorActionPreference
+    $ErrorActionPreference = 'SilentlyContinue'
+    try {
+        $null = & git fetch $RemoteName main 2>&1
+        $fetchOk = $LASTEXITCODE -eq 0
+    } finally {
+        $ErrorActionPreference = $prevEa
+    }
+
     if ($fetchOk) {
-        & git merge "${RemoteName}/main" --allow-unrelated-histories --no-edit -m "Merge branch 'main' of GitHub (README) + COS import"
-        if ($LASTEXITCODE -ne 0) {
+        $prevEa = $ErrorActionPreference
+        $ErrorActionPreference = 'SilentlyContinue'
+        try {
+            $null = & git merge "${RemoteName}/main" --allow-unrelated-histories --no-edit -m "Merge branch 'main' of GitHub (README) + COS import" 2>&1
+            $mergeOk = $LASTEXITCODE -eq 0
+        } finally {
+            $ErrorActionPreference = $prevEa
+        }
+        if (-not $mergeOk) {
             throw 'Conflit git après merge. Résous les conflits puis: git add -A && git commit && git push'
         }
     }
 
-    & git push -u $RemoteName main
+    $prevEa = $ErrorActionPreference
+    $ErrorActionPreference = 'SilentlyContinue'
+    try {
+        $null = & git push -u $RemoteName main 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "git push a échoué (code $($LASTEXITCODE))"
+        }
+    } finally {
+        $ErrorActionPreference = $prevEa
+    }
 
     & git remote set-url $RemoteName $cleanRemote
 }
