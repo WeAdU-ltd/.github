@@ -26,6 +26,7 @@ Après lecture du **dépôt applicatif** cible (`README`, `docs/STAGING_*`, work
 1. **Couper prod vs résiduel** : si la **production** documentée pointe vers **AWS / GitHub Actions** (pas `*.replit.app`), le **cutover prod** est **noté comme fait** avec lien vers les fichiers cités.
 2. **Résiduel** : toute URL `.replit.app` encore mentionnée pour **staging/E2E** est une **ligne résiduelle** ou une **tâche dans le repo applicatif** pour la retirer — **pas** une question ouverte à l’humain dans le chat.
 3. **Ne pas** reformuler « migration à finaliser » si le code et les déploiements prod sont déjà sur GitHub/AWS ; reformuler en « résiduel documenté » ou « fermer le Repl ».
+4. **Import code / étape franchie** : dès qu’un **premier import** vers le dépôt cible est fait (push depuis l’hôte, Repl, ou script du dépôt `.github`), l’agent **met à jour** le runbook `docs/inventory/*`, le tableau **§3 / §5 WEA-36**, et **poste** sur le ticket Linear concerné un commentaire API (`linear_issue_comment.py`) avec la **preuve** — **sans** attendre que l’humain « confirme » la doc.
 
 ## Règles essentielles (rappel)
 
