@@ -23,9 +23,13 @@ Les changements Linear (tickets, projet, commentaires) passent par la **clé d�
 
 Si une procédure ou un extrait d’un fichier du dépôt suffit pour agir : **reproduire dans le message** (chat ou commentaire Linear) les **étapes ou le tableau utiles**, pas seulement « ouvre `docs/…` » ou un lien seul. Les fichiers restent la **source versionnée** ; l’humain ne doit pas perdre du temps à ouvrir un fichier quand l’agent peut en copier le contenu **nécessaire** dans la réponse. Exception raisonnable : fichiers **énormes**, **générés**, ou quand l’action est uniquement un **merge / PR** côté Git — dans ce cas résumer quand même l’intention.
 
+## Instructions UI / console — une page à la fois
+
+Pour guider un humain dans une **interface web** (AWS, GitHub, Linear, etc.) : **un seul écran ou une seule page par message** — uniquement les clics/champs pour **cette** page, ni plus ni moins. Attendre **OK / capture / « c’est fait »** avant d’envoyer les instructions de la **page suivante**.
+
 ## AWS — contrôle serveurs (SSM)
 
-Pour **checks répétitifs** ou **commandes** sur des VMs AWS : viser **Systems Manager** (instance **Online** dans **Fleet Manager**) + **GitHub Actions** / OIDC — pas demander à l’humain du **RDP** pour la routine. Norme versionnée : [`docs/AWS_SSM_WEADU_STANDARD.md`](docs/AWS_SSM_WEADU_STANDARD.md) ; quand tu guides un humain, **inclure les étapes pertinentes dans le message** (cf. section ci-dessus).
+Pour **checks répétitifs** ou **commandes** sur des VMs AWS : viser **Systems Manager** (instance **Online** dans **Fleet Manager**) + **GitHub Actions** / OIDC — pas demander à l’humain du **RDP** pour la routine. Norme versionnée : [`docs/AWS_SSM_WEADU_STANDARD.md`](docs/AWS_SSM_WEADU_STANDARD.md) ; quand tu guides un humain, **inclure les étapes pertinentes dans le message** (cf. section *Communication* ci-dessus).
 
 ## Migration Replit — preuve sans arbitrage URL (WEA-36)
 
