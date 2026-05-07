@@ -45,4 +45,14 @@ Quand la prod ne dépend plus du Repl : retirer la ligne **#5** dans [WEA-36 §5
 
 ---
 
-_Document vivant ; création : 2026-05-06._
+## 6. Intégration visée avec Negative-Terms (hors cutover immédiat)
+
+Objectif **moyen terme** (produit WeAdU) : faire **collaborer** [**Negative-Terms**](https://github.com/WeAdU-ltd/Negative-Terms) (`NEG`) et ce dépôt (**SH-Checker-Bids**) dans une chaîne **Google Ads** cohérente (données, checks, workflows — détails à figer dans les repos applicatifs ou un ticket produit dédié).
+
+Ce runbook ne couvre que **Replit → GitHub + cutover** ; la conception d’intégration (contrats d’API, secrets partagés, ordre de déploiement) est **hors périmètre** migration Replit.
+
+Voir aussi : [Repl #4 — negative-search-terms-tool](./negative-search-terms-replit-migration-2026-05-06.md) §6.
+
+---
+
+_Document vivant ; création : 2026-05-06 ; §6 vision NEG + SH : 2026-05._

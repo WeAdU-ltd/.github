@@ -12,7 +12,7 @@ Un **export structuré produit par l’agent Cursor à l’intérieur du Repl** 
 
 **Justification documentée (critère de fait)** : même principe que [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration) / §7 de [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) — ici, la **charge prod** est déjà documentée **hors Replit** (EC2), et le **pont Socle → EC2** est décrit dans le [snapshot Weadu-Socle-V5-Lab](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) (§6 *Services externes* : tâches `WeAdU-COS` / `WeAdU-COS-Watchdog` côté Windows, health `localhost:5050`, push config `C:\Scripts\weadu\cos\aws_secrets.env`, secrets dans `C:\ProgramData\.secret_cache\`).
 
-**Consigne** (à coller dans l’agent Cursor **du** Repl COS si un export détaillé du Repl seul est encore nécessaire) : identique au formulaire §7 de [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) — stack, run local, Git, noms des secrets Replit, DB Replit, déploiement `.replit.app`, externes.
+**Consigne** (historique — le **Repl COS est fermé**, **2026-05**) : si un export détaillé était encore nécessaire autrefois, le formulaire était celui de §7 [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md).
 
 ---
 
@@ -23,7 +23,7 @@ Un **export structuré produit par l’agent Cursor à l’intérieur du Repl** 
 | **Prod** | Trafic public via **EC2** (`leadgen.generads.com` → Caddy → app) — [WEA-33](./WEA-33-replit-inventory.md) ligne #2 ; pas de dépendance Replit pour la prod web décrite là. |
 | **Hôte Windows** | Tâches planifiées `\WeAdU\` : `WeAdU-COS`, `WeAdU-COS-Watchdog` — [WEA-29](./WEA-29-aws-ec2-inventory.md) §3.1. |
 | **Pont depuis Socle** | SSH / push secrets / health COS — [snapshot Socle](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) §6 *AWS Lightsail (EC2)*. |
-| **Dépôt GitHub applicatif** | **`https://github.com/WeAdU-ltd/cos`** (privé) — **import initial du code fait** (**2026-05-08**) depuis l’hôte Windows via [`cos_push_from_windows.ps1`](../../scripts/cos_push_from_windows.ps1) ; reste : README / CI / fermeture Repl si encore présent. |
+| **Dépôt GitHub applicatif** | **`https://github.com/WeAdU-ltd/cos`** (privé) — **import initial du code fait** (**2026-05-08**) depuis l’hôte Windows via [`cos_push_from_windows.ps1`](../../scripts/cos_push_from_windows.ps1) ; **Repl Replit COS fermé** (confirmé **2026-05**) ; reste : **README** / **CI** dans le dépôt `cos` si besoin. |
 
 ### 2.1 Automation GitHub OIDC + SSM (hôte Windows, 2026-05)
 
@@ -49,7 +49,7 @@ Le label Linear groupe **`repo`** sur les tickets applicatifs : **`WeAdU-ltd/cos
 ## 4. Code + README + CI (WEA-53)
 
 - **Aujourd’hui** : le run **opérationnel** reste **sur l’instance Windows** (Caddy, tâches WeAdU-COS, secrets poussés depuis Socle). Le dépôt **`WeAdU-ltd/cos`** contient une copie **importée** du workspace (`C:\Scripts\weadu\cos`) — procédure : [`cos_push_from_windows.ps1`](../../scripts/cos_push_from_windows.ps1).
-- **Suite** : stabiliser le **`README`** dans **`cos`** (prérequis Windows, secrets **nommés**, commande de build/run) ; CI minimale ou alignement [template WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) ; fermer le Repl Replit COS quand plus nécessaire ([WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)).
+- **Suite** : stabiliser le **`README`** dans **`cos`** (prérequis Windows, secrets **nommés**, commande de build/run) ; CI minimale ou alignement [template WEA-35](./WEA-35-weadu-socle-v5-lab-template.md). **Repl Replit** : **fermé** — rotation / retrait des secrets Replit encore référencés côté vault selon [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
 - **Référence infra** : [WEA-29](./WEA-29-aws-ec2-inventory.md) §3–4 (hôte, durcissement, sauvegardes).
 
 ---
@@ -57,9 +57,9 @@ Le label Linear groupe **`repo`** sur les tickets applicatifs : **`WeAdU-ltd/cos
 ## 5. Cutover Replit + résiduel (WEA-54)
 
 - **Constat** : la **prod décrite** pour COS passe par **EC2**, pas par un hébergement Replit pour le trafic `leadgen.generads.com` ([WEA-33](./WEA-33-replit-inventory.md)).
-- **Repl Replit** : peut rester un **espace de dev / archive** tant qu’il existe ; l’entrée correspondante figure dans [WEA-36 §5](./WEA-36-replit-migration-societe.md) tant que le Repl n’est pas fermé ou vidé.
-- **Secrets** : toute rotation ou retrait côté Replit après arrêt définitif du Repl — hors périmètre immédiat de ce fichier ; suivre [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+- **Repl Replit** : **fermé** (confirmé **2026-05**) — plus d’entrée résiduelle COS dans [WEA-36 §5](./WEA-36-replit-migration-societe.md).
+- **Secrets** : rotation ou retrait des entrées Replit encore présentes dans le vault « Replit » / 1Password — suivre [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
 
 ---
 
-_Document vivant ; création : 2026-05-04 ; mise à jour inventaire : 2026-05-05 ; automation OIDC/SSM : 2026-05 ; dépôt applicatif `WeAdU-ltd/cos` : 2026-05 ; import code initial : 2026-05-08._
+_Document vivant ; création : 2026-05-04 ; mise à jour inventaire : 2026-05-05 ; automation OIDC/SSM : 2026-05 ; dépôt applicatif `WeAdU-ltd/cos` : 2026-05 ; import code initial : 2026-05-08 ; Repl COS fermé : 2026-05._
