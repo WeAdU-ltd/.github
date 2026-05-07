@@ -71,7 +71,11 @@ try {
         & git init
     }
 
-    & git remote remove $RemoteName 2>$null
+    $remotes = @(& git remote 2>$null)
+    if ($remotes -contains $RemoteName) {
+        & git remote remove $RemoteName
+    }
+
     & git remote add $RemoteName $authenticatedRemote
 
     & git add -A
