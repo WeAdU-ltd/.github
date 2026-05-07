@@ -48,7 +48,7 @@ Le label Linear groupe **`repo`** sur les tickets applicatifs : **`WeAdU-ltd/cos
 
 ## 4. Code + README + CI (WEA-53)
 
-- **Aujourd’hui** : le run **opérationnel** documenté pour COS est **sur l’instance Windows** (Caddy, tâches WeAdU-COS, secrets poussés depuis Socle) ; le **dépôt** applicatif cible est **`https://github.com/WeAdU-ltd/cos`**. L’**import** du code dans ce repo n’est **pas** encore fait depuis ce runbook.
+- **Aujourd’hui** : le run **opérationnel** documenté pour COS est **sur l’instance Windows** (Caddy, tâches WeAdU-COS, secrets poussés depuis Socle) ; le **dépôt** applicatif cible est **`https://github.com/WeAdU-ltd/cos`**. L’**import** du code dans ce repo se fait avec **`scripts/cos_push_from_windows.ps1`** sur ce dépôt `.github` (variable **`GITHUB_COS_PAT`**, jamais dans le chat).
 - **Cible** : compléter le **`README`** dans **`cos`** (prérequis Windows, secrets **nommés**, commande de build/run) + **importer** le code depuis l’hôte / Repl ; CI minimale ou alignement [template WEA-35](./WEA-35-weadu-socle-v5-lab-template.md).
 - **Référence infra** : [WEA-29](./WEA-29-aws-ec2-inventory.md) §3–4 (hôte, durcissement, sauvegardes).
 
