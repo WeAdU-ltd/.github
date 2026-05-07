@@ -4,6 +4,9 @@
   Envoie le code COS depuis C:\Scripts\weadu\cos vers https://github.com/WeAdU-ltd/cos
   en fusionnant avec le README déjà sur GitHub (historiques sans lien commun).
 
+.VERSION
+  2026-05-08 — identité git locale + variables GIT_AUTHOR_* ; fetch sans erreur PowerShell.
+
 .EXAMPLE
   $env:GITHUB_COS_PAT = '<PAT depuis 1Password ou GitHub Settings>'
   powershell -ExecutionPolicy Bypass -File .\scripts\cos_push_from_windows.ps1
@@ -67,9 +70,19 @@ $cleanRemote = "https://github.com/${RepoSlug}.git"
 
 Push-Location $CosRoot
 try {
+    Write-Host 'cos_push_from_windows.ps1 — version doc .VERSION 2026-05-08'
+
+    $env:GIT_AUTHOR_EMAIL = 'cos-import@weadu.com'
+    $env:GIT_AUTHOR_NAME = 'WeAdU COS Windows Import'
+    $env:GIT_COMMITTER_EMAIL = $env:GIT_AUTHOR_EMAIL
+    $env:GIT_COMMITTER_NAME = $env:GIT_AUTHOR_NAME
+
     if (-not (Test-Path -LiteralPath (Join-Path $CosRoot '.git'))) {
         & git init
     }
+
+    & git config --local user.email "cos-import@weadu.com"
+    & git config --local user.name "WeAdU COS Windows Import"
 
     $remotes = @(& git remote 2>$null)
     if ($remotes -contains $RemoteName) {
@@ -77,10 +90,6 @@ try {
     }
 
     & git remote add $RemoteName $authenticatedRemote
-
-    # Identité commit (obligatoire sur une machine sans config globale, ex. EC2)
-    & git config user.email "cos-import@weadu.com"
-    & git config user.name "WeAdU COS Windows Import"
 
     & git add -A
     & git diff --cached --quiet
@@ -92,6 +101,7 @@ try {
 
     & git branch -M main
 
+    $fetchOk = $false
     # git envoie du texte sur stderr : éviter que PowerShell (StrictMode) arrête le script
     $prevEa = $ErrorActionPreference
     $ErrorActionPreference = 'SilentlyContinue'
