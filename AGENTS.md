@@ -19,6 +19,10 @@ Les changements Linear (tickets, projet, commentaires) passent par la **clé d�
 - Ne **pas** proposer en premier « connecter le MCP Linear » : le MCP est **optionnel** (confort IDE) et souvent **`needsAuth`** en cloud ; tant que **`LINEAR_API_KEY`** est disponible, l’**API GraphQL** (scripts du dépôt, ex. `scripts/linear_pr_common.py`) fait le travail.
 - **Commentaires et preuves sur Linear** : poster avec **`scripts/linear_issue_comment.py`** (ou `comment_create` dans un script) ; **ne jamais** demander à l’humain de coller un livrable, un tableau ou une synthèse dans l’UI Linear. Si la clé API est absente dans la session, le dire explicitement (*non accessible : LINEAR_API_KEY*) après une tentative, pas une demande de copier-coller.
 
+## AWS — contrôle serveurs (SSM)
+
+Pour **checks répétitifs** ou **commandes** sur des VMs AWS : viser **Systems Manager** (instance **Online** dans **Fleet Manager**) + **GitHub Actions** / OIDC — pas demander à l’humain du **RDP** pour la routine. Voir [`docs/AWS_SSM_WEADU_STANDARD.md`](docs/AWS_SSM_WEADU_STANDARD.md).
+
 ## Migration Replit — preuve sans arbitrage URL (WEA-36)
 
 Après lecture du **dépôt applicatif** cible (`README`, `docs/STAGING_*`, workflows `deploy-*.yml`, présence de `.replit` / `replit.md`), l’agent **met à jour** le runbook `docs/inventory/*` correspondant et la **liste résiduelle** [§5 WEA-36](docs/inventory/WEA-36-replit-migration-societe.md) :
