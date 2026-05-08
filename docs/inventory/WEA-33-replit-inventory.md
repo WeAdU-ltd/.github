@@ -44,7 +44,7 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 | 6 | WeAdU LeadGen | `345d8dd5-…` | idem ; ne pas confondre URL prod avec COS | **Partiel** | inconnu | inconnu | inconnu | probable kit | inconnu | **P2** | Société | |
 | 7 | Max Conv Val Budget Mngt | `d32b27a6-…` | absent CSV 2026-03-17 | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
 | 8 | Waste Watcher | `f09a27de-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
-| 9 | Automatic Google Ads tracking monitoring | `7fc2b09c-…` (infra *Brand-crea-bids*) | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | **À réconcilier** avec UUID `6b3e66a1-…` (CSV équipe, autre Repl / rename) |
+| 9 | Automatic Google Ads tracking monitoring | `7fc2b09c-…` (infra *Brand-crea-bids*) | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | **À réconcilier** avec UUID `6b3e66a1-…` (CSV équipe, autre Repl / rename) ; **nom UI Replit** possible : *Brand-specific GG Ads* (voir note sous tableau) |
 | 10 | Wellbots real-time figures | `6301f251-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
 | 11 | suspended accounts clean up | `139389d0-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | **Hors migration Linear** : épique `[Repl 11] …` supprimée sur Linear (**2026-05-05**) — pas de ticket de chaîne WEA-36 ; le Repl peut rester sur Replit ou être archivé hors projet migration. |
 | 12 | Dashboard — Carmino & monPL | `89725b9e-…` | possible passage par hub dashboard EC2 ; à confirmer | **Partiel** | inconnu | inconnu | inconnu | inconnu (clés dashboard côté vault Socle) | inconnu | **P2** | Société | Absent CSV 2026-03-17 |
@@ -60,6 +60,8 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 
 _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repris ici pour lisibilité._
 
+**Nom affiché « Brand-specific GG Ads » (Team WeAdU).** Dans l’UI Replit (liste des projets), ce titre peut **ne pas** figurer dans la colonne **Nom Repl** ci-dessus : ce tableau reprend les libellés **export Socle / CSV (~mars 2026)**, pas forcément le titre courant du dashboard. La correspondance **la plus probable** est la **ligne #9** — *Automatic Google Ads tracking monitoring* (infra *Brand-crea-bids*) ; confirmer en ouvrant le Repl → **info / ID** et en comparant aux préfixes documentés (`7fc2b09c`, `6b3e66a1`, §4). Si l’identifiant ne correspond à **aucune** des 21 lignes, traiter comme **Repl hors inventaire figé** : ajouter une ligne au tableau et rattacher la chaîne [WEA-36](./WEA-36-replit-migration-societe.md).
+
 ---
 
 ## 4. Exclus / à réconcilier (hors tableau principal)
@@ -67,7 +69,7 @@ _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repri
 | Sujet | ID / ref. | Action |
 |-------|-----------|--------|
 | **Obsolete** | `8a0d25c6-…` | Archivé / exclu inventaire actif |
-| **Doublon nom « Automatic Google Ads… »** | `7fc2b09c-…` vs `6b3e66a1-…` | Vérifier dans le dashboard équipe : un ou deux Repls |
+| **Doublon nom « Automatic Google Ads… »** | `7fc2b09c-…` vs `6b3e66a1-…` | Vérifier dans le dashboard équipe : un ou deux Repls ; croiser avec le Repl affiché **« Brand-specific GG Ads »** (probable ligne **#9**) |
 | **Divers** | `d6bcecff-…` | Déjà ligne 21 ; décider enregistrement infra ou archivage |
 | **suspended accounts clean up (ligne #11)** | `139389d0-…` | **Hors périmètre migration GitHub** (décision **2026-05-05**) : pas d’épique Linear `[Repl 11]` ; ne pas recréer via `linear_create_wea36_repl_issues.py` |
 
