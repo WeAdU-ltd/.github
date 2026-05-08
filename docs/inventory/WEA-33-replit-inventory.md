@@ -6,7 +6,7 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 
 **Secrets** : ne pas copier de valeurs dans ce fichier. Les jetons vivent dans **Secrets** de chaque Repl, le **socle secrets** ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) et 1Password si besoin. Ici : **noms de variables ou nature**, pas les contenus.
 
-**Source des lignes ci-dessous** : export consolidé **Socle V5.1** (Repl *Weadu-Socle-V5-Lab*), **2026-03-29**, croisé avec `config/infra_projects.json`, snapshot CSV équipe **2026-03-17**, et docs internes Socle. **Mise à jour Socle (2026-05-04)** : export agent Repl sans valeurs de secrets → [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) (ticket [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration)). **Mise à jour COS / EC2 (2026-05-05)** : runbook sans accès Repl → [`cos-replit-ec2-migration-2026-05-04.md`](./cos-replit-ec2-migration-2026-05-04.md) (chaîne [WEA-49](https://linear.app/weadu/issue/WEA-49/repl-2-chief-of-staff-virtuel-ia-cos-migration-replit-github-societe)). **Repl COS fermé (2026-05)** : ligne #2 du tableau — repo GitHub + fermeture Repl ; même runbook. **Mise à jour Linear (2026-05-05)** : la chaîne d’épique **[Repl 11] suspended accounts clean up** a été **retirée** sur Linear (pas de migration GitHub prévue pour ce Repl) ; la ligne **#11** reste dans l’inventaire Socle pour traçabilité. Les autres lignes du tableau restent sur la photo mars 2026 jusqu’à passage équivalent.
+**Source des lignes ci-dessous** : export consolidé **Socle V5.1** (Repl *Weadu-Socle-V5-Lab*), **2026-03-29**, croisé avec `config/infra_projects.json`, snapshot CSV équipe **2026-03-17**, et docs internes Socle. **Mise à jour Socle (2026-05-04)** : export agent Repl sans valeurs de secrets → [`weadu-socle-v5-lab-replit-snapshot-2026-05-04.md`](./weadu-socle-v5-lab-replit-snapshot-2026-05-04.md) (ticket [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration)). **Mise à jour COS / EC2 (2026-05-05)** : runbook sans accès Repl → [`cos-replit-ec2-migration-2026-05-04.md`](./cos-replit-ec2-migration-2026-05-04.md) (chaîne [WEA-49](https://linear.app/weadu/issue/WEA-49/repl-2-chief-of-staff-virtuel-ia-cos-migration-replit-github-societe)). **Repl COS fermé (2026-05)** : ligne #2 du tableau — repo GitHub + fermeture Repl ; même runbook. **Mise à jour Linear (2026-05-05)** : la chaîne d’épique **[Repl 11] suspended accounts clean up** a été **retirée** sur Linear (pas de migration GitHub prévue pour ce Repl) ; la ligne **#11** reste dans l’inventaire Socle pour traçabilité. Les autres lignes du tableau restent sur la photo mars 2026 jusqu’à passage équivalent. **Couverture Team vs Socle :** un Repl **Team WeAdU** peut être **absent** des **21 lignes** s’il **n’était pas branché** sur le Socle à l’export (pas dans `infra_projects.json` / pas exposé au hub, etc.) ; dans ce cas il doit être **ajouté au tableau** explicitement (voir note sous §3).
 
 **Limite de fraîcheur** : si Replit n’est **plus utilisé** depuis un moment, les changements faits **ailleurs** (GitHub, poste local, EC2, secrets hors Repl) **ne sont pas** reflétés dans Socle ni dans l’UI Replit. Ce tableau reste une **photo à fin mars 2026** utile pour la chaîne migration / fermeture ([WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents) → [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)) ; la **vérité opérationnelle actuelle** se lit plutôt dans les **dépôts GitHub** et les **hébergements** réellement en prod (croiser [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces), [WEA-29](https://linear.app/weadu/issue/WEA-29/aws-inventaire-ec2-ubuntu-windows-taches-selenium)).
 
@@ -15,9 +15,10 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 ## 1. Comment compléter ou régénérer
 
 1. **Replit** : nom, déploiement `.replit.app`, onglet Git, Database, Deployments (Always On / Autoscale), Secrets (**noms** uniquement).
-2. **Git** : aligner avec [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces) (`org/repo`).
-3. **AWS** : croiser avec [WEA-29](https://linear.app/weadu/issue/WEA-29/aws-inventaire-ec2-ubuntu-windows-taches-selenium) ; ne pas recopier d’IP ou de clés API dans ce dépôt.
-4. **Automatisation** : token Replit d’équipe (secret [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) + script API pour remplir les colonnes encore `inconnu`.
+2. **Repl hors tableau Socle** : si le projet existe sur le **Team** mais **pas** dans les **21 lignes**, l’ajouter explicitement (Repl ID obligatoire) — voir note sous §3.
+3. **Git** : aligner avec [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces) (`org/repo`).
+4. **AWS** : croiser avec [WEA-29](https://linear.app/weadu/issue/WEA-29/aws-inventaire-ec2-ubuntu-windows-taches-selenium) ; ne pas recopier d’IP ou de clés API dans ce dépôt.
+5. **Automatisation** : token Replit d’équipe (secret [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) + script API pour remplir les colonnes encore `inconnu`.
 
 ---
 
@@ -60,6 +61,8 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 
 _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repris ici pour lisibilité._
 
+**Repl Team hors inventaire Socle (ex. « Brand-specific GG Ads »).** **Distinct** de la ligne **#9** *Automatic Google Ads tracking monitoring* (pas la même chose que ce nom UI). Si un projet Team **n’apparaît pas** dans le tableau, cause fréquente : **non branché** au Socle à l’export (`infra_projects.json` / hub). **Action** : copier le **Repl ID** depuis Replit → **ajouter une ligne** au §3 (nom affiché + UUID + priorité Société) ; suivre [WEA-36](./WEA-36-replit-migration-societe.md) pour repo GitHub et cutover.
+
 ---
 
 ## 4. Exclus / à réconcilier (hors tableau principal)
@@ -86,4 +89,4 @@ _UUID complets : voir source dans le Repl Socle ; seuls les préfixes sont repri
 
 ---
 
-_Document vivant ; dernière intégration dépôt : données Socle 2026-03-29 ; alignement chaîne Linear 2026-05-05 (Repl #11 hors migration)._
+_Document vivant ; dernière intégration dépôt : données Socle 2026-03-29 ; alignement chaîne Linear 2026-05-05 (Repl #11 hors migration) ; couverture Socle vs Team Replit : **2026-05**._
