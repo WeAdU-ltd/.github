@@ -261,6 +261,33 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertEqual(out["status"], "error")
         self.assertEqual(out["error"]["code"], "validation_error")
 
+    def test_explicit_freeform_overrides_medium_default_env(self) -> None:
+        """Chaîne libre prime sur LM_STUDIO_MODEL_DEFAULT lorsque complexity=medium."""
+        req = _base_req(complexity="medium", preferred_model="custom-med")
+        models = {"data": [{"id": "gemma-4"}, {"id": "only-default"}, {"id": "custom-med"}]}
+        chat = {
+            "model": "custom-med",
+            "choices": [{"message": {"content": "x"}}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1},
+        }
+
+        def fake_open(r: urllib.request.Request, timeout: object = None) -> _RespCM:
+            if r.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            body = json.loads(r.data.decode())
+            self.assertEqual(
+                body["model"],
+                "custom-med",
+                "POST model doit reprendre preferred_model personnalisé, pas LM_STUDIO_MODEL_DEFAULT",
+            )
+            return _RespCM(200, json.dumps(chat).encode())
+
+        with mock.patch.dict(os.environ, {"LM_STUDIO_MODEL_DEFAULT": "only-default"}):
+            with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+                out = ad.run(req)
+        self.assertEqual(out["status"], "success")
+        self.assertEqual(out["model_used"], "custom-med")
+
     def test_explicit_freeform_model_overrides_low_default(self) -> None:
         """Chaîne libre = id LM Studio ; prime sur LM_STUDIO_MODEL_LOW."""
         req = _base_req(complexity="low", preferred_model="mistral-local")

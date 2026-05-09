@@ -4,6 +4,20 @@ Adaptateur LM Studio — WEA-172.
 - API exclusive : POST /v1/chat/completions, GET /v1/models
 - Contrat d’entrée / sortie aligné sur specs/api_contract.md (WEA-170)
 - Pas de logique métier ; pas de secrets en dur ; pas de fallback cloud
+
+Résolution du champ ``preferred_model`` (contrat universel) :
+
+- **Valeurs enum** ``auto`` ou ``local`` : l’identifiant LM Studio envoyé dans le
+  JSON ``model`` est celui des variables d’environnement
+  ``LM_STUDIO_MODEL_LOW`` (complexity ``low``) ou ``LM_STUDIO_MODEL_DEFAULT``
+  (autres complexités), avec repli sur ``gemma-4`` si absentes.
+- **Chaîne libre** (toute valeur autre que ``auto``, ``local``, ``gemini_flash``,
+  ``claude_haiku``) : cette chaîne est utilisée **telle quelle** (après
+  ``strip()``) comme champ ``model`` de la requête LM Studio — elle **remplace**
+  LOW/DEFAULT et la complexité pour le choix du modèle ; elle doit figurer dans
+  ``GET /v1/models``.
+- Les enums cloud ``gemini_flash`` / ``claude_haiku`` sont refusées dans cet
+  adaptateur.
 """
 
 from __future__ import annotations
@@ -151,9 +165,15 @@ def _preferred_model_value(req: dict[str, Any]) -> tuple[bool, str]:
 
 
 def _resolve_lm_model_id(req: dict[str, Any]) -> tuple[str, bool]:
-    """Retourne (model_id, explicit_freeform). Chaîne libre = id LM Studio exact."""
+    """Choisit l’identifiant LM Studio pour le corps ``model`` du POST.
+
+    Retourne ``(model_id, explicit_freeform)`` où ``explicit_freeform`` est True
+    lorsque ``preferred_model`` est une chaîne libre : ``model_id`` est alors
+    **exactement** cette chaîne (plus de résolution LOW/DEFAULT).
+    """
     ok, pm = _preferred_model_value(req)
-    assert ok
+    if not ok:
+        raise ValueError(pm)
     complexity = str(req["complexity"])
     if pm not in _PREFERRED_ENUM:
         return pm, True
@@ -369,6 +389,8 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
     temperature = float(options["temperature"]) if options.get("temperature") is not None else 0.2
     max_tokens = int(options["max_tokens"]) if options.get("max_tokens") is not None else 1000
 
+    # ``model_id`` : chaîne libre ``preferred_model`` telle quelle, ou LOW/DEFAULT
+    # si ``preferred_model`` vaut ``auto`` / ``local`` (voir docmodule).
     body = {
         "model": model_id,
         "messages": [
