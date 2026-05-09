@@ -261,6 +261,76 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertEqual(out["status"], "error")
         self.assertEqual(out["error"]["code"], "validation_error")
 
+    def test_preferred_local_uses_lm_studio_model_low_env(self) -> None:
+        """preferred_model=local : corps POST model = LM_STUDIO_MODEL_LOW si low."""
+        req = _base_req(complexity="low", preferred_model="local")
+        models = {"data": [{"id": "gemma-4"}, {"id": "env-low-special"}]}
+        chat = {
+            "model": "env-low-special",
+            "choices": [{"message": {"content": "ok"}}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1},
+        }
+
+        def fake_open(r: urllib.request.Request, timeout: object = None) -> _RespCM:
+            if r.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            body = json.loads(r.data.decode())
+            self.assertEqual(body["model"], "env-low-special")
+            return _RespCM(200, json.dumps(chat).encode())
+
+        with mock.patch.dict(os.environ, {"LM_STUDIO_MODEL_LOW": "env-low-special"}):
+            with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+                out = ad.run(req)
+        self.assertEqual(out["status"], "success")
+        self.assertIn("low complexity", out["routing_reason"])
+
+    def test_preferred_auto_uses_lm_studio_model_default_env(self) -> None:
+        """preferred_model=auto : DEFAULT si complexity non low."""
+        req = _base_req(complexity="high", preferred_model="auto")
+        models = {"data": [{"id": "gemma-4"}, {"id": "env-default-special"}]}
+        chat = {
+            "model": "env-default-special",
+            "choices": [{"message": {"content": "x"}}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1},
+        }
+
+        def fake_open(r: urllib.request.Request, timeout: object = None) -> _RespCM:
+            if r.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            body = json.loads(r.data.decode())
+            self.assertEqual(body["model"], "env-default-special")
+            return _RespCM(200, json.dumps(chat).encode())
+
+        with mock.patch.dict(os.environ, {"LM_STUDIO_MODEL_DEFAULT": "env-default-special"}):
+            with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+                out = ad.run(req)
+        self.assertEqual(out["status"], "success")
+        self.assertIn("LM_STUDIO_MODEL_DEFAULT", out["routing_reason"])
+
+    def test_custom_model_name_sent_verbatim_to_lm_studio(self) -> None:
+        """Nom de modèle custom (hors local/auto) : identique dans POST model."""
+        custom = "my-org/Custom-LM-7B"
+        req = _base_req(complexity="low", preferred_model=custom)
+        models = {"data": [{"id": "gemma-4"}, {"id": custom}]}
+        chat = {
+            "model": custom,
+            "choices": [{"message": {"content": "z"}}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1},
+        }
+
+        def fake_open(r: urllib.request.Request, timeout: object = None) -> _RespCM:
+            if r.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            body = json.loads(r.data.decode())
+            self.assertEqual(body["model"], custom)
+            return _RespCM(200, json.dumps(chat).encode())
+
+        with mock.patch.dict(os.environ, {"LM_STUDIO_MODEL_LOW": "gemma-4"}):
+            with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+                out = ad.run(req)
+        self.assertEqual(out["status"], "success")
+        self.assertIn("explicit model from preferred_model", out["routing_reason"])
+
     def test_explicit_freeform_overrides_medium_default_env(self) -> None:
         """Chaîne libre prime sur LM_STUDIO_MODEL_DEFAULT lorsque complexity=medium."""
         req = _base_req(complexity="medium", preferred_model="custom-med")

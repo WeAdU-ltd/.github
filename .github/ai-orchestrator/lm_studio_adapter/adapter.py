@@ -5,19 +5,19 @@ Adaptateur LM Studio — WEA-172.
 - Contrat d’entrée / sortie aligné sur specs/api_contract.md (WEA-170)
 - Pas de logique métier ; pas de secrets en dur ; pas de fallback cloud
 
-Résolution du champ ``preferred_model`` (contrat universel) :
+Résolution du champ ``preferred_model`` (contrat universel, aligné sur
+``specs/api_contract.md``) :
 
-- **Valeurs enum** ``auto`` ou ``local`` : l’identifiant LM Studio envoyé dans le
-  JSON ``model`` est celui des variables d’environnement
-  ``LM_STUDIO_MODEL_LOW`` (complexity ``low``) ou ``LM_STUDIO_MODEL_DEFAULT``
-  (autres complexités), avec repli sur ``gemma-4`` si absentes.
-- **Chaîne libre** (toute valeur autre que ``auto``, ``local``, ``gemini_flash``,
-  ``claude_haiku``) : cette chaîne est utilisée **telle quelle** (après
-  ``strip()``) comme champ ``model`` de la requête LM Studio — elle **remplace**
-  LOW/DEFAULT et la complexité pour le choix du modèle ; elle doit figurer dans
-  ``GET /v1/models``.
-- Les enums cloud ``gemini_flash`` / ``claude_haiku`` sont refusées dans cet
-  adaptateur.
+- **``local`` ou ``auto``** : l’identifiant LM Studio pour le JSON ``model`` est
+  résolu via les variables d’environnement ``LM_STUDIO_MODEL_LOW`` si
+  ``complexity`` vaut ``low``, sinon ``LM_STUDIO_MODEL_DEFAULT`` (repli
+  ``gemma-4`` si absentes). Ces deux tokens sont les **seuls** qui déclenchent
+  cette résolution pilotée par l’environnement.
+- **Toute autre chaîne non vide** : envoyée **telle quelle** (après ``strip()``)
+  comme champ ``model`` vers LM Studio — nom exact côté serveur LM ; doit
+  apparaître dans ``GET /v1/models``.
+- **``gemini_flash`` / ``claude_haiku``** : refusées dans cet adaptateur (ce ne
+  sont pas des ids LM Studio ; le routeur ne doit pas les envoyer ici).
 """
 
 from __future__ import annotations
@@ -46,7 +46,10 @@ _TASK_TYPES = frozenset(
 )
 _COMPLEXITIES = frozenset({"low", "medium", "high"})
 _PRIVACY = frozenset({"local_only", "standard", "external_allowed"})
-_PREFERRED_ENUM = frozenset({"auto", "local", "gemini_flash", "claude_haiku"})
+# Résolution LM via variables d'environnement (LOW / DEFAULT) — api_contract §2.4
+_LM_ENV_ROUTED = frozenset({"local", "auto"})
+# Enums « cloud » du contrat : interdites dans l'adaptateur LM uniquement
+_CLOUD_PROVIDER_ENUM = frozenset({"gemini_flash", "claude_haiku"})
 
 _UUID_RE = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -167,21 +170,21 @@ def _preferred_model_value(req: dict[str, Any]) -> tuple[bool, str]:
 def _resolve_lm_model_id(req: dict[str, Any]) -> tuple[str, bool]:
     """Choisit l’identifiant LM Studio pour le corps ``model`` du POST.
 
-    Retourne ``(model_id, explicit_freeform)`` où ``explicit_freeform`` est True
-    lorsque ``preferred_model`` est une chaîne libre : ``model_id`` est alors
-    **exactement** cette chaîne (plus de résolution LOW/DEFAULT).
+    Retourne ``(model_id, uses_env_resolution)`` où ``uses_env_resolution`` est
+    True uniquement pour ``preferred_model`` ∈ {``local``, ``auto``} ; sinon
+    ``model_id`` est la chaîne telle quelle (nom de modèle LM custom).
     """
     ok, pm = _preferred_model_value(req)
     if not ok:
         raise ValueError(pm)
     complexity = str(req["complexity"])
-    if pm not in _PREFERRED_ENUM:
-        return pm, True
-    return _resolve_model_id(complexity), False
+    if pm in _LM_ENV_ROUTED:
+        return _resolve_model_id(complexity), True
+    return pm, False
 
 
-def _routing_reason(complexity: str, model_id: str, explicit_freeform: bool) -> str:
-    if explicit_freeform:
+def _routing_reason(complexity: str, model_id: str, uses_env_resolution: bool) -> str:
+    if not uses_env_resolution:
         return f"local execution with explicit model from preferred_model ({model_id})"
     if complexity == "low":
         return "local execution selected for low complexity task"
@@ -289,7 +292,7 @@ def _validate_run_request(req: dict[str, Any]) -> tuple[bool, str]:
     if not ok_pm:
         return False, pm_msg
     # Cet adaptateur ne sert que LM Studio : enums cloud explicites = erreur d'usage
-    if pm_msg in ("gemini_flash", "claude_haiku"):
+    if pm_msg in _CLOUD_PROVIDER_ENUM:
         return False, "preferred_model requests a cloud provider; lm_studio_adapter cannot fulfill"
     inp = req.get("input")
     if not isinstance(inp, dict):
@@ -319,7 +322,7 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
         )
 
     complexity = str(req["complexity"])
-    model_id, explicit_freeform = _resolve_lm_model_id(req)
+    model_id, uses_env_resolution = _resolve_lm_model_id(req)
     base = _env_base_url()
     models_url = f"{base}/v1/models"
     chat_url = f"{base}/v1/chat/completions"
@@ -389,8 +392,8 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
     temperature = float(options["temperature"]) if options.get("temperature") is not None else 0.2
     max_tokens = int(options["max_tokens"]) if options.get("max_tokens") is not None else 1000
 
-    # ``model_id`` : chaîne libre ``preferred_model`` telle quelle, ou LOW/DEFAULT
-    # si ``preferred_model`` vaut ``auto`` / ``local`` (voir docmodule).
+    # ``model_id`` : si ``preferred_model`` ∈ {local, auto} → LOW/DEFAULT ; sinon
+    # chaîne personnalisée envoyée telle quelle à LM Studio.
     body = {
         "model": model_id,
         "messages": [
@@ -507,6 +510,6 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
         "model_used": model_used,
         "output": {"text": text_out},
         "usage": usage,
-        "routing_reason": _routing_reason(complexity, model_id, explicit_freeform),
+        "routing_reason": _routing_reason(complexity, model_id, uses_env_resolution),
         "error": None,
     }
