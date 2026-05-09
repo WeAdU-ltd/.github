@@ -261,6 +261,43 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertEqual(out["status"], "error")
         self.assertEqual(out["error"]["code"], "validation_error")
 
+    def test_explicit_freeform_model_overrides_low_default(self) -> None:
+        """Chaîne libre = id LM Studio ; prime sur LM_STUDIO_MODEL_LOW."""
+        req = _base_req(complexity="low", preferred_model="mistral-local")
+        models = {"data": [{"id": "gemma-4"}, {"id": "mistral-local"}]}
+        chat = {
+            "model": "mistral-local",
+            "choices": [{"message": {"content": "ok"}}],
+            "usage": {"prompt_tokens": 2, "completion_tokens": 1},
+        }
+
+        def fake_open(r: urllib.request.Request, timeout: object = None) -> _RespCM:
+            if r.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            body = json.loads(r.data.decode())
+            self.assertEqual(body["model"], "mistral-local")
+            return _RespCM(200, json.dumps(chat).encode())
+
+        with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+            out = ad.run(req)
+        self.assertEqual(out["status"], "success")
+        self.assertIn("explicit model from preferred_model", out["routing_reason"])
+        self.assertIn("mistral-local", out["routing_reason"])
+
+    def test_preferred_model_empty_string_validation(self) -> None:
+        with mock.patch.object(ad, "_urlopen") as m:
+            out = ad.run(_base_req(preferred_model="   "))
+        m.assert_not_called()
+        self.assertEqual(out["error"]["code"], "validation_error")
+
+    def test_preferred_model_non_string_validation(self) -> None:
+        r = _base_req()
+        r["preferred_model"] = None
+        with mock.patch.object(ad, "_urlopen") as m:
+            out = ad.run(r)
+        m.assert_not_called()
+        self.assertEqual(out["error"]["code"], "validation_error")
+
     def test_medium_uses_model_default_env(self) -> None:
         models = {"data": [{"id": "gemma-4"}, {"id": "custom-default"}]}
         chat = {

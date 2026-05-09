@@ -32,7 +32,7 @@ _TASK_TYPES = frozenset(
 )
 _COMPLEXITIES = frozenset({"low", "medium", "high"})
 _PRIVACY = frozenset({"local_only", "standard", "external_allowed"})
-_PREFERRED = frozenset({"auto", "local", "gemini_flash", "claude_haiku"})
+_PREFERRED_ENUM = frozenset({"auto", "local", "gemini_flash", "claude_haiku"})
 
 _UUID_RE = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -140,7 +140,29 @@ def _resolve_model_id(complexity: str) -> str:
     return _env_model_default()
 
 
-def _routing_reason(complexity: str) -> str:
+def _preferred_model_value(req: dict[str, Any]) -> tuple[bool, str]:
+    pm = req.get("preferred_model")
+    if not isinstance(pm, str):
+        return False, "preferred_model must be a string"
+    s = pm.strip()
+    if not s:
+        return False, "preferred_model must be a non-empty string"
+    return True, s
+
+
+def _resolve_lm_model_id(req: dict[str, Any]) -> tuple[str, bool]:
+    """Retourne (model_id, explicit_freeform). Chaîne libre = id LM Studio exact."""
+    ok, pm = _preferred_model_value(req)
+    assert ok
+    complexity = str(req["complexity"])
+    if pm not in _PREFERRED_ENUM:
+        return pm, True
+    return _resolve_model_id(complexity), False
+
+
+def _routing_reason(complexity: str, model_id: str, explicit_freeform: bool) -> str:
+    if explicit_freeform:
+        return f"local execution with explicit model from preferred_model ({model_id})"
     if complexity == "low":
         return "local execution selected for low complexity task"
     return "local execution with LM_STUDIO_MODEL_DEFAULT for non-low complexity"
@@ -243,17 +265,17 @@ def _validate_run_request(req: dict[str, Any]) -> tuple[bool, str]:
     pv = req.get("privacy_level")
     if pv not in _PRIVACY:
         return False, "invalid or missing privacy_level"
-    pm = req.get("preferred_model")
-    if pm not in _PREFERRED:
-        return False, "invalid or missing preferred_model"
+    ok_pm, pm_msg = _preferred_model_value(req)
+    if not ok_pm:
+        return False, pm_msg
+    # Cet adaptateur ne sert que LM Studio : enums cloud explicites = erreur d'usage
+    if pm_msg in ("gemini_flash", "claude_haiku"):
+        return False, "preferred_model requests a cloud provider; lm_studio_adapter cannot fulfill"
     inp = req.get("input")
     if not isinstance(inp, dict):
         return False, "input must be an object"
     if not isinstance(inp.get("prompt"), str):
         return False, "input.prompt must be a string"
-    # Cet adaptateur ne sert que LM Studio : appels cloud explicites = erreur d’usage
-    if pm in ("gemini_flash", "claude_haiku"):
-        return False, "preferred_model requests a cloud provider; lm_studio_adapter cannot fulfill"
     return True, ""
 
 
@@ -277,7 +299,7 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
         )
 
     complexity = str(req["complexity"])
-    model_id = _resolve_model_id(complexity)
+    model_id, explicit_freeform = _resolve_lm_model_id(req)
     base = _env_base_url()
     models_url = f"{base}/v1/models"
     chat_url = f"{base}/v1/chat/completions"
@@ -463,6 +485,6 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
         "model_used": model_used,
         "output": {"text": text_out},
         "usage": usage,
-        "routing_reason": _routing_reason(complexity),
+        "routing_reason": _routing_reason(complexity, model_id, explicit_freeform),
         "error": None,
     }

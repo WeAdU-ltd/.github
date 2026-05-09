@@ -50,14 +50,21 @@ Représentation logique : **JSON** (UTF-8). Les exemples utilisent des objets JS
 
 ### 2.4 `preferred_model`
 
-| Valeur           | Signification |
-|------------------|---------------|
+Le champ **`preferred_model`** est une **chaîne JSON** (`string`) qui peut prendre **deux formes** :
+
+1. **Valeur prédéfinie (enum)** — l’une des constantes ci-dessous ;
+2. **Identifiant libre** — toute autre chaîne **non vide** : nom **exact** du modèle tel qu’exposé par le **provider effectivement ciblé** après routage (ex. id LM Studio dans `GET /v1/models`, id modèle côté Google ou Anthropic selon l’adaptateur invoqué).
+
+| Valeur (enum)    | Signification |
+|------------------|----------------|
 | `auto`           | Délégation complète au routeur (sous contraintes `privacy_level` et `max_cost_usd`). |
 | `local`          | Forcer **LM Studio** (équivalent `lm_studio` côté `provider_used`). |
 | `gemini_flash`   | Forcer l’adaptateur **Gemini Flash** si compatible avec `privacy_level`. |
 | `claude_haiku`   | Forcer l’adaptateur **Claude Haiku** si compatible avec `privacy_level`. |
 
-*Si `preferred_model` est incompatible avec `privacy_level` (ex. `claude_haiku` + `local_only`), le serveur renvoie une erreur explicite (voir §5).*
+**Identifiant libre** — lorsque la valeur n’est **pas** l’une des quatre constantes ci-dessus, elle **ne** doit **pas** être interprétée comme un alias d’enum : c’est l’**identifiant canonique du modèle** pour le provider choisi (sensible à la casse selon les APIs cibles). Le routeur / l’adaptateur vérifie la présence du modèle lorsque l’API du fournisseur l’expose (ex. liste des modèles LM Studio).
+
+*Si une valeur **enum** est incompatible avec `privacy_level` (ex. `claude_haiku` + `local_only`), le serveur renvoie une erreur explicite (voir §5). Une chaîne libre qui désigne un modèle **cloud** alors que `privacy_level = local_only` est également incohérente : à rejeter côté routeur ou adaptateur avec une erreur claire (`privacy_violation` ou `validation_error` selon l’implémentation).*
 
 ### 2.5 `status` (réponse)
 
@@ -110,7 +117,7 @@ Représentation logique : **JSON** (UTF-8). Les exemples utilisent des objets JS
 | `task_type` | `string` | Une valeur de §2.1. |
 | `complexity` | `string` | Une valeur de §2.2. |
 | `privacy_level` | `string` | Une valeur de §2.3. |
-| `preferred_model` | `string` | Une valeur de §2.4. |
+| `preferred_model` | `string` | Non vide : une **valeur enum** de §2.4 **ou** un **identifiant libre** de modèle pour le provider cible (voir §2.4). |
 | `input` | `object` | Au minimum `prompt` (voir ci-dessous). |
 
 ### 3.3 Champs optionnels
@@ -208,7 +215,7 @@ Les codes précis (`provider_timeout`, `privacy_violation`, `cost_cap_exceeded`,
 ## 5. Règles de validation transverses
 
 1. **UUID** — `task_id` doit être un UUID RFC 4122 (v4 recommandé) ; sinon erreur `validation_error`.
-2. **Énumérations** — toute valeur hors ensembles §2 ⇒ `validation_error`.
+2. **Énumérations contrôlées** — `task_type`, `complexity`, `privacy_level` doivent être dans les ensembles §2.1–§2.3 ; sinon `validation_error`. Pour `preferred_model`, se reporter à §2.4 : enum **ou** chaîne libre ; chaîne vide interdite.
 3. **`local_only`** — interdit tout `provider_used` autre que `lm_studio` ; `preferred_model` cloud ⇒ erreur `privacy_violation` sans appel cloud.
 4. **`auto` + `standard`** — le routeur choisit parmi les trois providers selon règles produit (documentées dans le moteur de routage, hors ce fichier).
 5. **`max_cost_usd`** — si le coût estimé avant appel dépasse la limite, erreur ou statut métier `error` avec `code: cost_cap_exceeded` (comportement exact : implémentation WEA-171+).
