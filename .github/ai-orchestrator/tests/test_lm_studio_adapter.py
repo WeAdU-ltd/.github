@@ -419,7 +419,7 @@ class TestLmStudioAdapter(unittest.TestCase):
     def test_check_availability_true(self) -> None:
         def fake_open(req: urllib.request.Request, timeout: object = None) -> _RespCM:
             self.assertIn("/v1/models", req.full_url)
-            self.assertEqual(timeout, 2.0)
+            self.assertEqual(timeout, 30.0)
             return _RespCM(200, json.dumps({"data": [{"id": "gemma-4"}]}).encode())
 
         with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
