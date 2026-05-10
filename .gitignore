@@ -14,3 +14,6 @@ scripts/ovh_inventory_wea28.op.env
 
 # Local Gmail OAuth (WEA-24) — copy from .env.gmail.local.example
 .env.gmail.local
+
+# Local env (ex. LM_STUDIO_BASE_URL, Docker) — ne pas versionner
+.env
