@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pd-detection"
+version = "0.0.1"
+description = "pd-detection — socle GitHub (WEA-131) ; fusionner le code métier exporté depuis Replit (WEA-128)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "flask>=3.0,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[project.scripts]
+pd-detection-serve = "pd_detection.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
