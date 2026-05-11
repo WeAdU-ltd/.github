@@ -66,7 +66,7 @@ jobs:
           bash scripts/init_pd_detection_app_template.sh "$tmp"
           test -f "$tmp/src/pd_detection/app.py"
           test -f "$tmp/.github/workflows/ci.yml"
-          python3 -m pip install -q -e "$tmp[dev]"
+          python3 -m pip install -q -e "${tmp}[dev]"
           python3 -m pytest -q "$tmp/tests"
           rm -rf "$tmp"
 
