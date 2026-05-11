@@ -38,8 +38,9 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 
 | Champ | État (doc dépôt `WeAdU-ltd/.github`) |
 |-------|--------------------------------------|
-| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Git** : [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) — **confirmée** (**2026-05-11**) ; colonne **Notes** et intro WEA-33 alignées. Autres colonnes (DB Replit, AO, secrets noms, AWS) : **en attente** export Repl §2. |
-| **Critère de fait WEA-129** | PR inventaire / synthèse sur `WeAdU-ltd/.github` lorsque fusionnée ; détail runtime hors **Notes** / Git = export Repl. |
+| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Git** : [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) — **confirmée** (**2026-05-11**) ; colonnes **Notes** et intro WEA-33 alignées avec ce runbook (sections 3 à 5). Autres colonnes (DB Replit, AO, secrets noms, AWS) : **en attente** export Repl §2 ([WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md)). |
+| **Réponse agent Repl** | **Non consolidée dans ce fichier** : aucun export Markdown n’a été fusionné dans le §2 depuis une session **dans** le Repl **pd-detection**. La suite reste la consigne §1 + commentaire API sur [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) ([`scripts/linear_issue_comment.py`](../../scripts/linear_issue_comment.py)). |
+| **Critère de fait WEA-129** | **Colonnes équivalentes** : **Notes**, intro WEA-33 et **Git** à jour **ou** PR dépôt `.github` fusionnée = preuve ; détail runtime des autres colonnes = **en attente** export Repl. |
 
 ---
 
