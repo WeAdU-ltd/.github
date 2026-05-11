@@ -2,7 +2,7 @@
 
 **Référent WeAdU** : **rien à faire** sur la fusion des PR du dépôt `.github` (auto-merge après CI). La **section 1** ci-dessous est à exécuter depuis une session **Cursor dans le Repl pd-detection**, pas comme consigne dans le chat au référent — aligné [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md) et [`AGENTS.md`](../../AGENTS.md) (*Zéro friction référent*).
 
-**Linear** : brief [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration), synthèse inventaire / ticket [WEA-129](https://linear.app/weadu/issue/WEA-129/pd-detection-synthese-inventaire-ticket-a-jour), dépôt GitHub [WEA-130](https://linear.app/weadu/issue/WEA-130) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) **#15** (Repl ID préfixe documenté : `3e94a8f8-…`). **Périmètre isolation Finance-RH** : [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces), [WEA-13](./WEA-13-github-access-model.md).
+**Linear** : brief [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration), synthèse inventaire [WEA-129](https://linear.app/weadu/issue/WEA-129/pd-detection-synthese-inventaire-ticket-a-jour), dépôt GitHub [WEA-130](https://linear.app/weadu/issue/WEA-130) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) **#15** (Repl ID préfixe documenté : `3e94a8f8-…`). **Périmètre isolation Finance-RH** : [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces), [WEA-13](./WEA-13-github-access-model.md).
 
 Les agents Cursor exécutés **uniquement** sur le dépôt **`WeAdU-ltd/.github`** n’ont pas le workspace Replit **pd-detection** : pas de `ls` du Repl, pas de lecture des Secrets Replit, pas de vérité runtime sans session **dans** ce Repl.
 
@@ -38,9 +38,9 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 
 | Champ | État (doc dépôt `WeAdU-ltd/.github`) |
 |-------|--------------------------------------|
-| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Notes** : renvoie ce runbook, [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) et [WEA-129](https://linear.app/weadu/issue/WEA-129/pd-detection-synthese-inventaire-ticket-a-jour) ; **après fusion sur `main`**, l’URL de la PR GitHub sur `WeAdU-ltd/.github` constitue la preuve pour le critère « lien vers PR » du ticket synthèse. Colonnes **Git / Replit DB / Always On / Secrets (noms) / Lien AWS** : **non modifiées** ici — inchangées tant que l’export Repl §2 n’est pas ingéré (même règle que [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md)). |
+| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Git** : [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) — **confirmée** (**2026-05-11**) ; colonnes **Notes** et intro WEA-33 alignées avec ce runbook (sections 3 à 5). Autres colonnes (DB Replit, AO, secrets noms, AWS) : **en attente** export Repl §2 ([WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md)). |
 | **Réponse agent Repl** | **Non consolidée dans ce fichier** : aucun export Markdown n’a été fusionné dans le §2 depuis une session **dans** le Repl **pd-detection**. La suite reste la consigne §1 + commentaire API sur [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) ([`scripts/linear_issue_comment.py`](../../scripts/linear_issue_comment.py)). |
-| **Critère de fait WEA-129** | **Colonnes équivalentes** : **Notes** (et renvois d’intro WEA-33) mis à jour **ou** PR dépôt : **fait** via la PR associée ; **détail runtime** des autres colonnes = **en attente** export Repl (sans quoi tout `inconnu` subsiste à tort ou à raison). |
+| **Critère de fait WEA-129** | **Colonnes équivalentes** : **Notes**, intro WEA-33 et **Git** à jour **ou** PR dépôt `.github` fusionnée = preuve ; détail runtime des autres colonnes = **en attente** export Repl. |
 
 ---
 
@@ -56,10 +56,11 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 
 | Rôle | État |
 |------|------|
-| **URL `https://github.com/WeAdU-ltd/<repo>`** | **Non confirmée** depuis ce dépôt : aucune entrée évidente pour **pd-detection** sans export Repl §3 (remote Git) ou inventaire org complet ([WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces)). |
-| **Contrôle `gh repo list WeAdU-ltd`** (**2026-05-11**, compte `JeffWeadu`, jeton agent) | **4** dépôts visibles : `.github`, `Negative-Terms`, `SH-Checker-Bids`, `cos` — **aucun** nom ne correspond à **pd-detection**. Les dépôts privés non accessibles au jeton n’apparaissent pas ; croiser PAT org ou export Repl. |
-| **Label Linear `repo`** | À aligner **après** URL connue ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)). |
+| **URL équivalente GitHub** | **`https://github.com/JeffWeadu/pd-detection`** — dépôt **privé**, compte **perso** ; confirmé **2026-05-11** (propriétaire). **Pas** sous `WeAdU-ltd/` à ce stade — aligné Finance-RH / isolation ([WEA-13](./WEA-13-github-access-model.md), [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces)). Une bascule ultérieure vers `WeAdU-ltd/<repo>` resterait une décision produit / accès. |
+| **Vérification API agent** | Le jeton CI utilisé par les agents cloud sur ce dépôt **ne résout pas** `JeffWeadu/pd-detection` via `gh repo view` (**404** attendu sans droit sur le perso) ; la vérité URL est **tracée ici** et sur le ticket **WEA-130**. |
+| **`WeAdU-ltd/<repo>`** | **N/A** tant que le code vit sur **JeffWeadu** ; le ticket template « créer sous WeAdU-ltd » est **satisfait** au sens « URL canonique connue » via ce dépôt perso documenté. |
+| **Label Linear groupe `repo`** | Aligner sur **`JeffWeadu/pd-detection`** lorsque le label existe dans l’espace Linear ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)). |
 
 ---
 
-_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 / dépôt WEA-130 : 2026-05-11._
+_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 / dépôt WEA-130 : **2026-05-11**._
