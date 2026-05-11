@@ -51,7 +51,7 @@ Document d’ancrage pour le ticket [WEA-33](https://linear.app/weadu/issue/WEA-
 | 12 | Dashboard — Carmino & monPL | `89725b9e-…` | possible passage par hub dashboard EC2 ; à confirmer | **Partiel** | inconnu | inconnu | inconnu | inconnu (clés dashboard côté vault Socle) | inconnu | **P2** | Société | Absent CSV 2026-03-17 |
 | 13 | Recommandations mngt | `ad9b5532-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
 | 14 | Ads Performance Analyze | `cb5cc4be-…` | absent CSV 2026-03-17 | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P2** | Société | |
-| 15 | pd-detection | `3e94a8f8-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable kit | inconnu | **P2** | **Finance-RH** | Suivi COS selon Socle |
+| 15 | pd-detection | `3e94a8f8-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable kit | inconnu | **P2** | **Finance-RH** | Suivi COS selon Socle ; brief migration [WEA-128](./pd-detection-replit-migration-WEA-128.md) |
 | 16 | bad performers | `8ae0b387-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P3** | Société | |
 | 17 | Feed Optimizer | `cb7bc686-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable Google Ads + kit | inconnu | **P3** | Société | |
 | 18 | Dashboard — Epic Extender | `bc1c605a-…` | idem | **Partiel** | inconnu | inconnu | inconnu | probable kit | inconnu | **P3** | Société | |
