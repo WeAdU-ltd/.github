@@ -74,6 +74,8 @@ Aucun écart ouvert pour les deux critères du ticket **une fois** la PR qui ajo
 
 Le ticket [WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration) demande un export **à jour** depuis l’agent Cursor **du Repl** (dépendances réelles, noms des secrets Replit, commandes de run, volumétrie DB, déploiement `.replit.app`, etc.). **Un agent exécuté uniquement sur ce dépôt GitHub (Cursor Cloud, CI) n’a pas accès au filesystem ni au runtime Replit** : on ne peut pas produire ici l’export runtime à la place du Repl.
 
+**Référent WeAdU (routine)** : ne pas traiter ce bloc comme « merge PR » ou « colle ceci pour moi » dans le chat. **Exécuter** la consigne ci-dessous depuis une session **Cursor ouverte dans le Repl** concerné ; les PR du dépôt `.github` passent par **auto-merge** après CI ([`AGENTS.md`](../../AGENTS.md) section *Zéro friction référent*).
+
 **Justification documentée (critère de fait WEA-44)** : la preuve d’inaccessibilité depuis cet environnement est ce paragraphe, plus l’inventaire **figé** [WEA-33](./WEA-33-replit-inventory.md) (Socle V5.1, mars 2026) pour la vue « ce qu’on savait sans ouvrir le Repl ».
 
 ### Consigne (à coller dans le chat de l’agent Cursor **du** Repl)

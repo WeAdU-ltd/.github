@@ -152,6 +152,8 @@ OAuth refresh token + smoke (profil Gmail, envoi test **vers soi** avec `--send`
 
 Workflow [`.github/workflows/auto-merge-pr.yml`](.github/workflows/auto-merge-pr.yml) calls the reusable [`auto-merge-enable.yml`](.github/workflows/auto-merge-enable.yml) so GitHub **queues the merge** when branch protection allows it (same pattern as other WeAdU repos such as NEG). After **CI** and any other required checks go green, the merge completes without a human clicking Merge.
 
+**Agents / référent (ce dépôt)** : pour une PR **prête** (non draft) vers `main`, ne pas enchaîner une procédure de merge manuel ; l’auto-merge suffit dès que les checks requis passent — voir [`AGENTS.md`](AGENTS.md) section *Zéro friction référent*.
+
 **Repository setting — enable once per repo (or for the whole org):** GitHub requires **Allow auto-merge** on the repository. To turn it on for **every** repo under `WeAdU-ltd` in one shot (uses your local `gh` login, no token in the repo):
 
 ```bash
