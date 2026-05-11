@@ -59,6 +59,12 @@ Demander à l’agent du Repl de produire un export structuré (Markdown) avec :
 
 Ne pas coller de secrets dans Linear ; résumer dans le ticket ou dans le dépôt cible plus tard.
 
+## Exécution (référent WeAdU — routine sans friction)
+
+- **Merge PR** sur `WeAdU-ltd/.github` : **auto-merge** quand la PR n’est pas brouillon et la CI requise est verte — **pas** de procédure *Merge* manuelle pour le référent (workflow `auto-merge-pr.yml`).
+- **Coller cette consigne** : depuis une session **Cursor (ou équivalent) ouverte dans ce Repl**, ou tout opérateur avec le workspace Repl — **pas** comme liste d’actions pour le référent dans le chat.
+- **Consigne canonique** (à préférer pour éviter les doubles) : [WEA-35 §7 — Brief agent dans le Repl](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/WEA-35-weadu-socle-v5-lab-template.md#7-wea-44--brief-agent-cursor-dans-le-repl-export-migration).
+
 ## Critères de fait
 
 - [ ] Réponse de l’agent Repl ou justification documentée si le Repl est inaccessible.
