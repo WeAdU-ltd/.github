@@ -1,6 +1,6 @@
 # pd-detection — brief agent Replit (infos migration)
 
-**Linear** : [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) **#15** (Repl ID préfixe documenté : `3e94a8f8-…`). **Périmètre isolation Finance-RH** : [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces), [WEA-13](./WEA-13-github-access-model.md).
+**Linear** : brief [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration), synthèse inventaire / ticket [WEA-129](https://linear.app/weadu/issue/WEA-129/pd-detection-synthese-inventaire-ticket-a-jour) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) **#15** (Repl ID préfixe documenté : `3e94a8f8-…`). **Périmètre isolation Finance-RH** : [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces), [WEA-13](./WEA-13-github-access-model.md).
 
 Les agents Cursor exécutés **uniquement** sur le dépôt **`WeAdU-ltd/.github`** n’ont pas le workspace Replit **pd-detection** : pas de `ls` du Repl, pas de lecture des Secrets Replit, pas de vérité runtime sans session **dans** ce Repl.
 
@@ -32,7 +32,17 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 
 ---
 
-## 3. Critère de fait WEA-128 (réponse Repl vs inaccessible)
+## 3. Synthèse (WEA-129) — inventaire / ticket à jour
+
+| Champ | État (doc dépôt `WeAdU-ltd/.github`) |
+|-------|--------------------------------------|
+| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Notes** : renvoie ce runbook, [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) et [WEA-129](https://linear.app/weadu/issue/WEA-129/pd-detection-synthese-inventaire-ticket-a-jour) ; **après fusion sur `main`**, l’URL de la PR GitHub sur `WeAdU-ltd/.github` constitue la preuve pour le critère « lien vers PR » du ticket synthèse. Colonnes **Git / Replit DB / Always On / Secrets (noms) / Lien AWS** : **non modifiées** ici — inchangées tant que l’export Repl §2 n’est pas ingéré (même règle que [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md)). |
+| **Réponse agent Repl** | **Non consolidée dans ce fichier** : aucun export Markdown n’a été fusionné dans le §2 depuis une session **dans** le Repl **pd-detection**. La suite reste la consigne §1 + commentaire API sur [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) ([`scripts/linear_issue_comment.py`](../../scripts/linear_issue_comment.py)). |
+| **Critère de fait WEA-129** | **Colonnes équivalentes** : **Notes** (et renvois d’intro WEA-33) mis à jour **ou** PR dépôt : **fait** via la PR associée ; **détail runtime** des autres colonnes = **en attente** export Repl (sans quoi tout `inconnu` subsiste à tort ou à raison). |
+
+---
+
+## 4. Critère de fait WEA-128 (réponse Repl vs inaccessible)
 
 | Exigence | État |
 |----------|------|
@@ -40,4 +50,4 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 
 ---
 
-_Document vivant ; création : 2026-05-11 (WEA-128)._
+_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 : 2026-05-11._
