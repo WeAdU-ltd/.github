@@ -30,7 +30,7 @@ Pour tout **nouveau** dépôt applicatif ou pour aligner un existant :
 - **Génération** (ré-exécutable, idempotent par ligne `[Repl N]` dans le titre du parent) : [`scripts/linear_create_wea36_repl_issues.py`](../../scripts/linear_create_wea36_repl_issues.py). Prérequis : `LINEAR_API_KEY`. Dry-run par défaut ; `python3 scripts/linear_create_wea36_repl_issues.py --apply` pour créer les issues sur l’équipe **WEA**, projet **Autonomie agents**.
 
 - **Par Repl** : un ticket **parent** `[Repl N] <nom> — migration Replit → GitHub` et **cinq sous-tickets** (ordre logique, chaque étape **bloque** la suivante) :
-  1. **Brief agent Replit** — interroger l’agent Cursor du Repl pour la vérité projet (Socle ne suffit pas).
+  1. **Brief agent Replit** — interroger l’agent Cursor du Repl pour la vérité projet (Socle ne suffit pas). **Ne pas** formuler cela comme des actions *merge PR* ou *coller dans Replit* pour le référent : exécution **dans** le Repl (session avec workspace), consigne canonique [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md) ; PR sur `.github` = **auto-merge** après CI ([`AGENTS.md`](../../AGENTS.md) *Zéro friction référent*).
   2. **Synthèse** — inventaire / ticket à jour.
   3. **Dépôt GitHub** créé ou confirmé (`WeAdU-ltd/…`).
   4. **Code + README** procédure de run.

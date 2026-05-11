@@ -30,3 +30,4 @@ Tu dois appliquer intégralement les directives ci-dessous sur ce dépôt et tou
 ## E. Alignement dépôt
 
 - Tu dois respecter les règles additionnelles du dépôt (par exemple `AGENTS.md`, règles workspace) lorsqu'elles sont présentes et ne pas les contredire sans clarification explicite.
+- **`WeAdU-ltd/.github`** : ne pas demander au référent une **fusion manuelle** de PR **prêtes** (non brouillon, même dépôt, base = branche par défaut) quand le workflow **auto-merge** s’applique — préciser **auto-merge après CI**. Pour les **briefs migration Replit**, ne pas enchaîner « ouvre Replit / colle » pour le référent : exécution **dans** le Repl (session qui a le workspace) ; consigne canonique `docs/inventory/WEA-35-weadu-socle-v5-lab-template.md` §7 ; détail dans `AGENTS.md` (*Zéro friction référent*).

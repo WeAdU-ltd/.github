@@ -1,5 +1,7 @@
 # pd-detection — brief agent Replit (infos migration)
 
+**Référent WeAdU** : **rien à faire** sur la fusion des PR du dépôt `.github` (auto-merge après CI). La **section 1** ci-dessous est à exécuter depuis une session **Cursor dans le Repl pd-detection**, pas comme consigne dans le chat au référent — aligné [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md) et [`AGENTS.md`](../../AGENTS.md) (*Zéro friction référent*).
+
 **Linear** : brief [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration), synthèse inventaire / ticket [WEA-129](https://linear.app/weadu/issue/WEA-129/pd-detection-synthese-inventaire-ticket-a-jour), dépôt GitHub [WEA-130](https://linear.app/weadu/issue/WEA-130) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) **#15** (Repl ID préfixe documenté : `3e94a8f8-…`). **Périmètre isolation Finance-RH** : [WEA-37](https://linear.app/weadu/issue/WEA-37/replit-migration-repos-perso-isolation-acces), [WEA-13](./WEA-13-github-access-model.md).
 
 Les agents Cursor exécutés **uniquement** sur le dépôt **`WeAdU-ltd/.github`** n’ont pas le workspace Replit **pd-detection** : pas de `ls` du Repl, pas de lecture des Secrets Replit, pas de vérité runtime sans session **dans** ce Repl.
