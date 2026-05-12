@@ -119,6 +119,7 @@ Le workflow `.github/workflows/ci.yml` exécute **pytest** et **gitleaks** sur c
 1. Définir la cible (AWS, autre hôte) selon le runbook post-export Replit.
 2. Stocker les secrets sous les **noms** documentés ci-dessus dans GitHub Actions ou le vault Finance-RH.
 3. Ajouter un workflow `deploy-*.yml` ou réutiliser le workflow réutilisable org [`auto-deploy.yml`](https://github.com/WeAdU-ltd/.github/blob/main/README.md) lorsque la procédure d’infra est figée.
+4. Checklist cutover : [runbook pd-detection §6](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/pd-detection-replit-migration-WEA-128.md) ([WEA-132](https://linear.app/weadu/issue/WEA-132)).
 
 ## Références Linear / dépôt `.github`
 

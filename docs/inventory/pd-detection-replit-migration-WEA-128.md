@@ -67,4 +67,17 @@ Arbre **socle WEA-35 + appli Python minimale + CI** : [`templates/pd-detection-a
 
 ---
 
-_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 / dépôt WEA-130 : **2026-05-11**._
+## 6. Cutover (WEA-132) — prod hors Replit + résiduel
+
+Ticket : [WEA-132](https://linear.app/weadu/issue/WEA-132). Liste résiduelle : [WEA-36 §5](./WEA-36-replit-migration-societe.md). Fermeture Replit : [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+
+| Étape | État |
+|-------|------|
+| Code métier + secrets **noms** dans [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) (README + CI alignés gabarit **§2 bis** ci-dessus) | **À faire** côté dépôt applicatif |
+| **Prod / scheduling** : ne plus dépendre du Repl (ou ligne résiduelle justifiée dans [WEA-36 §5](./WEA-36-replit-migration-societe.md)) | **À valider** après export §2 (URL `.replit.app`, AO, tâches) |
+| **Secrets** Replit : retirés ou équivalents GitHub / hébergement ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) | **À faire** quand la prod ne lit plus Replit |
+| Preuve **WEA-132** (commentaire API ou PR dépôt avec date + verdict) | **En attente** |
+
+---
+
+_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 / dépôt WEA-130 : **2026-05-11** ; cutover WEA-132 : **2026-05-12**._
