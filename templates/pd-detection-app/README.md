@@ -6,9 +6,26 @@ Application **Finance-RH** (inventaire Replit [WEA-33](https://github.com/WeAdU-
 
 - **Python** 3.11 ou 3.12 (aligné CI GitHub Actions).
 - **Git**.
-- Compte / droits **GitHub** `WeAdU-ltd` pour pousser ce dépôt (création du repo côté organisation si besoin).
+- Droits **push** sur **`JeffWeadu/pd-detection`** (dépôt applicatif privé documenté dans l’inventaire) **ou**, pour une création org, droits **`WeAdU-ltd`**.
 
-## Créer le dépôt depuis le gabarit (clone `.github`)
+## Option A — Déposer le gabarit dans `JeffWeadu/pd-detection` (cas actuel)
+
+1. Cloner le dépôt existant et un clone de **`WeAdU-ltd/.github`** (pour le script et `templates/pd-detection-app/`).
+2. Overlay du gabarit (**sans écraser à l’aveugle** : relire `git diff`) :
+
+```bash
+cd /chemin/vers/WeAdU-ltd/.github
+bash scripts/init_pd_detection_app_template.sh --force /chemin/vers/pd-detection
+cd /chemin/vers/pd-detection
+git add -A
+git status
+git commit -m "chore: overlay WeAdU pd-detection template (WEA-131)"
+git push origin HEAD
+```
+
+3. Fusionner le **code métier** venant du Repl après lecture du runbook [§2 export](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/pd-detection-replit-migration-WEA-128.md).
+
+## Option B — Nouveau dépôt sous `WeAdU-ltd/pd-detection`
 
 À la racine d’un clone de **`WeAdU-ltd/.github`** :
 
@@ -21,7 +38,7 @@ git add .
 git commit -m "chore: init pd-detection from WeAdU template (WEA-131)"
 ```
 
-Puis créer le dépôt vide **`WeAdU-ltd/pd-detection`** sur GitHub (sans README/license auto si vous poussez déjà un commit) et :
+Créer le dépôt vide **`WeAdU-ltd/pd-detection`** sur GitHub (sans README/license auto si vous poussez déjà un commit) puis :
 
 ```bash
 git remote add origin https://github.com/WeAdU-ltd/pd-detection.git
@@ -34,17 +51,17 @@ git push -u origin main
 Objectif : garder l’historique du Repl **avant** ou **après** avoir posé le socle ci-dessus.
 
 1. Dans le Repl **pd-detection** (Replit), ouvrir l’outil **Git** et noter l’URL de clone (HTTPS avec token Replit ou SSH selon ce que Replit expose).
-2. Sur votre machine (ou agent avec accès) :
+2. Sur votre machine (ou agent avec accès), pousser vers **`JeffWeadu/pd-detection`** ou **`WeAdU-ltd/pd-detection`** selon la cible :
 
 ```bash
 git clone <URL_REPLIT> pd-detection-import
 cd pd-detection-import
-git remote add github https://github.com/WeAdU-ltd/pd-detection.git
+git remote add github https://github.com/JeffWeadu/pd-detection.git
 git push -u github --all
 git push github --tags
 ```
 
-3. Ensuite, **fusionner** le socle WeAdU (fichiers `AGENTS.md`, `.github/workflows/ci.yml`, `pyproject.toml`, etc.) dans cette branche : soit en recopiant le résultat de `init_pd_detection_app_template.sh` et en commitant, soit en ajoutant un remote vers votre branche template et `git merge` / `git cherry-pick` selon la divergence.
+3. Ensuite, **fusionner** le socle WeAdU (fichiers `AGENTS.md`, `.github/workflows/ci.yml`, `pyproject.toml`, etc.) dans cette branche : soit `init_pd_detection_app_template.sh --force` sur le clone du dépôt GitHub, soit `git merge` / `git cherry-pick` selon la divergence.
 
 Les valeurs secrètes ne doivent **jamais** être commitées ; elles restent dans le [socle secrets WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) (GitHub Encrypted Secrets, vault, Cursor).
 
@@ -105,6 +122,7 @@ Le workflow `.github/workflows/ci.yml` exécute **pytest** et **gitleaks** sur c
 
 ## Références Linear / dépôt `.github`
 
+- [WEA-132 — cutover prod hors Replit + résiduel](https://linear.app/weadu/issue/WEA-132)
 - [WEA-131 — code importé + README](https://linear.app/weadu/issue/WEA-131/pd-detection-code-importe-readme-procedure-de-run)
 - [WEA-128 — brief agent Repl](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration)
 - [WEA-35 — template socle](https://linear.app/weadu/issue/WEA-35/weadu-socle-v5-lab-audit-template-github-cursor)
