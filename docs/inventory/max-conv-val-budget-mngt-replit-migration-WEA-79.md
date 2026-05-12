@@ -28,7 +28,7 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Bloc | État |
 |------|------|
-| Markdown produit par l’agent **dans** le Repl | **À faire** — aucun fichier d’export versionné dans ce dépôt à la date **2026-05-12**. |
+| Markdown produit par l’agent **dans** le Repl | **À faire** — aucun fichier `max-conv-val-budget-mngt-replit-export-*.md` dans ce dépôt (**2026-05-12**). |
 
 ---
 
@@ -36,8 +36,9 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Champ | État |
 |-------|------|
-| **WEA-33 ligne #7** | Toujours **Partiel** côté Socle ; mise à jour après export **§2** et confirmation Git / déploiement. |
+| **WEA-33 ligne #7** | **Partiel** : colonne **Git** pointe vers [`WeAdU-ltd/max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) (création **2026-05-12**) ; colonnes runtime **inchangées** sans **WEA-80**. |
 | **Réponse agent Repl** | **En attente** de **WEA-80**. |
+| **Synthèse Socle (sans Repl)** | [`max-conv-val-budget-mngt-replit-synthese-socle-2026-05-12.md`](./max-conv-val-budget-mngt-replit-synthese-socle-2026-05-12.md) — **partielle**, pour cadrage uniquement. |
 
 ---
 
@@ -45,8 +46,9 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Rôle | État |
 |------|------|
-| **`WeAdU-ltd/<repo>`** créé ou confirmé | **À faire** — croiser [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces). |
-| **Label Linear `repo`** | À aligner sur l’URL retenue ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)). |
+| **URL canonique** | **`https://github.com/WeAdU-ltd/max-conv-val-budget-mngt`** — dépôt **privé** créé **2026-05-12** (slug aligné ticket `max-conv-val-budget-mngt`). |
+| **Inventaire org [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces)** | À rafraîchir côté procédure inventaire si ce repo n’y figure pas encore. |
+| **Label Linear `repo`** | À aligner sur **`WeAdU-ltd/max-conv-val-budget-mngt`** ([WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets)). |
 
 ---
 
@@ -54,7 +56,8 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Exigence | État |
 |----------|------|
-| Code poussé sur le dépôt cible + README run / test / deploy | **À faire** après **WEA-82** ; gabarit minimal : [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) + [`templates/wea35-socle-minimal/`](../../templates/wea35-socle-minimal/README.md). |
+| Code métier importé depuis Replit | **À faire** — dépend de **WEA-80** + push depuis le Repl ou import manuel. |
+| README + socle minimal | **Partiel** — `README.md` placeholder + fichiers [`templates/wea35-socle-minimal/`](../../templates/wea35-socle-minimal/README.md) posés sur `main` via API GitHub (**2026-05-12**) ; **pas** de procédure de run réelle encore. |
 
 ---
 
@@ -66,4 +69,4 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 ---
 
-_Document vivant ; création dépôt **2026-05-12** (agent socle `.github`)._
+_Document vivant ; création dépôt + squelette **2026-05-12** ; synthèse Socle **2026-05-12**._
