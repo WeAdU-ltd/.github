@@ -32,6 +32,10 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 |------|------|
 | Markdown produit par l’agent **dans** le Repl **pd-detection** | **À produire** — remplacer ce tableau par le corps de l’export (ou ajouter une sous-section) lorsque l’agent Repl aura répondu. |
 
+### 2 bis. Gabarit GitHub en attendant l’export Repl ([WEA-131](https://linear.app/weadu/issue/WEA-131/pd-detection-code-importe-readme-procedure-de-run))
+
+Arbre **socle WEA-35 + appli Python minimale + CI** (pytest, gitleaks), prêt à copier vers le futur dépôt `WeAdU-ltd/pd-detection` : [`templates/pd-detection-app/README.md`](../../templates/pd-detection-app/README.md) ; initialisation : [`scripts/init_pd_detection_app_template.sh`](../../scripts/init_pd_detection_app_template.sh). Les **noms de secrets** métier restent à reporter depuis l’export Markdown (section 2 ci-dessus, une fois remplie) ; aucune valeur dans le dépôt ; [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)).
+
 ---
 
 ## 3. Synthèse (WEA-129) — inventaire / ticket à jour

@@ -101,6 +101,7 @@ Anchors in [`docs/`](docs/):
   - [after-framfield-cockpit — Repl 3 (WEA-55)](docs/inventory/after-framfield-cockpit-replit-2026-05-05.md) — perso GitHub ; Repl supprimé **2026-05-05**
   - [negative-search-terms-tool — Repl 4 → Negative-Terms (WEA-61)](docs/inventory/negative-search-terms-replit-migration-2026-05-06.md)
   - [wellbots-shopping-ads-checker — Repl 5 → SH-Checker-Bids (WEA-67)](docs/inventory/wellbots-shopping-ads-checker-replit-migration-2026-05-06.md) — chaîne migration **terminée** (**2026-05**)
+  - [pd-detection — Repl 15 / Finance-RH (WEA-128 / WEA-131)](docs/inventory/pd-detection-replit-migration-WEA-128.md) — gabarit GitHub [`templates/pd-detection-app/`](templates/pd-detection-app/README.md), [`scripts/init_pd_detection_app_template.sh`](scripts/init_pd_detection_app_template.sh)
 
 ## n8n hosting (budget < 20 €/mois)
 

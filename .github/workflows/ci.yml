@@ -57,6 +57,19 @@ jobs:
           test -f "$tmp/.cursor/hooks.json"
           rm -rf "$tmp"
 
+      - name: pd-detection app template init script (syntax + dry-run + pytest)
+        run: |
+          set -euo pipefail
+          bash -n scripts/init_pd_detection_app_template.sh
+          bash scripts/init_pd_detection_app_template.sh --help >/dev/null
+          tmp=$(mktemp -d)
+          bash scripts/init_pd_detection_app_template.sh "$tmp"
+          test -f "$tmp/src/pd_detection/app.py"
+          test -f "$tmp/.github/workflows/ci.yml"
+          python3 -m pip install -q -e "${tmp}[dev]"
+          python3 -m pytest -q "$tmp/tests"
+          rm -rf "$tmp"
+
       - name: 1Password SDK (optional import)
         run: |
           set -euo pipefail
