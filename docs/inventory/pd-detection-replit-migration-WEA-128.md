@@ -30,11 +30,11 @@ Ne pas coller de secrets dans Linear ; résumer sur le ticket ou dans le dépôt
 
 | Bloc | État |
 |------|------|
-| Markdown produit par l’agent **dans** le Repl **pd-detection** | **À produire** — remplacer ce tableau par le corps de l’export (ou ajouter une sous-section) lorsque l’agent Repl aura répondu. |
+| Markdown produit par l’agent **dans** le Repl **pd-detection** | **Ingéré** (**2026-05-12**) — copie versionnée : [`pd-detection-replit-export-2026-05-12.md`](./pd-detection-replit-export-2026-05-12.md). **Source unique** : Linear **WEA-128** et le dépôt **`JeffWeadu/pd-detection`** peuvent se contenter d’un **lien** vers ce fichier pour éviter les divergences. |
 
 ### 2 bis. Gabarit GitHub en attendant l’export Repl ([WEA-131](https://linear.app/weadu/issue/WEA-131/pd-detection-code-importe-readme-procedure-de-run))
 
-Arbre **socle WEA-35 + appli Python minimale + CI** : [`templates/pd-detection-app/README.md`](../../templates/pd-detection-app/README.md). **Cible actuelle** : pousser dans **`JeffWeadu/pd-detection`** via **Option A** du README (script [`scripts/init_pd_detection_app_template.sh`](../../scripts/init_pd_detection_app_template.sh) avec `--force` sur un clone du dépôt). Option org **`WeAdU-ltd/pd-detection`** : Option B du même README. Les **noms de secrets** métier restent à reporter depuis l’export Markdown (section 2 ci-dessus) ; [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh).
+Arbre **socle WEA-35 + appli Python minimale + CI** : [`templates/pd-detection-app/README.md`](../../templates/pd-detection-app/README.md). **Cible actuelle** : pousser dans **`JeffWeadu/pd-detection`** via **Option A** du README (script [`scripts/init_pd_detection_app_template.sh`](../../scripts/init_pd_detection_app_template.sh) avec `--force` sur un clone du dépôt). Option org **`WeAdU-ltd/pd-detection`** : Option B du même README. Les **noms de secrets** métier sont recopiés dans [`pd-detection-replit-export-2026-05-12.md`](./pd-detection-replit-export-2026-05-12.md) ; [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh).
 
 ---
 
@@ -42,9 +42,9 @@ Arbre **socle WEA-35 + appli Python minimale + CI** : [`templates/pd-detection-a
 
 | Champ | État (doc dépôt `WeAdU-ltd/.github`) |
 |-------|--------------------------------------|
-| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Git** : [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) — **confirmée** (**2026-05-11**) ; colonnes **Notes** et intro WEA-33 alignées avec ce runbook (sections 3 à 5). Autres colonnes (DB Replit, AO, secrets noms, AWS) : **en attente** export Repl §2 ([WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md)). |
-| **Réponse agent Repl** | **Non consolidée dans ce fichier** : aucun export Markdown n’a été fusionné dans le §2 depuis une session **dans** le Repl **pd-detection**. La suite reste la consigne §1 + commentaire API sur [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) ([`scripts/linear_issue_comment.py`](../../scripts/linear_issue_comment.py)). |
-| **Critère de fait WEA-129** | **Colonnes équivalentes** : **Notes**, intro WEA-33 et **Git** à jour **ou** PR dépôt `.github` fusionnée = preuve ; détail runtime des autres colonnes = **en attente** export Repl. |
+| **Inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne #15** | Colonne **Git** : [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) — **confirmée** ; **URL / déploiement**, **DB**, **AO**, **secrets (noms)**, **AWS** : voir export [**2026-05-12**](./pd-detection-replit-export-2026-05-12.md). |
+| **Réponse agent Repl** | **Consolidée** dans [`pd-detection-replit-export-2026-05-12.md`](./pd-detection-replit-export-2026-05-12.md) (**2026-05-12**). |
+| **Critère de fait WEA-129** | **Colonnes équivalentes** : **Notes**, intro WEA-33, **Git** + détail runtime via export = **fait** pour l’itération export ; cutover prod : **WEA-132**. |
 
 ---
 
@@ -52,7 +52,7 @@ Arbre **socle WEA-35 + appli Python minimale + CI** : [`templates/pd-detection-a
 
 | Exigence | État |
 |----------|------|
-| Réponse de l’agent Repl **ou** justification documentée si le Repl est inaccessible | **Justification documentée** : même limite que [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md) — l’agent GitHub / Cloud sur `.github` **ne peut pas** substituer l’export runtime. La preuve d’inaccessibilité depuis cet environnement est ce paragraphe + la ligne **#15** [WEA-33](./WEA-33-replit-inventory.md) (vue Socle **sans** ouverture du Repl). **Suite** : exécuter la consigne §1 **dans** le Repl ; poster le résultat sur [WEA-128](https://linear.app/weadu/issue/WEA-128/pd-detection-brief-agent-replit-infos-migration) via [`scripts/linear_issue_comment.py`](../../scripts/linear_issue_comment.py) et/ou compléter le §2 de ce fichier en PR sur `WeAdU-ltd/.github`. |
+| Réponse de l’agent Repl **ou** justification documentée si le Repl est inaccessible | **Export ingéré** (**2026-05-12**) : [`pd-detection-replit-export-2026-05-12.md`](./pd-detection-replit-export-2026-05-12.md). La justification « agent `.github` seul » ne s’applique plus pour la **précision runtime** ; elle reste valable si le fichier devait être **incomplet** sans session Repl. |
 
 ---
 
@@ -74,10 +74,10 @@ Ticket : [WEA-132](https://linear.app/weadu/issue/WEA-132). Liste résiduelle : 
 | Étape | État |
 |-------|------|
 | Code métier + secrets **noms** dans [`JeffWeadu/pd-detection`](https://github.com/JeffWeadu/pd-detection) (README + CI alignés gabarit **§2 bis** ci-dessus) | **À faire** côté dépôt applicatif |
-| **Prod / scheduling** : ne plus dépendre du Repl (ou ligne résiduelle justifiée dans [WEA-36 §5](./WEA-36-replit-migration-societe.md)) | **À valider** après export §2 (URL `.replit.app`, AO, tâches) |
+| **Prod / scheduling** : ne plus dépendre du Repl (ou ligne résiduelle justifiée dans [WEA-36 §5](./WEA-36-replit-migration-societe.md)) | **À valider** — export §2 ingéré (**2026-05-12**) décrit AO / URLs ; bascule effective hors `.replit.app` à confirmer |
 | **Secrets** Replit : retirés ou équivalents GitHub / hébergement ([WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)) | **À faire** quand la prod ne lit plus Replit |
 | Preuve **WEA-132** (commentaire API ou PR dépôt avec date + verdict) | **En attente** |
 
 ---
 
-_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 / dépôt WEA-130 : **2026-05-11** ; cutover WEA-132 : **2026-05-12**._
+_Document vivant ; création : 2026-05-11 (WEA-128) ; synthèse WEA-129 / dépôt WEA-130 : **2026-05-11** ; cutover WEA-132 : **2026-05-12** ; export Repl : **2026-05-12**._
