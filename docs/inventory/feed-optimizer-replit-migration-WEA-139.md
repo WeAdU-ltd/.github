@@ -86,4 +86,4 @@ Tant que les points ci-dessous ne sont pas traités ou **explicitement** accept�
 
 ---
 
-_Document vivant ; décision opérateur **2026-05-13** ; dernier passage **2026-05-13**._
+_Document vivant ; création agent Socle : 2026-05-12 ; synthèse partielle WEA-141 + contrôle GitHub org §3.1 : **2026-05-12** ; décision opérateur **2026-05-13** ; dernier passage **2026-05-13**._
