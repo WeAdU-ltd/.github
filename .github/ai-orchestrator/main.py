@@ -9,6 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from audit_log import append_ai_run_audit, build_audit_record_from_run_response
 from lm_studio_adapter.adapter import run as lm_run
 from routing import PrivacyViolationError, resolve_provider
 from schemas import RunRequest
@@ -104,6 +105,7 @@ def create_app() -> FastAPI:
             provider_used="none",
             routing_reason="pydantic_validation",
         )
+        append_ai_run_audit(build_audit_record_from_run_response(payload))
         return JSONResponse(status_code=422, content=payload)
 
     @app.post("/ai/run")
@@ -121,6 +123,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason="privacy_local_only_blocks_cloud",
             )
+            append_ai_run_audit(build_audit_record_from_run_response(payload))
             return JSONResponse(status_code=400, content=payload)
 
         if provider != "lm_studio":
@@ -131,6 +134,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason=f"routed_to_{provider}_not_implemented",
             )
+            append_ai_run_audit(build_audit_record_from_run_response(payload))
             return JSONResponse(status_code=503, content=payload)
 
         payload = _request_to_lm_payload(req)
@@ -145,8 +149,10 @@ def create_app() -> FastAPI:
                 provider_used="lm_studio",
                 routing_reason="adapter_exception",
             )
+            append_ai_run_audit(build_audit_record_from_run_response(payload))
             return JSONResponse(status_code=500, content=payload)
 
+        append_ai_run_audit(build_audit_record_from_run_response(result))
         if result.get("status") == "error" and isinstance(result.get("error"), dict):
             code = str(result["error"].get("code") or "error")
             http = _http_status_for_adapter_error(code)

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -124,6 +126,39 @@ class TestAiRunIntegration(unittest.TestCase):
         data = r.json()
         self.assertEqual(data["status"], "error")
         self.assertEqual(data["error"]["code"], "validation_error")
+
+    def test_ai_run_writes_jsonl_audit_when_configured(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as td:
+            log_path = Path(td) / "ai_orchestrator.jsonl"
+            with mock.patch.dict(os.environ, {"AI_ORCHESTRATOR_JSONL": str(log_path)}):
+                fake = {
+                    "task_id": _valid_uuid(),
+                    "status": "success",
+                    "provider_used": "lm_studio",
+                    "model_used": "gemma-4",
+                    "output": {"text": "ok"},
+                    "usage": {
+                        "input_tokens": 2,
+                        "output_tokens": 3,
+                        "estimated_cost_usd": 0.0,
+                        "duration_ms": 7,
+                        "estimated_cloud_equivalent_cost_usd": 0.2,
+                        "estimated_savings_usd": 0.2,
+                    },
+                    "routing_reason": "test",
+                    "error": None,
+                }
+                with mock.patch("main.lm_run", return_value=fake):
+                    r = self.client.post("/ai/run", json=_minimal_body())
+            self.assertEqual(r.status_code, 200)
+            raw = log_path.read_text(encoding="utf-8").strip()
+            self.assertTrue(raw)
+            row = json.loads(raw.splitlines()[-1])
+            self.assertEqual(row["provider_used"], "lm_studio")
+            self.assertEqual(row["estimated_savings_usd"], 0.2)
+            self.assertEqual(row["input_tokens"], 2)
 
 
 if __name__ == "__main__":
