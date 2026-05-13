@@ -28,7 +28,7 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Bloc | État |
 |------|------|
-| Markdown produit par l’agent **dans** le Repl | **À faire** — aucun fichier `max-conv-val-budget-mngt-replit-export-*.md` dans ce dépôt (**2026-05-12**). |
+| Markdown (Repl / référent) | **Ingéré** — [`max-conv-val-budget-mngt-replit-export-2026-05-12.md`](./max-conv-val-budget-mngt-replit-export-2026-05-12.md) (**2026-05-12**). En-tête source **Wellbots / Socle V5.1** : note d’alignement en tête de fichier ; **IPv4** retirée (inventaire AWS). |
 
 ---
 
@@ -36,9 +36,9 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Champ | État |
 |-------|------|
-| **WEA-33 ligne #7** | **Partiel** : colonne **Git** pointe vers [`WeAdU-ltd/max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) (création **2026-05-12**) ; colonnes runtime **inchangées** sans **WEA-80**. |
-| **Réponse agent Repl** | **En attente** de **WEA-80**. |
-| **Synthèse Socle (sans Repl)** | [`max-conv-val-budget-mngt-replit-synthese-socle-2026-05-12.md`](./max-conv-val-budget-mngt-replit-synthese-socle-2026-05-12.md) — **partielle**, pour cadrage uniquement. |
+| **WEA-33 ligne #7** | **Partiel** : colonnes runtime partiellement dérivées de l’export (**2026-05-12**) ; Git = [`WeAdU-ltd/max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt). |
+| **Réponse agent Repl / référent** | **Consolidée** dans l’export **§2** ci-dessus. |
+| **Synthèse Socle (pré-export)** | [`max-conv-val-budget-mngt-replit-synthese-socle-2026-05-12.md`](./max-conv-val-budget-mngt-replit-synthese-socle-2026-05-12.md) — historique ; la vérité détaillée est l’**export**. |
 
 ---
 
@@ -56,8 +56,8 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Exigence | État |
 |----------|------|
-| Code métier importé depuis Replit | **À faire** — dépend de **WEA-80** + push depuis le Repl ou import manuel. |
-| README + socle minimal | **Partiel** — `README.md` placeholder + fichiers [`templates/wea35-socle-minimal/`](../../templates/wea35-socle-minimal/README.md) posés sur `main` via API GitHub (**2026-05-12**) ; **pas** de procédure de run réelle encore. |
+| Code métier importé depuis Replit | **À faire** — l’export décrit l’arbre attendu (`main.py`, `wellbots/lambda`, etc.) ; le dépôt [`max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) n’a pas encore ce code sur `main`. |
+| README + socle minimal | **Partiel** — squelette WEA-35 + README placeholder (**2026-05-12**) ; à remplacer / compléter selon **§2 Run local** de l’export. |
 
 ---
 
@@ -69,4 +69,4 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 ---
 
-_Document vivant ; création dépôt + squelette **2026-05-12** ; synthèse Socle **2026-05-12**._
+_Document vivant ; création dépôt + squelette **2026-05-12** ; export Repl / référent ingéré **2026-05-12**._
