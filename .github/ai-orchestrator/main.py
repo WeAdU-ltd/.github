@@ -3,11 +3,20 @@
 from __future__ import annotations
 
 import logging
+import sys
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+
+_ORCH_ROOT = Path(__file__).resolve().parent
+_SRC = _ORCH_ROOT / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
+
+from ai_orchestrator.adapter_registry import get_adapter
 
 from lm_studio_adapter.adapter import run as lm_run
 from routing import PrivacyViolationError, resolve_provider
@@ -53,7 +62,7 @@ def _error_envelope(
 def _http_status_for_adapter_error(code: str) -> int:
     if code == "validation_error":
         return 422
-    if code in ("provider_unavailable", "provider_timeout"):
+    if code in ("provider_unavailable", "provider_timeout", "provider_config_error"):
         return 503
     if code in (
         "provider_bad_request",
@@ -123,29 +132,53 @@ def create_app() -> FastAPI:
             )
             return JSONResponse(status_code=400, content=payload)
 
-        if provider != "lm_studio":
-            payload = _error_envelope(
+        payload = _request_to_lm_payload(req)
+
+        if provider == "lm_studio":
+            try:
+                result: dict[str, Any] = lm_run(payload)
+            except Exception as e:
+                logger.exception("lm_studio_adapter.run raised unexpectedly")
+                payload = _error_envelope(
+                    tid,
+                    code="internal_error",
+                    message=str(e),
+                    provider_used="lm_studio",
+                    routing_reason="adapter_exception",
+                )
+                return JSONResponse(status_code=500, content=payload)
+        elif provider == "gemini_flash":
+            adapter = get_adapter("gemini_flash")
+            if adapter is None:
+                err = _error_envelope(
+                    tid,
+                    code="adapter_not_implemented",
+                    message="Gemini Flash adapter is not registered",
+                    provider_used="none",
+                    routing_reason="gemini_flash_adapter_missing",
+                )
+                return JSONResponse(status_code=503, content=err)
+            try:
+                result = adapter.run(payload)
+            except Exception as e:
+                logger.exception("gemini_flash adapter.run raised unexpectedly")
+                err = _error_envelope(
+                    tid,
+                    code="internal_error",
+                    message=str(e),
+                    provider_used="gemini_flash",
+                    routing_reason="adapter_exception",
+                )
+                return JSONResponse(status_code=500, content=err)
+        else:
+            err = _error_envelope(
                 tid,
                 code="adapter_not_implemented",
                 message=f"Provider {provider} is not available in this version",
                 provider_used="none",
                 routing_reason=f"routed_to_{provider}_not_implemented",
             )
-            return JSONResponse(status_code=503, content=payload)
-
-        payload = _request_to_lm_payload(req)
-        try:
-            result: dict[str, Any] = lm_run(payload)
-        except Exception as e:
-            logger.exception("lm_studio_adapter.run raised unexpectedly")
-            payload = _error_envelope(
-                tid,
-                code="internal_error",
-                message=str(e),
-                provider_used="lm_studio",
-                routing_reason="adapter_exception",
-            )
-            return JSONResponse(status_code=500, content=payload)
+            return JSONResponse(status_code=503, content=err)
 
         if result.get("status") == "error" and isinstance(result.get("error"), dict):
             code = str(result["error"].get("code") or "error")
