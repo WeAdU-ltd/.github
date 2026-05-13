@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+import audit_log
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -83,17 +84,27 @@ def create_app() -> FastAPI:
         description="POST /ai/run — contrat specs/api_contract.md (WEA-170 / WEA-171).",
     )
 
+    def _audit(req: RunRequest, payload: dict[str, Any], http_status: int) -> None:
+        try:
+            audit_log.append_audit_line(
+                audit_log.build_record_from_run(req, payload, http_status=http_status)
+            )
+        except Exception:
+            logger.exception("audit log append failed")
+
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(
         request: Request,
         exc: RequestValidationError,
     ) -> JSONResponse:
         task_id = "00000000-0000-0000-0000-000000000000"
+        body: dict[str, Any] | None = None
         try:
             body = await request.json()
-            tid = body.get("task_id")
-            if isinstance(tid, str) and tid:
-                task_id = tid
+            if isinstance(body, dict):
+                tid = body.get("task_id")
+                if isinstance(tid, str) and tid:
+                    task_id = tid
         except Exception:
             pass
         msg = "; ".join(f"{e.get('loc')}: {e.get('msg')}" for e in exc.errors()[:8])
@@ -104,6 +115,18 @@ def create_app() -> FastAPI:
             provider_used="none",
             routing_reason="pydantic_validation",
         )
+        try:
+            audit_log.append_audit_line(
+                audit_log.build_record_from_validation_failure(
+                    task_id=task_id,
+                    http_status=422,
+                    error_code="validation_error",
+                    message=msg or "request validation failed",
+                    body_hint=body if isinstance(body, dict) else None,
+                )
+            )
+        except Exception:
+            logger.exception("audit log append failed")
         return JSONResponse(status_code=422, content=payload)
 
     @app.post("/ai/run")
@@ -121,6 +144,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason="privacy_local_only_blocks_cloud",
             )
+            _audit(req, payload, 400)
             return JSONResponse(status_code=400, content=payload)
 
         if provider != "lm_studio":
@@ -131,6 +155,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason=f"routed_to_{provider}_not_implemented",
             )
+            _audit(req, payload, 503)
             return JSONResponse(status_code=503, content=payload)
 
         payload = _request_to_lm_payload(req)
@@ -145,13 +170,16 @@ def create_app() -> FastAPI:
                 provider_used="lm_studio",
                 routing_reason="adapter_exception",
             )
+            _audit(req, payload, 500)
             return JSONResponse(status_code=500, content=payload)
 
         if result.get("status") == "error" and isinstance(result.get("error"), dict):
             code = str(result["error"].get("code") or "error")
             http = _http_status_for_adapter_error(code)
+            _audit(req, result, http)
             return JSONResponse(status_code=http, content=result)
 
+        _audit(req, result, 200)
         return JSONResponse(status_code=200, content=result)
 
     return app
