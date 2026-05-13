@@ -86,12 +86,59 @@ class TestAiRunIntegration(unittest.TestCase):
                     privacy_level="standard",
                     complexity="medium",
                     preferred_model="auto",
+                    max_cost_usd=1.0,
                 ),
             )
         self.assertEqual(r.status_code, 503)
         m.assert_not_called()
         data = r.json()
         self.assertEqual(data["error"]["code"], "adapter_not_implemented")
+
+    def test_cost_cap_exceeded_returns_400_before_adapter(self) -> None:
+        with mock.patch("main.lm_run") as m:
+            r = self.client.post(
+                "/ai/run",
+                json=_minimal_body(
+                    privacy_level="standard",
+                    complexity="medium",
+                    preferred_model="auto",
+                    max_cost_usd=0.0,
+                ),
+            )
+        self.assertEqual(r.status_code, 400)
+        m.assert_not_called()
+        data = r.json()
+        self.assertEqual(data["error"]["code"], "cost_cap_exceeded")
+        self.assertEqual(data["routing_reason"], "cost_cap_exceeded_preflight")
+
+    def test_local_only_zero_max_cost_still_hits_lm_adapter(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "lm_studio",
+            "model_used": "gemma-4",
+            "output": {"text": "ok"},
+            "usage": {
+                "input_tokens": 1,
+                "output_tokens": 1,
+                "estimated_cost_usd": 0.0,
+                "duration_ms": 5,
+                "estimated_cloud_equivalent_cost_usd": None,
+                "estimated_savings_usd": None,
+            },
+            "routing_reason": "test",
+            "error": None,
+        }
+        with mock.patch("main.lm_run", return_value=fake) as m:
+            r = self.client.post(
+                "/ai/run",
+                json=_minimal_body(
+                    privacy_level="local_only",
+                    max_cost_usd=0.0,
+                ),
+            )
+        self.assertEqual(r.status_code, 200, r.text)
+        m.assert_called_once()
 
     def test_adapter_error_passed_through_with_http_mapping(self) -> None:
         err_body = {

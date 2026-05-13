@@ -10,7 +10,12 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from lm_studio_adapter.adapter import run as lm_run
-from routing import PrivacyViolationError, resolve_provider
+from routing import (
+    CostCapExceededError,
+    PrivacyViolationError,
+    enforce_preflight_cost_cap,
+    resolve_provider,
+)
 from schemas import RunRequest
 
 logger = logging.getLogger(__name__)
@@ -113,6 +118,7 @@ def create_app() -> FastAPI:
 
         try:
             provider = resolve_provider(req)
+            enforce_preflight_cost_cap(req, provider)
         except PrivacyViolationError as e:
             payload = _error_envelope(
                 tid,
@@ -120,6 +126,15 @@ def create_app() -> FastAPI:
                 message=e.message,
                 provider_used="none",
                 routing_reason="privacy_local_only_blocks_cloud",
+            )
+            return JSONResponse(status_code=400, content=payload)
+        except CostCapExceededError as e:
+            payload = _error_envelope(
+                tid,
+                code="cost_cap_exceeded",
+                message=e.message,
+                provider_used="none",
+                routing_reason="cost_cap_exceeded_preflight",
             )
             return JSONResponse(status_code=400, content=payload)
 
