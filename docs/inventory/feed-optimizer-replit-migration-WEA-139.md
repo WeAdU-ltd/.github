@@ -2,9 +2,9 @@
 
 **Linear** : parent [WEA-139](https://linear.app/weadu/issue/WEA-139/repl-17-feed-optimizer-migration-replit-github-societe) — chaîne [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents). **Ligne inventaire** : [WEA-33](./WEA-33-replit-inventory.md) #17.
 
-**Priorité migration** : **P3**. **Périmètre ticket** : société — **écart documenté** : le code applicatif est sur le dépôt **perso** [`JeffWeadu/feed-optimizer`](https://github.com/JeffWeadu/feed-optimizer) (privé) ; alignement `WeAdU-ltd/…` : voir **WEA-142**. **Replit ID (préfixe)** : `cb7bc686-…`.
+**Priorité migration** : **P3**. **Replit ID (préfixe)** : `cb7bc686-…`.
 
-**Export agent Repl** : [`feed-optimizer-replit-export-2026-05-12.md`](./feed-optimizer-replit-export-2026-05-12.md) (**2026-05-12**).
+**Documents** : export [`feed-optimizer-replit-export-2026-05-12.md`](./feed-optimizer-replit-export-2026-05-12.md) ; passation Repl [`feed-optimizer-replit-passation-2026-05-13.md`](./feed-optimizer-replit-passation-2026-05-13.md).
 
 ---
 
@@ -12,7 +12,7 @@
 
 | Champ | État |
 |-------|------|
-| Export Markdown agent Repl | **Reçu** — [`feed-optimizer-replit-export-2026-05-12.md`](./feed-optimizer-replit-export-2026-05-12.md) |
+| Export Markdown agent Repl | **Done** — export **2026-05-12** + passation **2026-05-13**. |
 
 ---
 
@@ -20,20 +20,15 @@
 
 | Champ | État |
 |-------|------|
-| Colonnes WEA-33 / PR dépôt `.github` | **Partiel → enrichi** : ligne **#17** alignée avec l’export **2026-05-12** ; détail runtime / preuves cutover à finaliser avec **WEA-144**. |
+| Colonnes WEA-33 / WEA-36 | **Enrichi** **2026-05-13** : dépôt org, push Trees API, liens **WEA-83** / **WEA-79** à réconcilier ; ligne **#7** vs **#17** (UUID distincts) notée. |
 
-### 2.1 Synthèse post-export (2026-05-12)
+### 2.1 Synthèse opérationnelle (post passation 2026-05-13)
 
 | Thème | Synthèse |
-|-------|------------|
-| **Stack** | Python 3.11, FastAPI, SQLite maison, APScheduler, Anthropic, Google Ads/Merchant/Drive/OAuth, 1Password SDK |
-| **Run** | `uv sync` ; `python main.py` ; port **5000** ; prérequis `OP_SERVICE_ACCOUNT_TOKEN` |
-| **Git** | `main` ; remote canonique **sans PAT** : `https://github.com/JeffWeadu/feed-optimizer.git` ; backup Replit `gitsafe` |
-| **Secrets** | Bootstrap Replit : `OP_SERVICE_ACCOUNT_TOKEN` ; reste via **1Password** (noms dans l’export, pas de valeurs) |
-| **DB** | Pas de Replit DB ; SQLite `data/shopping_optimizer.db` (gitignored) |
-| **Replit** | Pas de `.replit.app` actif ; AO **non** ; charge **dev** |
-| **Prod** | **EC2** Windows, NSSM **FeedOptimizer**, port 5000 — **pas d’IP dans l’inventaire** ; croiser [WEA-29](./WEA-29-aws-ec2-inventory.md) |
-| **Externes** | Heartbeat → Socle `weadu-socle-v-5-lab.replit.app` ; Google APIs ; Slack ; Notion ; SerpAPI |
+|-------|----------|
+| **Repos** | Workspace : `JeffWeadu/feed-optimizer` ; **org** : [`WeAdU-ltd/max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) (`main`, commits `bafa3ae`, `b75bde0` dixit Repl). |
+| **Prod** | EC2 Windows **eu-west-2** + NSSM **FeedOptimizer** — déploiement hôte **non finalisé** ; pas d’IP dans l’inventaire ([WEA-29](./WEA-29-aws-ec2-inventory.md)). |
+| **Blocants** | IDs Ads/Merchant dans `config.py` ; fichier OAuth absent ; bootstrap EC2 non fait — voir passation § « Blocants prod ». |
 
 ---
 
@@ -41,13 +36,13 @@
 
 | Champ | État |
 |-------|------|
-| **Dépôt applicatif actuel** | [`https://github.com/JeffWeadu/feed-optimizer`](https://github.com/JeffWeadu/feed-optimizer) (privé) — **confirmé** par l’export **2026-05-12**. |
-| **Org société `WeAdU-ltd`** | **Non** — aucun repo `WeAdU-ltd/*` identifié pour ce projet (contrôle précédent §3.1). **À trancher** : transfert / miroir / nouveau repo org + mise à jour label Linear `repo` ([WEA-17](../CHARTE_AGENTS_LINEAR_WEA17.md)). |
+| **URL org (société)** | **`https://github.com/WeAdU-ltd/max-conv-val-budget-mngt`** — **confirmé** (API GitHub **2026-05-13** ; description dépôt cite [WEA-79](https://linear.app/weadu/issue/WEA-79) ; passation Repl cite [WEA-83](https://linear.app/weadu/issue/WEA-83) — **aligner** le ticket Linear canonique sur le dépôt). |
+| **Workspace Replit** | [`JeffWeadu/feed-optimizer`](https://github.com/JeffWeadu/feed-optimizer) (privé). |
+| **Label Linear `repo`** | À aligner sur **`WeAdU-ltd/max-conv-val-budget-mngt`** pour les tickets code agents ([WEA-17](../CHARTE_AGENTS_LINEAR_WEA17.md)). |
 
-### 3.1 Vérifications org WeAdU-ltd (agent Socle, 2026-05-12)
+### 3.1 Vérifications historiques org (2026-05-12)
 
-1. **`gh search repos`** : propriétaire `WeAdU-ltd`, filtre `feed` / `optim` → **aucun** dépôt.
-2. **Snapshot** [`github-org-repo-snapshot-2026-05-02.json`](./github-org-repo-snapshot-2026-05-02.json) : idem.
+Recherche initiale `feed` / `optim` sur `WeAdU-ltd` n’avait pas trouvé ce dépôt (**nom différent**). Le slug **`max-conv-val-budget-mngt`** correspond à l’inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne **#7** (*Max Conv Val Budget Mngt*) — **réconciliation UUID Repl** #7 vs #17 : **à clarifier** avec le Repl (deux entrées inventaire, un artefact org).
 
 ---
 
@@ -55,7 +50,8 @@
 
 | Champ | État |
 |-------|------|
-| Code sur `main` + README | **Existant** sur `JeffWeadu/feed-optimizer` (hors vérification CI dans ce ticket) ; revue README / CI / alignement template [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) si migration vers `WeAdU-ltd`. |
+| Code sur `main` (org) | **Poussé** (Trees API, **2026-05-13** dixit passation) — README / CI / template [WEA-35](./WEA-35-weadu-socle-v5-lab-template.md) : **à valider** sur le dépôt org. |
+| Critères « README procédure » | **Partiel** tant que blocants prod + doc run ne sont pas clos côté dépôt applicatif. |
 
 ---
 
@@ -63,9 +59,9 @@
 
 | Verdict | État |
 |---------|------|
-| **Prod hors Replit** | **Probable** à qualifier : charge prod décrite sur **EC2** Windows (NSSM), pas sur `.replit.app` — preuve finale (DNS, monitoring, arrêt Repl) : **WEA-144**. |
-| **Résiduel** | Socle heartbeat + secrets Replit / 1Password à cadrer dans la clôture **WEA-144** + [WEA-36 §5](./WEA-36-replit-migration-societe.md). |
+| **Prod hors Replit** | **En cours** : cible EC2 documentée ; **bootstrap non exécuté** ; OAuth / IDs manquants — preuve cutover : **WEA-144**. |
+| **Résiduel** | Heartbeat Socle + Replit dev : voir [WEA-36 §5](./WEA-36-replit-migration-societe.md) à la clôture. |
 
 ---
 
-_Document vivant ; export Repl **2026-05-12** ; alignement inventaire **2026-05-12**._
+_Document vivant ; dernier passage **2026-05-13**._

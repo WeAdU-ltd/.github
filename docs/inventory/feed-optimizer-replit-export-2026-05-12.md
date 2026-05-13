@@ -1,7 +1,7 @@
 # Feed Optimizer — Export structuré (Repl, ligne WEA-33 #17)
 
 _Généré le **2026-05-12** depuis l’agent Cursor **dans** le Repl. Aucune **valeur** de secret incluse._  
-_Miroir dépôt : aligné [WEA-140](https://linear.app/weadu/issue/WEA-140), parent [WEA-139](https://linear.app/weadu/issue/WEA-139/repl-17-feed-optimizer-migration-replit-github-societe), [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md)._
+_Miroir dépôt : aligné [WEA-140](https://linear.app/weadu/issue/WEA-140), parent [WEA-139](https://linear.app/weadu/issue/WEA-139/repl-17-feed-optimizer-migration-replit-github-societe), [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md). Suite **2026-05-13** : [`feed-optimizer-replit-passation-2026-05-13.md`](./feed-optimizer-replit-passation-2026-05-13.md)._
 
 **Règle inventaire** : pas d’adresse IPv4 ni de jeton dans ce fichier — croiser [WEA-29](./WEA-29-aws-ec2-inventory.md) et le dépôt applicatif pour l’hôte EC2.
 
