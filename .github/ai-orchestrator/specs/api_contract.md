@@ -208,7 +208,7 @@ Ces champs permettent d’alimenter tableaux de bord et agrégations (ex. rappor
 }
 ```
 
-Les codes précis (`provider_timeout`, `privacy_violation`, `cost_cap_exceeded`, etc.) seront listés dans une évolution de ce document ou dans le code du routeur.
+Les codes précis (`provider_timeout`, `privacy_violation`, `cost_cap_exceeded`, `configuration_error` — clé cloud manquante, voir WEA-177 / `orchestrator_config.py`, etc.) seront listés dans une évolution de ce document ou dans le code du routeur.
 
 ---
 

@@ -56,6 +56,8 @@ Les **noms exacts** de modèles (ex. `gpt-*`, `claude-*`, `gemini-*`) changent s
 
 Si le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh) n’est pas encore en place, noter sur Linear que le **routage en production** reste **bloqué** sur la gestion des clés et comptes de facturation, sans invalider le brouillon ci-dessus.
 
+Implémentation technique de la config orchestrateur (env + JSON, sans secrets versionnés) : [WEA-177 — Configuration orchestrateur](./WEA-177-ai-orchestrator-configuration.md).
+
 ---
 
 _Document vivant : réviser après choix concrets de fournisseurs et après première synthèse budget réelle._

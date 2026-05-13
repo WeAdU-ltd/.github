@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "routing": {
+    "auto_privacy_levels": ["standard", "external_allowed"],
+    "auto_complexity_to_provider": {
+      "low": "lm_studio",
+      "medium": "gemini_flash",
+      "high": "claude_haiku"
+    },
+    "custom_preferred_model_routes_to": "lm_studio",
+    "default_provider": "lm_studio"
+  },
+  "cost": {
+    "gemini_flash_reference_usd_per_million_tokens": 0.075
+  },
+  "fallback": {
+    "enabled": false,
+    "order_after_local_failure": ["gemini_flash", "claude_haiku"]
+  },
+  "logging": {
+    "file_path": null,
+    "level": "INFO"
+  }
+}

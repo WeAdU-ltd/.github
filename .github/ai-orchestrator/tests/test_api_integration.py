@@ -14,6 +14,7 @@ if str(_ORCH) not in sys.path:
     sys.path.insert(0, str(_ORCH))
 
 import main  # noqa: E402
+import orchestrator_config as orch_cfg  # noqa: E402
 
 
 def _valid_uuid() -> str:
@@ -35,6 +36,7 @@ def _minimal_body(**overrides: object) -> dict:
 
 class TestAiRunIntegration(unittest.TestCase):
     def setUp(self) -> None:
+        orch_cfg.reset_orchestrator_config_cache()
         self.client = TestClient(main.app)
 
     def test_post_ai_run_success_calls_lm_adapter(self) -> None:
@@ -78,16 +80,34 @@ class TestAiRunIntegration(unittest.TestCase):
         self.assertEqual(data["error"]["code"], "privacy_violation")
         self.assertEqual(data["provider_used"], "none")
 
-    def test_standard_medium_auto_routes_gemini_returns_503(self) -> None:
-        with mock.patch("main.lm_run") as m:
-            r = self.client.post(
-                "/ai/run",
-                json=_minimal_body(
-                    privacy_level="standard",
-                    complexity="medium",
-                    preferred_model="auto",
-                ),
-            )
+    def test_standard_medium_auto_routes_gemini_missing_secret_returns_503(self) -> None:
+        with mock.patch.dict("os.environ", {"GEMINI_API_KEY": ""}, clear=False):
+            with mock.patch("main.lm_run") as m:
+                r = self.client.post(
+                    "/ai/run",
+                    json=_minimal_body(
+                        privacy_level="standard",
+                        complexity="medium",
+                        preferred_model="auto",
+                    ),
+                )
+        self.assertEqual(r.status_code, 503)
+        m.assert_not_called()
+        data = r.json()
+        self.assertEqual(data["error"]["code"], "configuration_error")
+        self.assertIn("GEMINI_API_KEY", data["error"]["message"])
+
+    def test_standard_medium_auto_with_gemini_key_returns_adapter_not_implemented(self) -> None:
+        with mock.patch.dict("os.environ", {"GEMINI_API_KEY": "test-key-placeholder"}, clear=False):
+            with mock.patch("main.lm_run") as m:
+                r = self.client.post(
+                    "/ai/run",
+                    json=_minimal_body(
+                        privacy_level="standard",
+                        complexity="medium",
+                        preferred_model="auto",
+                    ),
+                )
         self.assertEqual(r.status_code, 503)
         m.assert_not_called()
         data = r.json()

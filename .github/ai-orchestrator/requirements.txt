@@ -1,5 +1,6 @@
-# Dépendances du wrapper FastAPI (.github/ai-orchestrator/) — WEA-171
+# Dépendances du wrapper FastAPI (.github/ai-orchestrator/) — WEA-171 / WEA-177
 # Installation : pip install -r .github/ai-orchestrator/requirements.txt
+# Config : docs/WEA-177-ai-orchestrator-configuration.md
 fastapi>=0.110,<1
 uvicorn[standard]>=0.29,<1
 pydantic>=2.6,<3

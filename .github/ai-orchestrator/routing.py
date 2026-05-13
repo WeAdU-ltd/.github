@@ -1,12 +1,9 @@
-"""Routage provider v1 — WEA-171 (aligné local_only → LM Studio obligatoire)."""
+"""Routage provider v1 — WEA-171 / WEA-177 (règles data-driven, sans logique dans les adaptateurs)."""
 
 from __future__ import annotations
 
-from typing import Literal
-
+from orchestrator_config import ProviderId, get_file_backed_config
 from schemas import RunRequest, is_cloud_preferred_model_enum
-
-ProviderId = Literal["lm_studio", "gemini_flash", "claude_haiku"]
 
 
 class PrivacyViolationError(Exception):
@@ -24,17 +21,10 @@ def resolve_provider(req: RunRequest) -> ProviderId:
     """
     Choisit le provider pour cette requête.
 
-    Règles v1 :
-    - ``local_only`` : toujours ``lm_studio`` ; enums cloud en preferred_model
-      → :exc:`PrivacyViolationError`.
-    - Chaîne ``preferred_model`` hors les quatre enums : considérée comme id de
-      modèle LM Studio → ``lm_studio`` (wrapper v1).
-    - ``local`` → ``lm_studio``.
-    - ``gemini_flash`` / ``claude_haiku`` → provider correspondant si privacy
-      non ``local_only``.
-    - ``auto`` + ``standard`` / ``external_allowed`` : matrice complexité
-      (medium → Gemini, high → Claude, low → LM).
+    Les branches « auto » et repli par défaut viennent du fichier JSON
+    (``AI_ORCHESTRATOR_CONFIG``) — voir ``ai_orchestrator.config.example.json``.
     """
+    rules = get_file_backed_config().routing
     pm = req.preferred_model.strip()
 
     if req.privacy_level == "local_only":
@@ -45,7 +35,7 @@ def resolve_provider(req: RunRequest) -> ProviderId:
         return "lm_studio"
 
     if pm not in _ENUM_PM:
-        return "lm_studio"
+        return rules.custom_preferred_model_routes_to
 
     if pm == "local":
         return "lm_studio"
@@ -55,11 +45,8 @@ def resolve_provider(req: RunRequest) -> ProviderId:
         return "claude_haiku"
 
     # auto
-    if req.privacy_level in ("standard", "external_allowed"):
-        if req.complexity == "low":
-            return "lm_studio"
-        if req.complexity == "medium":
-            return "gemini_flash"
-        return "claude_haiku"
-
-    return "lm_studio"
+    if req.privacy_level in rules.auto_privacy_levels:
+        mapped = rules.auto_complexity_to_provider.get(req.complexity)
+        if mapped is not None:
+            return mapped
+    return rules.default_provider

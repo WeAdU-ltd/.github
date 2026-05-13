@@ -1,7 +1,8 @@
-"""Point d'entrée FastAPI — wrapper POST /ai/run (WEA-171)."""
+"""Point d'entrée FastAPI — wrapper POST /ai/run (WEA-171 / WEA-177)."""
 
 from __future__ import annotations
 
+import json
 import logging
 from typing import Any
 
@@ -10,6 +11,12 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from lm_studio_adapter.adapter import run as lm_run
+from orchestrator_config import (
+    FileBackedConfig,
+    get_file_backed_config,
+    missing_required_cloud_secret,
+    orchestrator_debug_enabled,
+)
 from routing import PrivacyViolationError, resolve_provider
 from schemas import RunRequest
 
@@ -53,7 +60,7 @@ def _error_envelope(
 def _http_status_for_adapter_error(code: str) -> int:
     if code == "validation_error":
         return 422
-    if code in ("provider_unavailable", "provider_timeout"):
+    if code in ("provider_unavailable", "provider_timeout", "configuration_error"):
         return 503
     if code in (
         "provider_bad_request",
@@ -69,6 +76,28 @@ def _http_status_for_adapter_error(code: str) -> int:
     return 502
 
 
+def _configure_logging(fb: FileBackedConfig) -> None:
+    """Niveau debug via ``AI_ORCHESTRATOR_DEBUG`` ; fichier via config JSON ``logging``."""
+    level = logging.DEBUG if orchestrator_debug_enabled() else getattr(
+        logging, fb.logging.level, logging.INFO
+    )
+    root = logging.getLogger()
+    if not root.handlers:
+        logging.basicConfig(level=level, format="%(asctime)s %(levelname)s %(name)s %(message)s")
+    else:
+        root.setLevel(level)
+    path = fb.logging.file_path
+    if not path:
+        return
+    try:
+        fh = logging.FileHandler(path, encoding="utf-8")
+        fh.setLevel(level)
+        fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s"))
+        root.addHandler(fh)
+    except OSError as e:
+        logger.warning("Could not open log file %s: %s", path, e)
+
+
 def _request_to_lm_payload(req: RunRequest) -> dict[str, Any]:
     """Sérialise la requête Pydantic pour ``lm_studio_adapter.run`` (dict JSON-like)."""
     data = req.model_dump(mode="python")
@@ -77,6 +106,16 @@ def _request_to_lm_payload(req: RunRequest) -> dict[str, Any]:
 
 
 def create_app() -> FastAPI:
+    try:
+        fb = get_file_backed_config()
+    except (FileNotFoundError, ValueError, json.JSONDecodeError, OSError) as e:
+        raise RuntimeError(
+            "Invalid AI orchestrator file config. Fix AI_ORCHESTRATOR_CONFIG or unset it. "
+            f"Details: {e}"
+        ) from e
+
+    _configure_logging(fb)
+
     app = FastAPI(
         title="WeAdU AI Orchestrator",
         version="0.1.0",
@@ -124,6 +163,20 @@ def create_app() -> FastAPI:
             return JSONResponse(status_code=400, content=payload)
 
         if provider != "lm_studio":
+            miss = missing_required_cloud_secret(provider)
+            if miss:
+                payload = _error_envelope(
+                    tid,
+                    code="configuration_error",
+                    message=(
+                        f"Missing required secret: set {miss} in the environment "
+                        "(GitHub org secret, Cursor env, or local vault export). Never commit the value."
+                    ),
+                    provider_used="none",
+                    routing_reason=f"missing_secret_{miss.lower()}",
+                    retryable=False,
+                )
+                return JSONResponse(status_code=503, content=payload)
             payload = _error_envelope(
                 tid,
                 code="adapter_not_implemented",
