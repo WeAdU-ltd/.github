@@ -43,4 +43,10 @@ Rapport Repl : quatre références `op://Replit/GOOGLE_ADS_*` à créer / branch
 
 ---
 
+## Note opérateur (2026-05-13)
+
+**Pas d’usage courant** du projet pour l’instant ; l’objectif immédiat était **uniquement** la **récupération du code** hors Replit. La complétion (OAuth, IDs Google, EC2, README/CI au fil de l’eau) est **reportée au moment venu**, si besoin — sans date d’engagement. La fermeture du Repl Replit reste conditionnée par la checklist du [runbook WEA-139 §5.1](./feed-optimizer-replit-migration-WEA-139.md) et la clôture **WEA-144** (résiduel ou cutover).
+
+---
+
 _Intégration dépôt `WeAdU-ltd/.github` : **2026-05-13**._

@@ -6,6 +6,14 @@
 
 **Documents** : export [`feed-optimizer-replit-export-2026-05-12.md`](./feed-optimizer-replit-export-2026-05-12.md) ; passation Repl [`feed-optimizer-replit-passation-2026-05-13.md`](./feed-optimizer-replit-passation-2026-05-13.md).
 
+## Décision opérateur (2026-05-13)
+
+- **Usage métier actuel** : **aucun** — le projet n’est pas utilisé au quotidien pour l’instant.
+- **Objectif atteint à ce stade** : **code récupéré** hors Replit — dépôts [`JeffWeadu/feed-optimizer`](https://github.com/JeffWeadu/feed-optimizer) et [`WeAdU-ltd/max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) (`main`).
+- **Complétion** (IDs Google Ads / Merchant, OAuth `google_tokens.json`, bootstrap EC2, README/CI fins) : **reportée au moment venu**, si besoin — **sans engagement de date**.
+
+Cette décision **ne** supprime **pas** automatiquement la dépendance Replit pour la chaîne migration : la fermeture du Repl reste sous **WEA-144** (cutover ou **résiduel justifié**) + [WEA-36 §5](./WEA-36-replit-migration-societe.md) + [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+
 ---
 
 ## 1. Brief agent Replit — [WEA-140](https://linear.app/weadu/issue/WEA-140)
@@ -62,6 +70,18 @@ Recherche initiale `feed` / `optim` sur `WeAdU-ltd` n’avait pas trouvé ce dé
 | **Prod hors Replit** | **En cours** : cible EC2 documentée ; **bootstrap non exécuté** ; OAuth / IDs manquants — preuve cutover : **WEA-144**. |
 | **Résiduel** | Heartbeat Socle + Replit dev : voir [WEA-36 §5](./WEA-36-replit-migration-societe.md) à la clôture. |
 
+### 5.1 Avant suppression du Repl Replit (checklist)
+
+Tant que les points ci-dessous ne sont pas traités ou **explicitement** acceptés comme résidu dans **WEA-144**, supprimer le projet Replit reste **risqué** (secrets bootstrap, dev ponctuel, heartbeat documenté).
+
+| # | Sujet | Détail |
+|---|--------|--------|
+| 1 | **Secrets** | `OP_SERVICE_ACCOUNT_TOKEN` (et tout secret **uniquement** dans Replit Secrets) : dupliquer ou faire tourner les références avant fermeture ; voir [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete). |
+| 2 | **Socle** | Heartbeat vers `weadu-socle-v-5-lab.replit.app` : confirmer côté Socle si un Repl supprimé casse une attente ; désactiver ou déplacer le heartbeat. |
+| 3 | **Git remote backup** | Remote `gitsafe` interne Replit : sans objet après suppression ; vérifier que **GitHub** est la seule source de vérité. |
+| 4 | **WEA-144** | Clôturer avec **Option B** (résiduel justifié : « code sur GitHub, pas d’usage, complétion différée ») + ligne **§5 WEA-36** tenue à jour. |
+| 5 | **Optionnel prod** | Si un jour la prod EC2 ou OAuth est mise en service : reprendre la passation § blocants ; pas requis pour **archivage** du Repl si pas d’usage. |
+
 ---
 
-_Document vivant ; dernier passage **2026-05-13**._
+_Document vivant ; décision opérateur **2026-05-13** ; dernier passage **2026-05-13**._
