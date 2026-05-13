@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import logging
+import time
 from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
+import observability
 from lm_studio_adapter.adapter import run as lm_run
 from routing import PrivacyViolationError, resolve_provider
 from schemas import RunRequest
@@ -88,12 +90,29 @@ def create_app() -> FastAPI:
         request: Request,
         exc: RequestValidationError,
     ) -> JSONResponse:
+        t0 = time.perf_counter()
         task_id = "00000000-0000-0000-0000-000000000000"
+        task_type: str | None = None
+        complexity: str | None = None
+        privacy_level: str | None = None
+        preferred_model: str | None = None
         try:
             body = await request.json()
             tid = body.get("task_id")
             if isinstance(tid, str) and tid:
                 task_id = tid
+            tt = body.get("task_type")
+            if isinstance(tt, str):
+                task_type = tt
+            cx = body.get("complexity")
+            if isinstance(cx, str):
+                complexity = cx
+            pv = body.get("privacy_level")
+            if isinstance(pv, str):
+                privacy_level = pv
+            pm = body.get("preferred_model")
+            if isinstance(pm, str):
+                preferred_model = pm
         except Exception:
             pass
         msg = "; ".join(f"{e.get('loc')}: {e.get('msg')}" for e in exc.errors()[:8])
@@ -104,12 +123,32 @@ def create_app() -> FastAPI:
             provider_used="none",
             routing_reason="pydantic_validation",
         )
+        observability.record_orchestrator_run(
+            task_id=task_id,
+            task_type=task_type,
+            complexity=complexity,
+            privacy_level=privacy_level,
+            preferred_model=preferred_model,
+            provider_resolved="none",
+            http_status=422,
+            response=payload,
+            outcome="validation_error",
+            duration_wall_ms=int((time.perf_counter() - t0) * 1000),
+        )
         return JSONResponse(status_code=422, content=payload)
 
     @app.post("/ai/run")
     def post_ai_run(req: RunRequest) -> JSONResponse:
         """Exécute une requête IA via le routeur et l'adaptateur LM Studio si requis."""
+        t0 = time.perf_counter()
         tid = str(req.task_id)
+        tt = str(req.task_type)
+        cx = str(req.complexity)
+        pv = str(req.privacy_level)
+        pm = str(req.preferred_model)
+
+        def wall_ms() -> int:
+            return int((time.perf_counter() - t0) * 1000)
 
         try:
             provider = resolve_provider(req)
@@ -121,6 +160,18 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason="privacy_local_only_blocks_cloud",
             )
+            observability.record_orchestrator_run(
+                task_id=tid,
+                task_type=tt,
+                complexity=cx,
+                privacy_level=pv,
+                preferred_model=pm,
+                provider_resolved="none",
+                http_status=400,
+                response=payload,
+                outcome="privacy_violation",
+                duration_wall_ms=wall_ms(),
+            )
             return JSONResponse(status_code=400, content=payload)
 
         if provider != "lm_studio":
@@ -131,6 +182,18 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason=f"routed_to_{provider}_not_implemented",
             )
+            observability.record_orchestrator_run(
+                task_id=tid,
+                task_type=tt,
+                complexity=cx,
+                privacy_level=pv,
+                preferred_model=pm,
+                provider_resolved=str(provider),
+                http_status=503,
+                response=payload,
+                outcome="not_implemented",
+                duration_wall_ms=wall_ms(),
+            )
             return JSONResponse(status_code=503, content=payload)
 
         payload = _request_to_lm_payload(req)
@@ -138,21 +201,72 @@ def create_app() -> FastAPI:
             result: dict[str, Any] = lm_run(payload)
         except Exception as e:
             logger.exception("lm_studio_adapter.run raised unexpectedly")
-            payload = _error_envelope(
+            err_payload = _error_envelope(
                 tid,
                 code="internal_error",
                 message=str(e),
                 provider_used="lm_studio",
                 routing_reason="adapter_exception",
             )
-            return JSONResponse(status_code=500, content=payload)
+            observability.record_orchestrator_run(
+                task_id=tid,
+                task_type=tt,
+                complexity=cx,
+                privacy_level=pv,
+                preferred_model=pm,
+                provider_resolved="lm_studio",
+                http_status=500,
+                response=err_payload,
+                outcome="internal_error",
+                duration_wall_ms=wall_ms(),
+            )
+            return JSONResponse(status_code=500, content=err_payload)
 
         if result.get("status") == "error" and isinstance(result.get("error"), dict):
             code = str(result["error"].get("code") or "error")
             http = _http_status_for_adapter_error(code)
+            observability.record_orchestrator_run(
+                task_id=tid,
+                task_type=tt,
+                complexity=cx,
+                privacy_level=pv,
+                preferred_model=pm,
+                provider_resolved="lm_studio",
+                http_status=http,
+                response=result,
+                outcome="adapter_error",
+                duration_wall_ms=wall_ms(),
+            )
             return JSONResponse(status_code=http, content=result)
 
+        observability.record_orchestrator_run(
+            task_id=tid,
+            task_type=tt,
+            complexity=cx,
+            privacy_level=pv,
+            preferred_model=pm,
+            provider_resolved="lm_studio",
+            http_status=200,
+            response=result,
+            outcome="success",
+            duration_wall_ms=wall_ms(),
+        )
         return JSONResponse(status_code=200, content=result)
+
+    @app.get("/ops/dashboard", response_class=HTMLResponse)
+    def ops_dashboard() -> HTMLResponse:
+        """Vue HTML alternative à un outil externe (WEA-180)."""
+        return HTMLResponse(content=observability.dashboard_html())
+
+    @app.get("/ops/summary")
+    def ops_summary(period: str = "day") -> JSONResponse:
+        """Agrégats pour le dashboard et pour outils JSON (période glissante)."""
+        if period not in ("day", "week", "month"):
+            return JSONResponse(
+                status_code=422,
+                content={"detail": "period must be one of: day, week, month"},
+            )
+        return JSONResponse(content=observability.compute_summary(period))  # type: ignore[arg-type]
 
     return app
 

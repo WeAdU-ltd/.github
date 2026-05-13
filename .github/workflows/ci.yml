@@ -43,6 +43,14 @@ jobs:
       - name: Linear issue comment script (syntax)
         run: python3 -m py_compile scripts/linear_issue_comment.py
 
+      - name: AI orchestrator unit tests
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8
+          python3 -m pip install -q -r .github/ai-orchestrator/requirements.txt
+          cd .github/ai-orchestrator
+          python3 -m unittest discover -s tests -v
+
       - name: AWS GitHub OIDC probe script (syntax)
         run: bash -n scripts/aws_github_oidc_probe.sh
 

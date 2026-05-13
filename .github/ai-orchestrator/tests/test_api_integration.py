@@ -13,6 +13,7 @@ _ORCH = Path(__file__).resolve().parents[1]
 if str(_ORCH) not in sys.path:
     sys.path.insert(0, str(_ORCH))
 
+import observability  # noqa: E402
 import main  # noqa: E402
 
 
@@ -35,7 +36,11 @@ def _minimal_body(**overrides: object) -> dict:
 
 class TestAiRunIntegration(unittest.TestCase):
     def setUp(self) -> None:
+        observability.reset_for_tests()
         self.client = TestClient(main.app)
+
+    def tearDown(self) -> None:
+        observability.reset_for_tests()
 
     def test_post_ai_run_success_calls_lm_adapter(self) -> None:
         fake = {
@@ -124,6 +129,43 @@ class TestAiRunIntegration(unittest.TestCase):
         data = r.json()
         self.assertEqual(data["status"], "error")
         self.assertEqual(data["error"]["code"], "validation_error")
+
+    def test_ops_summary_after_success(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "lm_studio",
+            "model_used": "gemma-4",
+            "output": {"text": "ok"},
+            "usage": {
+                "input_tokens": 10,
+                "output_tokens": 10,
+                "estimated_cost_usd": 0.0,
+                "duration_ms": 5,
+                "estimated_cloud_equivalent_cost_usd": 0.02,
+                "estimated_savings_usd": 0.02,
+            },
+            "routing_reason": "test",
+            "error": None,
+        }
+        with mock.patch("main.lm_run", return_value=fake):
+            r = self.client.post("/ai/run", json=_minimal_body())
+        self.assertEqual(r.status_code, 200)
+        s = self.client.get("/ops/summary?period=day")
+        self.assertEqual(s.status_code, 200, s.text)
+        body = s.json()
+        self.assertEqual(body["totals"]["requests"], 1)
+        self.assertIn("lm_studio", body["by_provider"])
+
+    def test_ops_dashboard_html(self) -> None:
+        r = self.client.get("/ops/dashboard")
+        self.assertEqual(r.status_code, 200)
+        self.assertIn("text/html", r.headers.get("content-type", ""))
+        self.assertIn("WeAdU AI Orchestrator", r.text)
+
+    def test_ops_summary_invalid_period(self) -> None:
+        r = self.client.get("/ops/summary?period=year")
+        self.assertEqual(r.status_code, 422)
 
 
 if __name__ == "__main__":

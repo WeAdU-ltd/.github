@@ -259,7 +259,7 @@ Les codes précis (`provider_timeout`, `privacy_violation`, `cost_cap_exceeded`,
 
 - Endpoints HTTP précis (`POST /ai/run`, etc.) — ticket wrapper WEA-171.
 - Schéma interne des adaptateurs — tickets adaptateurs.
-- Format des fichiers de log et intégration Larridin — WEA-178+.
+- Format des fichiers de log et intégration Larridin — voir `specs/observability_logs.md` (WEA-180).
 
 ---
 
