@@ -24,21 +24,13 @@ from __future__ import annotations
 
 import json
 import math
-import os
 import re
 import time
 import urllib.error
 import urllib.request
 from typing import Any, Callable
 
-# Référence coût équivalent cloud (USD / million de tokens) — spec WEA-172
-_GEMINI_FLASH_USD_PER_MILLION_TOKENS = 0.075
-
-_DEFAULT_BASE = "http://localhost:1234"
-# Délais HTTP LM Studio (cold start, pont Docker / host.docker.internal lent)
-_LM_HTTP_MODELS_TIMEOUT_SEC = 30.0
-_LM_CHAT_TIMEOUT_MS_MIN = 30_000
-_DEFAULT_MODEL = "gemma-4"
+import orchestrator_config as oc
 _SYSTEM_MESSAGE = (
     "You are running as WeAdU local AI orchestrator. Use the provided context and data. "
     "Return a clear structured answer."
@@ -64,29 +56,23 @@ _urlopen: Callable[..., Any] = urllib.request.urlopen
 
 
 def _env_base_url() -> str:
-    raw = os.environ.get("LM_STUDIO_BASE_URL", "").strip()
-    if not raw:
-        return _DEFAULT_BASE
-    return raw.rstrip("/")
+    return oc.lm_studio_base_url()
 
 
 def _env_model_low() -> str:
-    return os.environ.get("LM_STUDIO_MODEL_LOW", "").strip() or _DEFAULT_MODEL
+    return oc.lm_studio_model_low()
 
 
 def _env_model_default() -> str:
-    return os.environ.get("LM_STUDIO_MODEL_DEFAULT", "").strip() or _DEFAULT_MODEL
+    return oc.lm_studio_model_default()
 
 
 def _env_timeout_ms() -> int:
-    raw = os.environ.get("LM_STUDIO_TIMEOUT_MS", "").strip()
-    if raw.isdigit():
-        return max(_LM_CHAT_TIMEOUT_MS_MIN, int(raw))
-    return _LM_CHAT_TIMEOUT_MS_MIN
+    return oc.lm_studio_timeout_ms()
 
 
 def _env_api_key() -> str:
-    return os.environ.get("LM_STUDIO_API_KEY", "").strip()
+    return oc.lm_studio_api_key()
 
 
 def _headers() -> dict[str, str]:
@@ -207,7 +193,7 @@ def _economy_usage(
     duration_ms: int,
 ) -> dict[str, Any]:
     total = input_tokens + output_tokens
-    cloud_eq = total * _GEMINI_FLASH_USD_PER_MILLION_TOKENS / 1_000_000.0
+    cloud_eq = total * oc.cloud_cost_reference_usd_per_million_tokens() / 1_000_000.0
     savings = cloud_eq  # estimated_cost_usd toujours 0 pour LM Studio
     return {
         "input_tokens": input_tokens,
@@ -268,7 +254,9 @@ def check_availability() -> bool:
     base = _env_base_url()
     url = f"{base}/v1/models"
     try:
-        code, raw = _http_json("GET", url, body=None, timeout_sec=_LM_HTTP_MODELS_TIMEOUT_SEC)
+        code, raw = _http_json(
+            "GET", url, body=None, timeout_sec=oc.lm_http_models_timeout_sec()
+        )
     except (TimeoutError, ConnectionError):
         return False
     if code != 200:
@@ -332,7 +320,9 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
 
     # 1) Vérifier présence du modèle configuré (même délai que chat : LM lent via Docker)
     try:
-        mcode, mraw = _http_json("GET", models_url, body=None, timeout_sec=_LM_HTTP_MODELS_TIMEOUT_SEC)
+        mcode, mraw = _http_json(
+            "GET", models_url, body=None, timeout_sec=oc.lm_http_models_timeout_sec()
+        )
     except TimeoutError:
         dur = int((time.perf_counter() - t0) * 1000)
         return _error_payload(
@@ -390,8 +380,8 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
     user_content = _build_user_content(inp)
     options = req.get("options") if isinstance(req.get("options"), dict) else {}
     timeout_ms = int(options["timeout_ms"]) if options.get("timeout_ms") is not None else _env_timeout_ms()
-    timeout_ms = max(_LM_CHAT_TIMEOUT_MS_MIN, timeout_ms)
-    timeout_sec = max(_LM_HTTP_MODELS_TIMEOUT_SEC, timeout_ms / 1000.0)
+    timeout_ms = max(oc.lm_chat_timeout_ms_min(), timeout_ms)
+    timeout_sec = max(oc.lm_http_models_timeout_sec(), timeout_ms / 1000.0)
 
     temperature = float(options["temperature"]) if options.get("temperature") is not None else 0.2
     max_tokens = int(options["max_tokens"]) if options.get("max_tokens") is not None else 1000
