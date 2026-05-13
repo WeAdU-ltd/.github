@@ -16,6 +16,31 @@ from schemas import RunRequest
 logger = logging.getLogger(__name__)
 
 
+def _log_run_outcome(payload: dict[str, Any]) -> None:
+    """Enregistre une ligne JSONL pour ``ai_cost_summary`` (WEA-176)."""
+    try:
+        from orch_log import append_run_line
+
+        usage = payload.get("usage") or {}
+        err = payload.get("error")
+        append_run_line(
+            {
+                "task_id": payload.get("task_id"),
+                "status": payload.get("status"),
+                "provider_used": payload.get("provider_used"),
+                "routing_reason": payload.get("routing_reason"),
+                "estimated_cost_usd": usage.get("estimated_cost_usd"),
+                "estimated_savings_usd": usage.get("estimated_savings_usd"),
+                "estimated_cloud_equivalent_cost_usd": usage.get(
+                    "estimated_cloud_equivalent_cost_usd"
+                ),
+                "error_code": err.get("code") if isinstance(err, dict) else None,
+            }
+        )
+    except Exception:
+        logger.debug("orch log append failed", exc_info=True)
+
+
 def _usage_zero() -> dict[str, Any]:
     return {
         "input_tokens": 0,
@@ -104,6 +129,7 @@ def create_app() -> FastAPI:
             provider_used="none",
             routing_reason="pydantic_validation",
         )
+        _log_run_outcome(payload)
         return JSONResponse(status_code=422, content=payload)
 
     @app.post("/ai/run")
@@ -121,6 +147,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason="privacy_local_only_blocks_cloud",
             )
+            _log_run_outcome(payload)
             return JSONResponse(status_code=400, content=payload)
 
         if provider != "lm_studio":
@@ -131,6 +158,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason=f"routed_to_{provider}_not_implemented",
             )
+            _log_run_outcome(payload)
             return JSONResponse(status_code=503, content=payload)
 
         payload = _request_to_lm_payload(req)
@@ -145,13 +173,16 @@ def create_app() -> FastAPI:
                 provider_used="lm_studio",
                 routing_reason="adapter_exception",
             )
+            _log_run_outcome(payload)
             return JSONResponse(status_code=500, content=payload)
 
         if result.get("status") == "error" and isinstance(result.get("error"), dict):
             code = str(result["error"].get("code") or "error")
             http = _http_status_for_adapter_error(code)
+            _log_run_outcome(result)
             return JSONResponse(status_code=http, content=result)
 
+        _log_run_outcome(result)
         return JSONResponse(status_code=200, content=result)
 
     return app

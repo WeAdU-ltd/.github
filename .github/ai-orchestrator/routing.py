@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any, Literal
 
 from schemas import RunRequest, is_cloud_preferred_model_enum
 
@@ -63,3 +63,47 @@ def resolve_provider(req: RunRequest) -> ProviderId:
         return "claude_haiku"
 
     return "lm_studio"
+
+
+def _routing_reason(req: RunRequest, primary: ProviderId) -> str:
+    """Libellé stable pour prévisualisation MCP (sans exécution)."""
+    pm = req.preferred_model.strip()
+    if req.privacy_level == "local_only":
+        return "local_only enforced"
+    if pm not in _ENUM_PM:
+        return "preferred_model_non_enum_maps_to_lm_studio"
+    if pm == "local":
+        return "preferred_model_local"
+    if pm == "gemini_flash":
+        return "preferred_model_gemini_flash"
+    if pm == "claude_haiku":
+        return "preferred_model_claude_haiku"
+    if req.privacy_level in ("standard", "external_allowed"):
+        if req.complexity == "low":
+            return "auto_complexity_low_routes_lm_studio"
+        if req.complexity == "medium":
+            return "auto_complexity_medium_routes_gemini_flash"
+        return "auto_complexity_high_routes_claude_haiku"
+    return "default_lm_studio"
+
+
+def select_provider_chain(req: RunRequest) -> dict[str, Any]:
+    """
+    Prévisualise le provider sans appeler d'adaptateur.
+
+    Retourne ``provider`` (ou ``null`` si violation de confidentialité),
+    ``routing_reason`` et ``fallback_chain`` (vide en v1).
+    """
+    try:
+        primary = resolve_provider(req)
+    except PrivacyViolationError as e:
+        return {
+            "provider": None,
+            "routing_reason": f"privacy_violation: {e.message}",
+            "fallback_chain": [],
+        }
+    return {
+        "provider": primary,
+        "routing_reason": _routing_reason(req, primary),
+        "fallback_chain": [],
+    }
