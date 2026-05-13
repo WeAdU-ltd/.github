@@ -76,6 +76,13 @@ jobs:
           python3 -m pip install -q -r requirements-onepassword.txt
           python3 scripts/onepassword_resolve_ref.py --dry-run
 
+      - name: AI orchestrator (WEA-171 pytest)
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8
+          python3 -m pip install -q -r .github/ai-orchestrator/requirements.txt
+          PYTHONPATH=.github/ai-orchestrator/src:.github/ai-orchestrator python3 -m pytest -q .github/ai-orchestrator/tests
+
       - name: Cursor secret scan script (syntax)
         run: bash -n scripts/cursor_secret_scan_pre_commit.sh && bash -n .githooks/pre-commit
 

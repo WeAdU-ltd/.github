@@ -1,4 +1,4 @@
-"""Tests unitaires HTTP mockés pour lm_studio_adapter — WEA-172."""
+"""Tests unitaires HTTP mockés pour l'adaptateur LM Studio (WEA-172) — package ``ai_orchestrator``."""
 
 from __future__ import annotations
 
@@ -12,12 +12,11 @@ from io import BytesIO
 from pathlib import Path
 from unittest import mock
 
-# Import package depuis la racine ai-orchestrator
-_ORCH_ROOT = Path(__file__).resolve().parents[1]
-if str(_ORCH_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ORCH_ROOT))
+_SRC = Path(__file__).resolve().parents[1] / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
 
-from lm_studio_adapter import adapter as ad  # noqa: E402
+from ai_orchestrator.adapters import lm_studio as ad  # noqa: E402
 
 
 def _uuid() -> str:
@@ -262,7 +261,6 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertEqual(out["error"]["code"], "validation_error")
 
     def test_preferred_local_uses_lm_studio_model_low_env(self) -> None:
-        """preferred_model=local : corps POST model = LM_STUDIO_MODEL_LOW si low."""
         req = _base_req(complexity="low", preferred_model="local")
         models = {"data": [{"id": "gemma-4"}, {"id": "env-low-special"}]}
         chat = {
@@ -285,7 +283,6 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertIn("low complexity", out["routing_reason"])
 
     def test_preferred_auto_uses_lm_studio_model_default_env(self) -> None:
-        """preferred_model=auto : DEFAULT si complexity non low."""
         req = _base_req(complexity="high", preferred_model="auto")
         models = {"data": [{"id": "gemma-4"}, {"id": "env-default-special"}]}
         chat = {
@@ -308,7 +305,6 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertIn("LM_STUDIO_MODEL_DEFAULT", out["routing_reason"])
 
     def test_custom_model_name_sent_verbatim_to_lm_studio(self) -> None:
-        """Nom de modèle custom (hors local/auto) : identique dans POST model."""
         custom = "my-org/Custom-LM-7B"
         req = _base_req(complexity="low", preferred_model=custom)
         models = {"data": [{"id": "gemma-4"}, {"id": custom}]}
@@ -332,7 +328,6 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertIn("explicit model from preferred_model", out["routing_reason"])
 
     def test_explicit_freeform_overrides_medium_default_env(self) -> None:
-        """Chaîne libre prime sur LM_STUDIO_MODEL_DEFAULT lorsque complexity=medium."""
         req = _base_req(complexity="medium", preferred_model="custom-med")
         models = {"data": [{"id": "gemma-4"}, {"id": "only-default"}, {"id": "custom-med"}]}
         chat = {
@@ -359,7 +354,6 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertEqual(out["model_used"], "custom-med")
 
     def test_explicit_freeform_model_overrides_low_default(self) -> None:
-        """Chaîne libre = id LM Studio ; prime sur LM_STUDIO_MODEL_LOW."""
         req = _base_req(complexity="low", preferred_model="mistral-local")
         models = {"data": [{"id": "gemma-4"}, {"id": "mistral-local"}]}
         chat = {
