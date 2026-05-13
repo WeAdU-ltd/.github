@@ -17,3 +17,6 @@ scripts/ovh_inventory_wea28.op.env
 
 # Local env (ex. LM_STUDIO_BASE_URL, Docker) — ne pas versionner
 .env
+
+# Orchestrateur IA — journal d'audit local (WEA-179)
+.github/ai-orchestrator/var/

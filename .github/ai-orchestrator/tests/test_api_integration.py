@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -35,7 +36,15 @@ def _minimal_body(**overrides: object) -> dict:
 
 class TestAiRunIntegration(unittest.TestCase):
     def setUp(self) -> None:
+        self._prev_audit_dis = os.environ.get("AI_ORCHESTRATOR_AUDIT_LOG_DISABLED")
+        os.environ["AI_ORCHESTRATOR_AUDIT_LOG_DISABLED"] = "1"
         self.client = TestClient(main.app)
+
+    def tearDown(self) -> None:
+        if self._prev_audit_dis is None:
+            os.environ.pop("AI_ORCHESTRATOR_AUDIT_LOG_DISABLED", None)
+        else:
+            os.environ["AI_ORCHESTRATOR_AUDIT_LOG_DISABLED"] = self._prev_audit_dis
 
     def test_post_ai_run_success_calls_lm_adapter(self) -> None:
         fake = {
