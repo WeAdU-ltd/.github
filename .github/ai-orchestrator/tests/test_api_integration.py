@@ -93,6 +93,41 @@ class TestAiRunIntegration(unittest.TestCase):
         data = r.json()
         self.assertEqual(data["error"]["code"], "adapter_not_implemented")
 
+    def test_external_claude_haiku_routes_to_adapter(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "claude_haiku",
+            "model_used": "claude-haiku-4-5",
+            "output": {"text": "cloud"},
+            "usage": {
+                "input_tokens": 10,
+                "output_tokens": 2,
+                "estimated_cost_usd": 0.000016,
+                "duration_ms": 12,
+                "estimated_cloud_equivalent_cost_usd": None,
+                "estimated_savings_usd": None,
+            },
+            "routing_reason": "cloud execution via Anthropic Claude Haiku",
+            "error": None,
+        }
+        runner = mock.Mock(return_value=fake)
+        with mock.patch.dict("os.environ", {"ANTHROPIC_API_KEY": "dummy"}, clear=False):
+            with mock.patch("main.adapter_registry", {"claude_haiku": runner}):
+                with mock.patch("main.lm_run") as m_lm:
+                    r = self.client.post(
+                        "/ai/run",
+                        json=_minimal_body(
+                            privacy_level="external_allowed",
+                            preferred_model="claude_haiku",
+                            complexity="high",
+                        ),
+                    )
+        self.assertEqual(r.status_code, 200, r.text)
+        m_lm.assert_not_called()
+        runner.assert_called_once()
+        self.assertEqual(r.json()["output"]["text"], "cloud")
+
     def test_adapter_error_passed_through_with_http_mapping(self) -> None:
         err_body = {
             "task_id": _valid_uuid(),

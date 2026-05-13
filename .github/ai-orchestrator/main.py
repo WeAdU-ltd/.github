@@ -3,11 +3,20 @@
 from __future__ import annotations
 
 import logging
+import sys
+from pathlib import Path
 from typing import Any
+
+_ORCH_ROOT = Path(__file__).resolve().parent
+_SRC = _ORCH_ROOT / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+
+from ai_orchestrator.adapter_registry import adapter_registry
 
 from lm_studio_adapter.adapter import run as lm_run
 from routing import PrivacyViolationError, resolve_provider
@@ -64,6 +73,8 @@ def _http_status_for_adapter_error(code: str) -> int:
         return 400
     if code == "provider_rate_limited":
         return 429
+    if code == "provider_overloaded":
+        return 503
     if code == "provider_server_error":
         return 502
     return 502
@@ -108,7 +119,7 @@ def create_app() -> FastAPI:
 
     @app.post("/ai/run")
     def post_ai_run(req: RunRequest) -> JSONResponse:
-        """Exécute une requête IA via le routeur et l'adaptateur LM Studio si requis."""
+        """Exécute une requête IA via le routeur (LM Studio, Claude Haiku, …)."""
         tid = str(req.task_id)
 
         try:
@@ -123,29 +134,43 @@ def create_app() -> FastAPI:
             )
             return JSONResponse(status_code=400, content=payload)
 
-        if provider != "lm_studio":
-            payload = _error_envelope(
+        payload = _request_to_lm_payload(req)
+
+        if provider == "claude_haiku":
+            try:
+                result = adapter_registry["claude_haiku"](payload)
+            except Exception as e:
+                logger.exception("claude_haiku adapter raised unexpectedly")
+                err_payload = _error_envelope(
+                    tid,
+                    code="internal_error",
+                    message=str(e),
+                    provider_used="claude_haiku",
+                    routing_reason="adapter_exception",
+                )
+                return JSONResponse(status_code=500, content=err_payload)
+        elif provider != "lm_studio":
+            err_payload = _error_envelope(
                 tid,
                 code="adapter_not_implemented",
                 message=f"Provider {provider} is not available in this version",
                 provider_used="none",
                 routing_reason=f"routed_to_{provider}_not_implemented",
             )
-            return JSONResponse(status_code=503, content=payload)
-
-        payload = _request_to_lm_payload(req)
-        try:
-            result: dict[str, Any] = lm_run(payload)
-        except Exception as e:
-            logger.exception("lm_studio_adapter.run raised unexpectedly")
-            payload = _error_envelope(
-                tid,
-                code="internal_error",
-                message=str(e),
-                provider_used="lm_studio",
-                routing_reason="adapter_exception",
-            )
-            return JSONResponse(status_code=500, content=payload)
+            return JSONResponse(status_code=503, content=err_payload)
+        else:
+            try:
+                result = lm_run(payload)
+            except Exception as e:
+                logger.exception("lm_studio_adapter.run raised unexpectedly")
+                err_payload = _error_envelope(
+                    tid,
+                    code="internal_error",
+                    message=str(e),
+                    provider_used="lm_studio",
+                    routing_reason="adapter_exception",
+                )
+                return JSONResponse(status_code=500, content=err_payload)
 
         if result.get("status") == "error" and isinstance(result.get("error"), dict):
             code = str(result["error"].get("code") or "error")
