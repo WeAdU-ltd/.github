@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WeAdU AI Orchestrator — Ops</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --text: #e6edf3;
+      --muted: #8b9cb3;
+      --accent: #3fb950;
+      --warn: #d29922;
+      --err: #f85149;
+      --border: #30363d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      padding: 1.25rem 1.5rem 2rem;
+    }
+    h1 { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.25rem; }
+    .sub { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.25rem; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    label { color: var(--muted); font-size: 0.8rem; }
+    select, input[type="text"] {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.875rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+    .card h2 {
+      margin: 0 0 0.75rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .metric { font-size: 1.5rem; font-weight: 700; }
+    .metric small { font-size: 0.75rem; font-weight: 400; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+    th, td { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    .section { margin-top: 1.5rem; }
+    .section h2 { font-size: 1rem; margin: 0 0 0.75rem; }
+    .ok { color: var(--accent); }
+    .bad { color: var(--err); }
+    .note { color: var(--muted); font-size: 0.8rem; margin-top: 1rem; max-width: 52rem; }
+    code { font-size: 0.78em; background: #0d1117; padding: 0.1em 0.35em; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>WeAdU AI Orchestrator</h1>
+  <p class="sub">Coûts, économies LM Studio, volume, latence, erreurs — fenêtre glissante (processus en cours)</p>
+
+  <div class="toolbar">
+    <div>
+      <label for="period">Période</label><br />
+      <select id="period" aria-label="Période">
+        <option value="day">Dernières 24 h</option>
+        <option value="week">Derniers 7 jours</option>
+        <option value="month">Derniers 30 jours</option>
+      </select>
+    </div>
+    <div>
+      <label for="errFilter">Filtrer erreurs (code contient)</label><br />
+      <input type="text" id="errFilter" placeholder="ex. provider_timeout" autocomplete="off" />
+    </div>
+    <div>
+      <label><input type="checkbox" id="errorsOnly" /> Uniquement les lignes en erreur (top tâches)</label>
+    </div>
+  </div>
+
+  <div class="grid" id="totals"></div>
+
+  <div class="section">
+    <h2>Coût et volume par fournisseur</h2>
+    <div class="card"><table id="byProvider"><thead><tr>
+      <th>Provider</th><th>Appels</th><th>Coût estimé USD</th><th>Équiv. cloud USD</th><th>Économies USD</th><th>Latence moy. ms</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="section">
+    <h2>Économies LM Studio (agrégat <code>estimated_savings_usd</code>)</h2>
+    <div class="card" id="lmSavings"></div>
+  </div>
+
+  <div class="section">
+    <h2>Erreurs (filtrables)</h2>
+    <div class="card"><table id="errors"><thead><tr><th>Code</th><th>Compte</th></tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="section">
+    <h2>Regrouper par type de tâche (prioriser le local)</h2>
+    <p class="sub" style="margin-top:-0.5rem">Tri par équivalent cloud cumulé — types coûteux en équivalent à surveiller pour routage local.</p>
+    <div class="card"><table id="byTaskType"><thead><tr>
+      <th>task_type</th><th>Appels</th><th>Équiv. cloud USD</th><th>Économies USD</th><th>Latence moy. ms</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="section">
+    <h2>Tâches les plus « chères » (équivalent cloud)</h2>
+    <div class="card"><table id="topTasks"><thead><tr>
+      <th>task_type</th><th>task_id</th><th>provider</th><th>Équiv. cloud USD</th><th>Économies USD</th><th>Latence ms</th><th>Statut</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <p class="note">
+    Données issues du tampon mémoire du processus. Pour Larridin ou un SIEM, configurez
+    <code>AI_ORCHESTRATOR_OBSERVABILITY_LOG</code> (NDJSON, une ligne JSON par requête) — voir
+    <code>specs/observability_logs.md</code> dans le dépôt.
+  </p>
+
+  <script>
+    function esc(s) {
+      const d = document.createElement("div");
+      d.textContent = s == null ? "" : String(s);
+      return d.innerHTML;
+    }
+
+    function render(data) {
+      const t = data.totals || {};
+      document.getElementById("totals").innerHTML = `
+        <div class="card"><h2>Requêtes</h2><div class="metric">${esc(t.requests)}</div></div>
+        <div class="card"><h2>Erreurs</h2><div class="metric ${t.errors > 0 ? "bad" : "ok"}">${esc(t.errors)}</div></div>
+        <div class="card"><h2>Coût cloud estimé (total)</h2><div class="metric">${esc(t.total_estimated_cost_usd)} <small>USD</small></div></div>
+        <div class="card"><h2>Équiv. cloud (total)</h2><div class="metric">${esc(t.total_cloud_equivalent_usd)} <small>USD</small></div></div>
+        <div class="card"><h2>Économies (total)</h2><div class="metric ok">${esc(t.total_savings_usd)} <small>USD</small></div></div>
+      `;
+
+      const bp = data.by_provider || {};
+      const pBody = document.querySelector("#byProvider tbody");
+      pBody.innerHTML = Object.keys(bp).sort().map((k) => {
+        const r = bp[k];
+        return `<tr><td>${esc(k)}</td><td>${esc(r.calls)}</td><td>${esc(r.total_estimated_cost_usd?.toFixed?.(6) ?? r.total_estimated_cost_usd)}</td>
+          <td>${esc(r.total_cloud_equivalent_usd?.toFixed?.(6) ?? r.total_cloud_equivalent_usd)}</td>
+          <td>${esc(r.total_savings_usd?.toFixed?.(6) ?? r.total_savings_usd)}</td>
+          <td>${esc(r.avg_latency_ms)}</td></tr>`;
+      }).join("") || "<tr><td colspan=\"6\">Aucune donnée</td></tr>";
+
+      const lm = bp["lm_studio"] || { total_savings_usd: 0, calls: 0, total_cloud_equivalent_usd: 0 };
+      document.getElementById("lmSavings").innerHTML =
+        "<p><strong>Appels LM Studio :</strong> " + esc(lm.calls) + "</p>" +
+        "<p><strong>Somme estimated_savings_usd :</strong> <span class=\"ok\">" +
+        esc(Number(lm.total_savings_usd || 0).toFixed(6)) + " USD</span></p>" +
+        "<p><strong>Équivalent cloud cumulé (contrefactuel) :</strong> " +
+        esc(Number(lm.total_cloud_equivalent_usd || 0).toFixed(6)) + " USD</p>";
+
+      const errFilter = (document.getElementById("errFilter").value || "").trim().toLowerCase();
+      const eBody = document.querySelector("#errors tbody");
+      const errs = (data.errors || []).filter((row) =>
+        !errFilter || String(row.error_code).toLowerCase().includes(errFilter)
+      );
+      eBody.innerHTML = errs.map((row) =>
+        `<tr><td>${esc(row.error_code)}</td><td>${esc(row.count)}</td></tr>`
+      ).join("") || "<tr><td colspan=\"2\">Aucune erreur</td></tr>";
+
+      const ttBody = document.querySelector("#byTaskType tbody");
+      const types = data.by_task_type || [];
+      ttBody.innerHTML = types.map((row) =>
+        `<tr><td>${esc(row.task_type)}</td><td>${esc(row.calls)}</td><td>${esc(row.total_cloud_equivalent_usd)}</td>
+          <td>${esc(row.total_savings_usd)}</td><td>${esc(row.avg_latency_ms)}</td></tr>`
+      ).join("") || "<tr><td colspan=\"5\">Aucune donnée</td></tr>";
+
+      const onlyErr = document.getElementById("errorsOnly").checked;
+      const tasks = (data.top_tasks_by_cloud_equivalent || []).filter((row) =>
+        !onlyErr || row.status === "error" || row.error_code
+      );
+      const tkBody = document.querySelector("#topTasks tbody");
+      tkBody.innerHTML = tasks.map((row) =>
+        `<tr><td>${esc(row.task_type)}</td><td style="max-width:12rem;overflow:hidden;text-overflow:ellipsis">${esc(row.task_id)}</td>
+          <td>${esc(row.provider_used)}</td><td>${esc(row.estimated_cloud_equivalent_cost_usd)}</td>
+          <td>${esc(row.estimated_savings_usd)}</td><td>${esc(row.duration_wall_ms)}</td>
+          <td>${esc(row.status)}${row.error_code ? " <span class=\"bad\">(" + esc(row.error_code) + ")</span>" : ""}</td></tr>`
+      ).join("") || "<tr><td colspan=\"7\">Aucune donnée</td></tr>";
+    }
+
+    async function load() {
+      const period = document.getElementById("period").value;
+      const r = await fetch("/ops/summary?period=" + encodeURIComponent(period), { headers: { Accept: "application/json" } });
+      if (!r.ok) {
+        document.getElementById("totals").innerHTML = "<div class=\"card bad\">Erreur " + r.status + "</div>";
+        return;
+      }
+      render(await r.json());
+    }
+
+    document.getElementById("period").addEventListener("change", load);
+    document.getElementById("errFilter").addEventListener("input", load);
+    document.getElementById("errorsOnly").addEventListener("change", load);
+    load();
+    setInterval(load, 15000);
+  </script>
+</body>
+</html>
