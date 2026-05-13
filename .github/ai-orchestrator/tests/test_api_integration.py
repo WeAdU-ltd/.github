@@ -78,8 +78,25 @@ class TestAiRunIntegration(unittest.TestCase):
         self.assertEqual(data["error"]["code"], "privacy_violation")
         self.assertEqual(data["provider_used"], "none")
 
-    def test_standard_medium_auto_routes_gemini_returns_503(self) -> None:
-        with mock.patch("main.lm_run") as m:
+    def test_standard_medium_auto_falls_back_to_lm_when_cloud_missing(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "lm_studio",
+            "model_used": "gemma-4",
+            "output": {"text": "ok"},
+            "usage": {
+                "input_tokens": 1,
+                "output_tokens": 1,
+                "estimated_cost_usd": 0.0,
+                "duration_ms": 5,
+                "estimated_cloud_equivalent_cost_usd": 0.1,
+                "estimated_savings_usd": 0.1,
+            },
+            "routing_reason": "adapter",
+            "error": None,
+        }
+        with mock.patch("main.lm_run", return_value=fake) as m:
             r = self.client.post(
                 "/ai/run",
                 json=_minimal_body(
@@ -88,10 +105,11 @@ class TestAiRunIntegration(unittest.TestCase):
                     preferred_model="auto",
                 ),
             )
-        self.assertEqual(r.status_code, 503)
-        m.assert_not_called()
+        self.assertEqual(r.status_code, 200, r.text)
+        m.assert_called_once()
         data = r.json()
-        self.assertEqual(data["error"]["code"], "adapter_not_implemented")
+        self.assertEqual(data["status"], "success")
+        self.assertIn("gemini_flash unavailable", data["routing_reason"])
 
     def test_adapter_error_passed_through_with_http_mapping(self) -> None:
         err_body = {

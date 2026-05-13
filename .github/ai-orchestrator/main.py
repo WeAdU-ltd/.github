@@ -1,4 +1,4 @@
-"""Point d'entrée FastAPI — wrapper POST /ai/run (WEA-171)."""
+"""Point d'entrée FastAPI — wrapper POST /ai/run (WEA-171 / WEA-175)."""
 
 from __future__ import annotations
 
@@ -10,10 +10,13 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from lm_studio_adapter.adapter import run as lm_run
-from routing import PrivacyViolationError, resolve_provider
+from router import PrivacyViolationError, select_provider
 from schemas import RunRequest
 
 logger = logging.getLogger(__name__)
+
+# Adapters réellement déployés sur cette instance (WEA-175 ; étendre quand Gemini / Claude sont branchés).
+ORCHESTRATOR_AVAILABLE_ADAPTERS: list[str] = ["lm_studio"]
 
 
 def _usage_zero() -> dict[str, Any]:
@@ -80,7 +83,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="WeAdU AI Orchestrator",
         version="0.1.0",
-        description="POST /ai/run — contrat specs/api_contract.md (WEA-170 / WEA-171).",
+        description="POST /ai/run — contrat specs/api_contract.md (WEA-170 / WEA-171 / WEA-175).",
     )
 
     @app.exception_handler(RequestValidationError)
@@ -108,51 +111,77 @@ def create_app() -> FastAPI:
 
     @app.post("/ai/run")
     def post_ai_run(req: RunRequest) -> JSONResponse:
-        """Exécute une requête IA via le routeur et l'adaptateur LM Studio si requis."""
+        """Exécute une requête IA via le routeur intelligent puis les adaptateurs disponibles."""
         tid = str(req.task_id)
 
         try:
-            provider = resolve_provider(req)
+            decision = select_provider(req, ORCHESTRATOR_AVAILABLE_ADAPTERS)
         except PrivacyViolationError as e:
             payload = _error_envelope(
                 tid,
                 code="privacy_violation",
                 message=e.message,
                 provider_used="none",
-                routing_reason="privacy_local_only_blocks_cloud",
+                routing_reason="privacy_violation",
             )
             return JSONResponse(status_code=400, content=payload)
 
-        if provider != "lm_studio":
+        if decision.provider == "none":
             payload = _error_envelope(
                 tid,
-                code="adapter_not_implemented",
-                message=f"Provider {provider} is not available in this version",
+                code="routing_blocked",
+                message="no runnable provider under current constraints",
                 provider_used="none",
-                routing_reason=f"routed_to_{provider}_not_implemented",
+                routing_reason=decision.routing_reason,
             )
-            return JSONResponse(status_code=503, content=payload)
+            return JSONResponse(status_code=422, content=payload)
 
-        payload = _request_to_lm_payload(req)
-        try:
-            result: dict[str, Any] = lm_run(payload)
-        except Exception as e:
-            logger.exception("lm_studio_adapter.run raised unexpectedly")
-            payload = _error_envelope(
-                tid,
-                code="internal_error",
-                message=str(e),
-                provider_used="lm_studio",
-                routing_reason="adapter_exception",
-            )
-            return JSONResponse(status_code=500, content=payload)
+        chain = [decision.provider, *decision.fallback_chain]
+        tried_cloud: list[str] = []
 
-        if result.get("status") == "error" and isinstance(result.get("error"), dict):
-            code = str(result["error"].get("code") or "error")
-            http = _http_status_for_adapter_error(code)
-            return JSONResponse(status_code=http, content=result)
+        for prov in chain:
+            if prov == "lm_studio":
+                payload_lm = _request_to_lm_payload(req)
+                try:
+                    result: dict[str, Any] = lm_run(payload_lm)
+                except Exception as e:
+                    logger.exception("lm_studio_adapter.run raised unexpectedly")
+                    payload = _error_envelope(
+                        tid,
+                        code="internal_error",
+                        message=str(e),
+                        provider_used="lm_studio",
+                        routing_reason=f"{decision.routing_reason}; adapter_exception",
+                    )
+                    return JSONResponse(status_code=500, content=payload)
 
-        return JSONResponse(status_code=200, content=result)
+                if result.get("status") == "error" and isinstance(result.get("error"), dict):
+                    code = str(result["error"].get("code") or "error")
+                    http = _http_status_for_adapter_error(code)
+                    rr = result.get("routing_reason") or decision.routing_reason
+                    if isinstance(rr, str) and decision.routing_reason not in rr:
+                        rr = f"{decision.routing_reason}; {rr}"
+                    result = {**result, "routing_reason": rr}
+                    return JSONResponse(status_code=http, content=result)
+
+                rr_out = result.get("routing_reason")
+                if isinstance(rr_out, str) and rr_out.strip():
+                    merged = f"{decision.routing_reason}; {rr_out}"
+                else:
+                    merged = decision.routing_reason
+                return JSONResponse(status_code=200, content={**result, "routing_reason": merged})
+
+            tried_cloud.append(prov)
+
+        first = tried_cloud[0] if tried_cloud else decision.provider
+        payload = _error_envelope(
+            tid,
+            code="adapter_not_implemented",
+            message=f"Provider {first} is not available in this version",
+            provider_used="none",
+            routing_reason=f"{decision.routing_reason}; routed_to_{first}_not_implemented",
+        )
+        return JSONResponse(status_code=503, content=payload)
 
     return app
 
