@@ -1,0 +1,100 @@
+# Labels open PRs when GitHub reports merge conflicts; removes the label when clean.
+# Runs on PR activity and on a daily schedule so stale states refresh.
+#
+# Label: merge-conflict (create-on-demand). Complements pr-merge-status.yml comments.
+
+name: PR merge state labels
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+      - converted_to_draft
+      - edited
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-merge-labels-${{ github.repository }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  label-one:
+    name: Sync merge-conflict label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Ensure label exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh label create merge-conflict --color D93F0B --description "GitHub merge state dirty / conflicting" -R "${{ github.repository }}" 2>/dev/null \
+            || true
+
+      - name: Apply label from merge state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8
+          REPO="${{ github.repository }}"
+          N="${{ github.event.pull_request.number }}"
+          for _ in 1 2 3 4 5; do
+            MS=$(gh pr view "$N" --repo "$REPO" --json mergeStateStatus -q .mergeStateStatus)
+            MG=$(gh pr view "$N" --repo "$REPO" --json mergeable -q .mergeable)
+            if [[ "$MS" != "UNKNOWN" && "$MG" != "UNKNOWN" ]]; then
+              break
+            fi
+            sleep 6
+          done
+          echo "mergeStateStatus=$MS mergeable=$MG"
+          if [[ "$MS" == "DIRTY" || "$MG" == "CONFLICTING" ]]; then
+            gh pr edit "$N" --repo "$REPO" --add-label merge-conflict || true
+          else
+            gh pr edit "$N" --repo "$REPO" --remove-label merge-conflict 2>/dev/null || true
+          fi
+
+  label-all:
+    name: Refresh labels for all open PRs
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Ensure label exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh label create merge-conflict --color D93F0B --description "GitHub merge state dirty / conflicting" -R "${{ github.repository }}" 2>/dev/null \
+            || true
+
+      - name: Sweep open PRs to main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8
+          REPO="${{ github.repository }}"
+          mapfile -t PRS < <(
+            gh pr list --repo "$REPO" --base main --state open --json number,isCrossRepository \
+              --jq '.[] | select(.isCrossRepository==false) | .number'
+          )
+          for n in "${PRS[@]}"; do
+            MS=$(gh pr view "$n" --repo "$REPO" --json mergeStateStatus -q .mergeStateStatus)
+            MG=$(gh pr view "$n" --repo "$REPO" --json mergeable -q .mergeable)
+            echo "PR #${n} mergeStateStatus=$MS mergeable=$MG"
+            if [[ "$MS" == "DIRTY" || "$MG" == "CONFLICTING" ]]; then
+              gh pr edit "$n" --repo "$REPO" --add-label merge-conflict || true
+            else
+              gh pr edit "$n" --repo "$REPO" --remove-label merge-conflict 2>/dev/null || true
+            fi
+            sleep 1
+          done

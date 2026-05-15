@@ -235,6 +235,11 @@ Use `--dry-run` first to see which repos would be updated.
 
 **Security note:** auto-merge merges when **required** checks pass; it does **not** bypass branch protection or reviews if your rules require them. A PAT does not replace these rules.
 
+### PR hygiene (same-repo PRs → `main`)
+
+- [`.github/workflows/pr-update-branches-on-main-push.yml`](.github/workflows/pr-update-branches-on-main-push.yml) — after each push to `main`, calls GitHub **Update branch** for every open PR whose head is in this repository (fork PRs are skipped). Conflicts are not auto-resolved: the API returns an error and the PR stays behind until a human or agent rebases.
+- [`.github/workflows/pr-merge-state-labels.yml`](.github/workflows/pr-merge-state-labels.yml) — adds or removes the **`merge-conflict`** label from GitHub merge state (`DIRTY` / `CONFLICTING` vs clean). Runs on PR activity and on a daily schedule.
+
 ## Linear — projet « Autonomie agents » (lien charte WEA-17)
 
 Après merge sur `main`, si [`docs/CHARTE_AGENTS_LINEAR_WEA17.md`](docs/CHARTE_AGENTS_LINEAR_WEA17.md) change, le workflow [`.github/workflows/linear-sync-autonomie-project.yml`](.github/workflows/linear-sync-autonomie-project.yml) met à jour le projet Linear (contenu + résumé court) pour y garder le lien GitHub vers la charte — sans action manuelle, tant que le secret **`LINEAR_API_KEY`** est disponible pour ce dépôt.

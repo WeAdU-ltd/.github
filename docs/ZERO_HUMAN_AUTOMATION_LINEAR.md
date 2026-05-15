@@ -55,6 +55,7 @@ Ce fichier vit dans le dépôt pour que les agents et la CI renvoient toujours v
 - **Commentaires Linear** : les agents postent via **`LINEAR_API_KEY`** et le script [`scripts/linear_issue_comment.py`](../scripts/linear_issue_comment.py) (ou équivalent dans `scripts/linear_*.py`) — pas de « copie ce bloc dans Linear » pour l’humain.
 - **Runner GitHub self-hosted** : VM dédiée dans le cloud + procédure [`GITHUB_SELF_HOSTED_RUNNER.md`](./GITHUB_SELF_HOSTED_RUNNER.md) — exécution de jobs sans poste local ni SSH personnel vers la prod ; smoke manuel [`/.github/workflows/self-hosted-runner-smoke.yml`](../.github/workflows/self-hosted-runner-smoke.yml) après enregistrement du runner.
 - **Serveurs AWS (checks / commandes sans RDP)** : norme [**AWS Systems Manager**](./AWS_SSM_WEADU_STANDARD.md) — Fleet Manager = preuve qu’une instance est automatable ; CI + OIDC cible pour `SendCommand`, même pattern pour tous les projets.
+- **PR vers `main` (dépôt `.github`)** : après chaque push sur `main`, le workflow [`pr-update-branches-on-main-push.yml`](../.github/workflows/pr-update-branches-on-main-push.yml) tente la mise à jour des branches de PR (bouton *Update branch*) ; le workflow [`pr-merge-state-labels.yml`](../.github/workflows/pr-merge-state-labels.yml) étiquette les PR en conflit (`merge-conflict`). Les conflits de contenu restent à résoudre par agent ou humain — pas de fusion magique.
 
 ---
 
