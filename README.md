@@ -88,6 +88,7 @@ Anchors in [`docs/`](docs/):
 - [AWS — GitHub OIDC + SSM](docs/AWS_GITHUB_OIDC_SSM.md) — rôle **`WeAdUGitHubOIDC-SSM`**, workflows smoke, secret **`AWS_ROLE_ARN`** ; policy Lightsail [`docs/policies/WeAdU-GitHubOIDC-LightsailReadOnly.json`](docs/policies/WeAdU-GitHubOIDC-LightsailReadOnly.json) ; probe IAM [`scripts/aws_github_oidc_probe.sh`](scripts/aws_github_oidc_probe.sh).
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
+- [Orchestrateur IA — standard MCP et `POST /ai/run` (WEA-183)](.github/ai-orchestrator/ORCHESTRATOR.md)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
   - [GCP (WEA-27)](docs/inventory/WEA-27-google-cloud.md)
   - [OVH (WEA-28)](docs/inventory/WEA-28-ovh-duplicates.md)
@@ -132,6 +133,32 @@ les smokes dry-run et la syntaxe du script ci-dessus.
 `git config core.hooksPath .githooks` (voir [`.githooks/pre-commit`](.githooks/pre-commit)). Cela
 reste distinct de [`pre-commit`](https://pre-commit.com) / Gitleaks décrits dans
 [`.pre-commit-config.yaml`](.pre-commit-config.yaml) et la CI.
+
+## AI orchestrator — Cursor MCP (WEA-176 / WEA-183)
+
+Référence normative d’usage (quand appeler l’orchestrateur, confidentialité, logs, interdits) :
+[`.github/ai-orchestrator/ORCHESTRATOR.md`](.github/ai-orchestrator/ORCHESTRATOR.md).
+
+1. Installer les dépendances du dossier `.github/ai-orchestrator/` et démarrer le wrapper HTTP
+   (port **8787** par défaut — voir `main.py` et `uvicorn` dans ce dossier).
+2. Ajouter le serveur MCP stdio ci-dessous dans **`.cursor/mcp.json`** (projet) ou `~/.cursor/mcp.json` (global), puis redémarrer Cursor.
+
+```json
+{
+  "mcpServers": {
+    "weadu-ai-orchestrator": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["${workspaceFolder}/.github/ai-orchestrator/mcp_server.py"],
+      "env": {
+        "WEADU_ORCHESTRATOR_URL": "http://127.0.0.1:8787"
+      }
+    }
+  }
+}
+```
+
+L’outil MCP `ai_run` accepte une chaîne JSON `run_request_json` identique au corps `POST /ai/run` décrit dans `ORCHESTRATOR.md`.
 
 ## Scraping (Decodo, ScraperAPI, Zyte)
 
