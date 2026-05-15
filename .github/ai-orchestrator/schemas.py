@@ -20,7 +20,7 @@ class RunInput(BaseModel):
 
 
 class RunOptions(BaseModel):
-    """Options §3.4 — défauts alignés WEA-171 / api_contract."""
+    """Options §3.5 — défauts alignés WEA-171 / api_contract."""
 
     model_config = ConfigDict(extra="allow")
 
