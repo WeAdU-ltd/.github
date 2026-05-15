@@ -70,11 +70,12 @@ jobs:
           python3 -m pytest -q "$tmp/tests"
           rm -rf "$tmp"
 
-      - name: AI orchestrator (WEA-171 / WEA-176) unittest
+      - name: AI orchestrator (pytest, WEA-171 / WEA-176 / WEA-181)
         run: |
           set -euo pipefail
-          python3 -m pip install -q -r .github/ai-orchestrator/requirements.txt
-          cd .github/ai-orchestrator && PYTHONPATH=src python3 -m unittest discover -s tests -q
+          export LC_ALL=C.UTF-8
+          python3 -m pip install -q -r .github/ai-orchestrator/requirements.txt pytest
+          python3 -m pytest -q .github/ai-orchestrator/tests
 
       - name: 1Password SDK (optional import)
         run: |

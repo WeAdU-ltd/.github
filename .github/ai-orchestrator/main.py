@@ -20,6 +20,7 @@ from ai_orchestrator.adapter_registry import adapter_registry, get_adapter
 
 from lm_studio_adapter.adapter import run as lm_run
 from router import PrivacyViolationError, select_provider
+from routing import CostCapExceededError, enforce_preflight_cost_cap
 from schemas import RunRequest
 
 logger = logging.getLogger(__name__)
@@ -203,6 +204,19 @@ def create_app() -> FastAPI:
             )
             _log_run_outcome(payload)
             return JSONResponse(status_code=422, content=payload)
+
+        try:
+            enforce_preflight_cost_cap(req, decision.provider)  # type: ignore[arg-type]
+        except CostCapExceededError as e:
+            payload = _error_envelope(
+                tid,
+                code="cost_cap_exceeded",
+                message=e.message,
+                provider_used="none",
+                routing_reason="cost_cap_exceeded_preflight",
+            )
+            _log_run_outcome(payload)
+            return JSONResponse(status_code=400, content=payload)
 
         chain = [decision.provider, *decision.fallback_chain]
         tried_cloud: list[str] = []
