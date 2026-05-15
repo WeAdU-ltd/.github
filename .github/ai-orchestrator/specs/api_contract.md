@@ -5,6 +5,18 @@
 
 **Objectif :** une interface unique pour toutes les requêtes IA, quel que soit le fournisseur derrière : **LM Studio** (local), **Gemini Flash**, **Claude Haiku**.
 
+## Résumé (contrat en une lecture)
+
+| Racine — obligatoire | Racine — optionnel |
+|----------------------|-------------------|
+| `task_id`, `task_type`, `complexity`, `privacy_level`, `preferred_model`, `input` | `max_cost_usd`, `options` |
+
+| Sous `input` — obligatoire | Sous `input` — optionnel (défauts) |
+|----------------------------|-----------------------------------|
+| `prompt` (chaîne non vide) | `context` (`{}`), `data` (`[]`) |
+
+**Réponse** — `task_id`, `status`, `provider_used`, `model_used`, `output`, `usage` (§4.3), `routing_reason`, `error` ; le bloc `usage` inclut au minimum tokens, coût estimé USD, durée ms, et peut inclure les champs optionnels d’**économie** (`estimated_cloud_equivalent_cost_usd`, `estimated_savings_usd`).
+
 ---
 
 ## 1. Principes
@@ -109,7 +121,7 @@ Le champ **`preferred_model`** est une **chaîne JSON** (`string`) qui peut pren
 }
 ```
 
-### 3.2 Champs obligatoires
+### 3.2 Champs obligatoires (racine)
 
 | Champ | Type | Description |
 |-------|------|-------------|
@@ -118,19 +130,24 @@ Le champ **`preferred_model`** est une **chaîne JSON** (`string`) qui peut pren
 | `complexity` | `string` | Une valeur de §2.2. |
 | `privacy_level` | `string` | Une valeur de §2.3. |
 | `preferred_model` | `string` | Non vide : une **valeur enum** de §2.4 **ou** un **identifiant libre** de modèle pour le provider cible (voir §2.4). |
-| `input` | `object` | Au minimum `prompt` (voir ci-dessous). |
+| `input` | `object` | Voir §3.3 : au minimum `prompt` non vide. |
 
-### 3.3 Champs optionnels
+### 3.3 Sous-objet `input`
+
+| Champ | Obligatoire | Type | Défaut | Description |
+|-------|-------------|------|--------|-------------|
+| `prompt` | **oui** | `string` | — | Texte principal de la tâche ; longueur minimale > 0. |
+| `context` | non | `object` | `{}` | Données structurées additionnelles (non loggées en clair par défaut côté orchestrateur). |
+| `data` | non | `array` | `[]` | Pièces structurées (ex. blocs à classer) ; sémantique métier. |
+
+### 3.4 Champs optionnels (racine)
 
 | Champ | Type | Défaut | Description |
 |-------|------|--------|-------------|
 | `max_cost_usd` | `number` | comportement impl. | Plafond de coût estimé pour **cette** requête (USD). Si absent, le routeur applique une limite configurée côté serveur. |
-| `input.prompt` | `string` | — | **Obligatoire** si aucun contenu équivalent n’est fourni autrement ; texte principal de la tâche. |
-| `input.context` | `object` | `{}` | Données structurées additionnelles (non loggées en clair par défaut côté orchestrateur). |
-| `input.data` | `array` | `[]` | Pièces structurées (ex. blocs à classer) ; sémantique métier. |
-| `options` | `object` | voir §3.4 | Paramètres transmis aux adaptateurs quand supportés. |
+| `options` | `object` | voir §3.5 | Paramètres transmis aux adaptateurs quand supportés. |
 
-### 3.4 Sous-objet `options` (tous optionnels si `options` absent)
+### 3.5 Sous-objet `options` (tous optionnels si `options` absent)
 
 | Champ | Type | Défaut indicatif | Description |
 |-------|------|-----------------|-------------|
@@ -246,8 +263,8 @@ Les codes précis (`provider_timeout`, `privacy_violation`, `cost_cap_exceeded`,
 
 | Critère | Couvert par |
 |---------|----------------|
-| Document court entrée / sortie | Sections 3–4 et schémas JSON. |
-| Champs obligatoires / optionnels | §3.2–3.4 et §4.2–4.3. |
+| Document court entrée / sortie | Résumé en tête + sections 3–4 et schémas JSON. |
+| Champs obligatoires / optionnels | §3.2–3.5 et §4.2–4.3. |
 | Support LM Studio, Gemini Flash, Claude Haiku | §2.6 et §7. |
 | Forcer le local via `local_only` | §2.3 et §5.3. |
 | Laisser l’orchestrateur choisir via `auto` | §2.4 et §5.4. |
@@ -263,4 +280,4 @@ Les codes précis (`provider_timeout`, `privacy_violation`, `cost_cap_exceeded`,
 
 ---
 
-*Dernière mise à jour : alignement sur la description et les critères d’acceptation du ticket Linear WEA-170 et le contexte dépôt partagé `.github/ai-orchestrator/`.*
+*Dernière mise à jour : 2026-05-13 — WEA-170 (résumé exécutif, clarification champs `input`, renumérotation §3.5 `options`).*

@@ -1,4 +1,6 @@
 > **Ingestion dépôt `WeAdU-ltd/.github` — 2026-05-12** : texte fourni par le référent (chat). L’en-tête du document source cite **Wellbots**, **Socle V5.1 / After Framfield** et la date **2026-03-28** ; le référent confirme la correspondance avec le Repl **Max Conv Val Budget Mngt** (WEA-33 ligne **#7**) et le nom de dépôt **`WeAdU-ltd/max-conv-val-budget-mngt`**. En cas d’écart, reproduire l’export depuis le bon workspace Replit. **Aucune valeur de secret** dans ce fichier ; **pas d’IPv4 publique** (alignement [WEA-29](./WEA-29-aws-ec2-inventory.md)).
+>
+> **Weadu-Socle-V5-Lab** (inventaire [WEA-33](./WEA-33-replit-inventory.md) ligne **#1**) est un **projet transversal** (hub) **distinct** du Repl **Max Conv Val Budget Mngt** (ligne **#7**). Les mentions du Socle dans le corps de l’export décrivent le **contexte** (secrets, orchestration, conventions), **pas** l’identité du Repl **#7** : ne pas confondre **fermeture / Done WEA-79** avec la chaîne du **Socle** ([WEA-44](https://linear.app/weadu/issue/WEA-44/weadu-socle-v5-lab-brief-agent-replit-infos-migration), [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete)).
 
 ---
 

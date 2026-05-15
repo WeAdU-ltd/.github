@@ -78,8 +78,62 @@ class TestAiRunIntegration(unittest.TestCase):
         self.assertEqual(data["error"]["code"], "privacy_violation")
         self.assertEqual(data["provider_used"], "none")
 
-    def test_standard_medium_auto_routes_gemini_returns_503(self) -> None:
-        with mock.patch("main.lm_run") as m:
+    def test_standard_medium_auto_falls_back_to_lm_when_cloud_missing(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "lm_studio",
+            "model_used": "gemma-4",
+            "output": {"text": "ok"},
+            "usage": {
+                "input_tokens": 1,
+                "output_tokens": 1,
+                "estimated_cost_usd": 0.0,
+                "duration_ms": 5,
+                "estimated_cloud_equivalent_cost_usd": 0.1,
+                "estimated_savings_usd": 0.1,
+            },
+            "routing_reason": "adapter",
+            "error": None,
+        }
+        with mock.patch("main.ORCHESTRATOR_AVAILABLE_ADAPTERS", ["lm_studio"]):
+            with mock.patch("main.lm_run", return_value=fake) as m:
+                r = self.client.post(
+                    "/ai/run",
+                    json=_minimal_body(
+                        privacy_level="standard",
+                        complexity="medium",
+                        preferred_model="auto",
+                    ),
+                )
+        self.assertEqual(r.status_code, 200, r.text)
+        m.assert_called_once()
+        data = r.json()
+        self.assertEqual(data["status"], "success")
+        self.assertIn("gemini_flash unavailable", data["routing_reason"])
+
+    def test_standard_medium_auto_routes_gemini_success_mocked(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "gemini_flash",
+            "model_used": "gemini-1.5-flash",
+            "output": {"text": "cloud"},
+            "usage": {
+                "input_tokens": 10,
+                "output_tokens": 5,
+                "estimated_cost_usd": 0.00000225,
+                "duration_ms": 3,
+                "estimated_cloud_equivalent_cost_usd": None,
+                "estimated_savings_usd": None,
+            },
+            "routing_reason": "auto_routed_gemini_for_medium_complexity",
+            "error": None,
+        }
+        with mock.patch(
+            "ai_orchestrator.adapters.gemini_flash.GeminiFlashAdapter.run",
+            return_value=fake,
+        ) as m:
             r = self.client.post(
                 "/ai/run",
                 json=_minimal_body(
@@ -89,22 +143,99 @@ class TestAiRunIntegration(unittest.TestCase):
                     max_cost_usd=1.0,
                 ),
             )
-        self.assertEqual(r.status_code, 503)
-        m.assert_not_called()
+        self.assertEqual(r.status_code, 200, r.text)
+        m.assert_called_once()
         data = r.json()
-        self.assertEqual(data["error"]["code"], "adapter_not_implemented")
+        self.assertEqual(data["status"], "success")
+        self.assertEqual(data["provider_used"], "gemini_flash")
+        self.assertEqual(data["output"]["text"], "cloud")
 
-    def test_cost_cap_exceeded_returns_400_before_adapter(self) -> None:
-        with mock.patch("main.lm_run") as m:
+    def test_standard_explicit_gemini_flash_mocked(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "gemini_flash",
+            "model_used": "gemini-1.5-flash",
+            "output": {"text": "ok"},
+            "usage": {
+                "input_tokens": 1,
+                "output_tokens": 1,
+                "estimated_cost_usd": 0.0,
+                "duration_ms": 1,
+                "estimated_cloud_equivalent_cost_usd": None,
+                "estimated_savings_usd": None,
+            },
+            "routing_reason": "user_preferred_gemini_flash",
+            "error": None,
+        }
+        with mock.patch(
+            "ai_orchestrator.adapters.gemini_flash.GeminiFlashAdapter.run",
+            return_value=fake,
+        ):
             r = self.client.post(
                 "/ai/run",
-                json=_minimal_body(
-                    privacy_level="standard",
-                    complexity="medium",
-                    preferred_model="auto",
-                    max_cost_usd=0.0,
-                ),
+                json=_minimal_body(privacy_level="standard", preferred_model="gemini_flash"),
             )
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.json()["provider_used"], "gemini_flash")
+
+    def test_external_claude_haiku_routes_to_adapter(self) -> None:
+        fake = {
+            "task_id": _valid_uuid(),
+            "status": "success",
+            "provider_used": "claude_haiku",
+            "model_used": "claude-haiku-4-5",
+            "output": {"text": "cloud"},
+            "usage": {
+                "input_tokens": 10,
+                "output_tokens": 2,
+                "estimated_cost_usd": 0.000016,
+                "duration_ms": 12,
+                "estimated_cloud_equivalent_cost_usd": None,
+                "estimated_savings_usd": None,
+            },
+            "routing_reason": "cloud execution via Anthropic Claude Haiku",
+            "error": None,
+        }
+        runner = mock.Mock(return_value=fake)
+        with mock.patch.dict("os.environ", {"ANTHROPIC_API_KEY": "dummy"}, clear=False):
+            with mock.patch("main.adapter_registry", {"claude_haiku": runner}):
+                with mock.patch("main.lm_run") as m_lm:
+                    r = self.client.post(
+                        "/ai/run",
+                        json=_minimal_body(
+                            privacy_level="external_allowed",
+                            preferred_model="claude_haiku",
+                            complexity="high",
+                        ),
+                    )
+        self.assertEqual(r.status_code, 200, r.text)
+        m_lm.assert_not_called()
+        runner.assert_called_once()
+        self.assertEqual(r.json()["output"]["text"], "cloud")
+
+    def test_cost_cap_exceeded_returns_400_before_adapter(self) -> None:
+        from unittest import mock
+
+        from router import ProviderDecision
+
+        decision = ProviderDecision(
+            provider="gemini_flash",
+            fallback_chain=(),
+            routing_reason="test_override",
+            privacy_enforced=False,
+        )
+        with mock.patch("main.select_provider", return_value=decision):
+            with mock.patch("main.lm_run") as m:
+                r = self.client.post(
+                    "/ai/run",
+                    json=_minimal_body(
+                        privacy_level="standard",
+                        complexity="medium",
+                        preferred_model="auto",
+                        max_cost_usd=0.0,
+                    ),
+                )
         self.assertEqual(r.status_code, 400)
         m.assert_not_called()
         data = r.json()

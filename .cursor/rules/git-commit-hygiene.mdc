@@ -1,0 +1,24 @@
+---
+description: "Apply when preparing commits, branches, or pull requests"
+alwaysApply: false
+---
+
+# Git — commits et PR
+
+## Périmètre
+
+- Limiter le commit au périmètre du ticket : uniquement les fichiers volontairement modifiés.
+- Exclure du commit : `.env`, `*.pem`, credentials, exports clients, clés API. S'appuyer sur `.gitignore`.
+- L'agent fait `git add` ciblé + `git commit` + `git push` lui-même. Ne jamais déléguer « Commit & Push » à l'humain via l'IDE.
+
+## Branches `cursor/*`
+
+Avant le `git push` final sur une branche de PR Cursor :
+1. `git fetch origin main`
+2. `git merge origin/main` (défaut) ou `git rebase origin/main` si le ticket l'exige.
+3. Résoudre tout conflit dans la session, puis push.
+
+## Auto-merge `.github`
+
+- PR non brouillon vers la branche par défaut : l'auto-merge s'applique après CI. Ne pas terminer par une procédure manuelle « Merge pull request » pour le référent.
+- Indiquer : « Rien à faire de ton côté pour la fusion : auto-merge après CI ».

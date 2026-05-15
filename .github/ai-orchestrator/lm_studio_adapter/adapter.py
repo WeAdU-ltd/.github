@@ -35,9 +35,8 @@ from typing import Any, Callable
 _GEMINI_FLASH_USD_PER_MILLION_TOKENS = 0.075
 
 _DEFAULT_BASE = "http://localhost:1234"
-# Délais HTTP LM Studio (cold start, pont Docker / host.docker.internal lent)
-_LM_HTTP_MODELS_TIMEOUT_SEC = 30.0
-_LM_CHAT_TIMEOUT_MS_MIN = 30_000
+# WEA-172 : GET /v1/models pour ``check_availability()`` uniquement — 2 s obligatoire
+_AVAILABILITY_MODELS_TIMEOUT_SEC = 2.0
 _DEFAULT_MODEL = "gemma-4"
 _SYSTEM_MESSAGE = (
     "You are running as WeAdU local AI orchestrator. Use the provided context and data. "
@@ -81,8 +80,8 @@ def _env_model_default() -> str:
 def _env_timeout_ms() -> int:
     raw = os.environ.get("LM_STUDIO_TIMEOUT_MS", "").strip()
     if raw.isdigit():
-        return max(_LM_CHAT_TIMEOUT_MS_MIN, int(raw))
-    return _LM_CHAT_TIMEOUT_MS_MIN
+        return int(raw)
+    return 30_000
 
 
 def _env_api_key() -> str:
@@ -262,13 +261,13 @@ def _classify_http_error(status: int) -> tuple[str, bool]:
 
 def check_availability() -> bool:
     """
-    GET /v1/models avec timeout 30 s (aligné sur les appels ``run`` / réseau lent).
-    Succès : HTTP 200, JSON valide, liste `data` non vide si exposée.
+    GET /v1/models avec timeout **2 s** (WEA-172).
+    Succès : HTTP 200, JSON valide, liste ``data`` non vide si exposée.
     """
     base = _env_base_url()
     url = f"{base}/v1/models"
     try:
-        code, raw = _http_json("GET", url, body=None, timeout_sec=_LM_HTTP_MODELS_TIMEOUT_SEC)
+        code, raw = _http_json("GET", url, body=None, timeout_sec=_AVAILABILITY_MODELS_TIMEOUT_SEC)
     except (TimeoutError, ConnectionError):
         return False
     if code != 200:
@@ -330,9 +329,23 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
     models_url = f"{base}/v1/models"
     chat_url = f"{base}/v1/chat/completions"
 
-    # 1) Vérifier présence du modèle configuré (même délai que chat : LM lent via Docker)
+    inp = req["input"]
+    assert isinstance(inp, dict)
+    options = req.get("options") if isinstance(req.get("options"), dict) else {}
+    tm_raw = options.get("timeout_ms")
+    if tm_raw is None:
+        timeout_ms = _env_timeout_ms()
+    else:
+        try:
+            timeout_ms = int(float(tm_raw))
+        except (TypeError, ValueError):
+            timeout_ms = _env_timeout_ms()
+    timeout_ms = max(1, timeout_ms)
+    timeout_sec = timeout_ms / 1000.0
+
+    # 1) Vérifier présence du modèle (même budget HTTP que POST /v1/chat/completions)
     try:
-        mcode, mraw = _http_json("GET", models_url, body=None, timeout_sec=_LM_HTTP_MODELS_TIMEOUT_SEC)
+        mcode, mraw = _http_json("GET", models_url, body=None, timeout_sec=timeout_sec)
     except TimeoutError:
         dur = int((time.perf_counter() - t0) * 1000)
         return _error_payload(
@@ -342,12 +355,12 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
             retryable=True,
             duration_ms=dur,
         )
-    except ConnectionError as e:
+    except ConnectionError:
         dur = int((time.perf_counter() - t0) * 1000)
         return _error_payload(
             task_id,
             code="provider_unavailable",
-            message=f"LM Studio is not reachable at {base}: {e}",
+            message=f"LM Studio is not reachable at {base}",
             retryable=True,
             duration_ms=dur,
         )
@@ -385,13 +398,7 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
             duration_ms=dur,
         )
 
-    inp = req["input"]
-    assert isinstance(inp, dict)
     user_content = _build_user_content(inp)
-    options = req.get("options") if isinstance(req.get("options"), dict) else {}
-    timeout_ms = int(options["timeout_ms"]) if options.get("timeout_ms") is not None else _env_timeout_ms()
-    timeout_ms = max(_LM_CHAT_TIMEOUT_MS_MIN, timeout_ms)
-    timeout_sec = max(_LM_HTTP_MODELS_TIMEOUT_SEC, timeout_ms / 1000.0)
 
     temperature = float(options["temperature"]) if options.get("temperature") is not None else 0.2
     max_tokens = int(options["max_tokens"]) if options.get("max_tokens") is not None else 1000
@@ -420,12 +427,12 @@ def run(req: dict[str, Any]) -> dict[str, Any]:
             retryable=True,
             duration_ms=dur,
         )
-    except ConnectionError as e:
+    except ConnectionError:
         dur = int((time.perf_counter() - t0) * 1000)
         return _error_payload(
             task_id,
             code="provider_unavailable",
-            message=f"LM Studio is not reachable at {base}: {e}",
+            message=f"LM Studio is not reachable at {base}",
             retryable=True,
             duration_ms=dur,
         )

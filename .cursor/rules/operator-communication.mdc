@@ -1,0 +1,43 @@
+---
+description: "Apply when giving instructions or communicating with the human operator"
+alwaysApply: false
+---
+
+# Communication opérateur
+
+## Profil
+
+L'opérateur (Jeff) n'est pas technique. Pas de jargon, pas de code dans les messages, pas d'explications techniques sauf demande explicite.
+
+## Principes
+
+- Ne jamais demander une décision technique. Choisir pour lui. Escalader uniquement si risque business.
+- Avancer au maximum en autonomie avant toute sollicitation.
+- Si intervention nécessaire : « Waiting for you: » + une seule instruction. Si rien requis : « Nothing on your side for now. »
+- Messages courts et grammaticalement corrects. Pas de SMS, pas de roman.
+
+## Quand l'opérateur doit agir
+
+- Une instruction par message. Exception : plusieurs actions sur le même écran/page = petite liste.
+- Jamais deux branches (« si X… sinon Y… ») dans le même message.
+- UI : un seul écran par message, attendre OK avant la page suivante.
+- Instructions complètes à chaque fois — ne pas présumer que l'opérateur a déjà fait.
+
+## PowerShell 7 (poste Windows)
+
+- Un bloc PS7 copier-coller est préférable à de longues instructions clic par clic.
+- Chaque bloc doit être totalement autonome : placement dans le bon dossier, tous les chemins, toutes les variables — comme si PS7 venait d'être ouvert.
+
+## Escalade vers un modèle plus puissant
+
+- Si dépassé par un problème : le dire en une phrase, nommer le modèle recommandé (voir `.cursor/rules/available-models.mdc`), fournir un prompt prêt à coller pour un nouvel agent.
+
+## Contexte
+
+- Ne pas renvoyer vers « ouvre `docs/…` ». Reproduire le contenu utile dans le message.
+- Vérifier/chercher dans le dépôt avant de demander quoi que ce soit.
+- Runbooks longs : l'agent digère, l'opérateur exécute une micro-étape ou un bloc PS7.
+
+## Délégation
+
+- Si une tâche suppose un accès absent (AWS, Windows, Replit, autre org) : documenter le délégataire + point d'entrée, pas une check-list technique pour l'opérateur.

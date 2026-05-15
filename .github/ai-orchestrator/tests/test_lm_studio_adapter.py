@@ -112,6 +112,19 @@ class TestLmStudioAdapter(unittest.TestCase):
         self.assertAlmostEqual(out["usage"]["estimated_savings_usd"], exp, places=10)
         self.assertEqual(len(calls), 2)
 
+    def test_wea172_ticket_example_user_message_shape(self) -> None:
+        """Corps utilisateur aligné sur l’exemple JSON du ticket WEA-172."""
+        inp = {
+            "prompt": "Analyse ce contenu",
+            "context": {"language": "fr", "domain": "Google Ads"},
+            "data": [{"id": "item_1", "text": "contenu à analyser"}],
+        }
+        expected_user = (
+            'Prompt:\nAnalyse ce contenu\n\nContext:\n{"language":"fr","domain":"Google Ads"}\n\n'
+            'Data:\n[{"id":"item_1","text":"contenu à analyser"}]'
+        )
+        self.assertEqual(ad._build_user_content(inp), expected_user)
+
     def test_post_success_without_usage_estimates_tokens(self) -> None:
         models = {"data": [{"id": "gemma-4"}]}
         chat = {
@@ -216,6 +229,19 @@ class TestLmStudioAdapter(unittest.TestCase):
             out = ad.run(_base_req())
         self.assertEqual(out["error"]["code"], "provider_not_found")
 
+    def test_http_429_on_chat(self) -> None:
+        models = {"data": [{"id": "gemma-4"}]}
+
+        def fake_open(req: urllib.request.Request, timeout: object = None) -> _RespCM:
+            if req.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            raise urllib.error.HTTPError(req.full_url, 429, "rl", {}, BytesIO(b"{}"))
+
+        with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+            out = ad.run(_base_req())
+        self.assertEqual(out["error"]["code"], "provider_rate_limited")
+        self.assertTrue(out["error"]["retryable"])
+
     def test_http_500_on_chat(self) -> None:
         models = {"data": [{"id": "gemma-4"}]}
 
@@ -228,6 +254,28 @@ class TestLmStudioAdapter(unittest.TestCase):
             out = ad.run(_base_req())
         self.assertEqual(out["error"]["code"], "provider_server_error")
         self.assertTrue(out["error"]["retryable"])
+
+    def test_options_timeout_ms_propagates_to_urlopen(self) -> None:
+        models = {"data": [{"id": "gemma-4"}]}
+        chat = {
+            "model": "gemma-4",
+            "choices": [{"message": {"content": "x"}}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1},
+        }
+        timeouts: list[float] = []
+
+        def fake_open(req: urllib.request.Request, timeout: object = None) -> _RespCM:
+            assert timeout is not None
+            timeouts.append(float(timeout))
+            if req.method == "GET":
+                return _RespCM(200, json.dumps(models).encode())
+            return _RespCM(200, json.dumps(chat).encode())
+
+        req = _base_req(options={"temperature": 0.2, "max_tokens": 1000, "timeout_ms": 5000})
+        with mock.patch.object(ad, "_urlopen", side_effect=fake_open):
+            out = ad.run(req)
+        self.assertEqual(out["status"], "success")
+        self.assertEqual(timeouts, [5.0, 5.0])
 
     def test_invalid_json_chat(self) -> None:
         models = {"data": [{"id": "gemma-4"}]}
@@ -419,7 +467,7 @@ class TestLmStudioAdapter(unittest.TestCase):
     def test_check_availability_true(self) -> None:
         def fake_open(req: urllib.request.Request, timeout: object = None) -> _RespCM:
             self.assertIn("/v1/models", req.full_url)
-            self.assertEqual(timeout, 30.0)
+            self.assertEqual(timeout, 2.0)
             return _RespCM(200, json.dumps({"data": [{"id": "gemma-4"}]}).encode())
 
         with mock.patch.object(ad, "_urlopen", side_effect=fake_open):

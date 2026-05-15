@@ -1,0 +1,37 @@
+---
+globs: .github/workflows/*.yml
+alwaysApply: false
+---
+
+# GitHub Actions / CI
+
+## Faire sans demander (routine)
+
+- `gh workflow run`, `gh run rerun --failed`, force-push sur branche `cursor/*` propre, `gh pr edit`, `gh pr ready`, labels via API.
+- Ouvrir ou remplacer une PR stale. Surveiller les runs (`gh run watch` ou sondage 30-120 s) sans demander à l'humain « c'est vert ? ».
+- Laisser un commentaire audit trail (Linear ou PR) avec l'URL du run.
+
+## Demander avant (risque prod / coût)
+
+- Promote production, `tools/deploy_to_aws.py` sans `--staging`, force-push sur `main`, suppression de branches/issues/PR d'autres agents, provisionner des ressources payantes, modifier les settings repo (secrets, variables, branch protection).
+
+## Blocage CI
+
+- Échecs des workflows dans `docs/GITHUB_CI_FAILURE_ALERT.md` → traiter en priorité : lire le run, corriger, relancer.
+- Pas de correctifs de sécurité en contournant la revue.
+
+## PR en parallèle sur `.github`
+
+- Éviter plusieurs PR sur les mêmes fichiers pivot (`README.md`, `.gitignore`, workflows).
+- Rebaser sur `main` avant review finale.
+- Ne laisser en brouillon que ce qui est inachevé ; sinon l'auto-merge ne s'applique pas.
+
+## Secrets
+
+- Noms dans `docs/SECRETS_SOCLE_WEA15.md`. Valeurs créées par Jeff (propriétaire unique) dans GitHub org secrets.
+- Avant de proposer un nouveau PAT : vérifier `docs/SECRETS_CARTOGRAPHIE_WEA14.md` y compris 1Password.
+- Quand un workflow lit `secrets.NOM` : documenter le nom + pointer `docs/ZERO_HUMAN_AUTOMATION_LINEAR.md`.
+
+## ManagePullRequest head branch (NEG-288)
+
+Avant `ManagePullRequest`, aligner la branche session sur le commit voulu : `git reset --hard <sha>` + `git push --force-with-lease`. Alternative : `gh pr create --head <branch>` si le fix est sur une autre branche.

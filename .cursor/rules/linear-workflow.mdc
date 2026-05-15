@@ -1,0 +1,14 @@
+---
+globs: scripts/linear_*.py, .github/workflows/linear-*.yml
+alwaysApply: false
+---
+
+# Linear — API uniquement, pas de MCP
+
+- Utiliser `LINEAR_API_KEY` (env agent ou GitHub Actions secret) et les scripts du dépôt (`scripts/linear_*.py`).
+- **Ne pas** utiliser le serveur MCP Linear de Cursor (souvent `needsAuth` en cloud).
+- **Ne pas** demander à l'humain de configurer le MCP ni de coller un livrable dans l'UI Linear.
+- Commentaires / preuves : `scripts/linear_issue_comment.py`. Si clé absente dans la session : dire « non accessible : LINEAR_API_KEY », pas demander de copier-coller.
+- Création de sous-issues : `scripts/linear_create_sub_issues.py --parent NEG-XXX` (ou `--file subtasks.json`). Ne pas enchaîner des appels MCP vides en parallèle.
+- **Ne pas présumer l'absence de secrets** : lire `docs/SECRETS_SOCLE_WEA15.md`, tenter le script avant de renvoyer vers une création de secret. Si seule la session n'a pas la variable : « non accessible dans cette session », pas « le secret n'existe pas ».
+- Issues récurrentes (flip-flops, digests) : **une** issue parent par thème, rouvrir sur nouvelle occurrence. Nouveau ticket seulement si cause racine différente.
