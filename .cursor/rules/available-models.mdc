@@ -1,0 +1,47 @@
+---
+description: "Reference when escalating to a stronger model or choosing the right model for a task"
+alwaysApply: false
+---
+
+# Available models (updated 2026-05-15)
+
+## Local (free, private)
+
+- Gemma-4-e4b (LM Studio, operator's Windows workstation)
+
+## Cursor platform
+
+| Model | Tier |
+|---|---|
+| Composer 2 | Default agent |
+| Opus 4.7 | Premium - strongest reasoning |
+| Opus 4.6 | Premium |
+| Opus 4.5 | Premium |
+| Codex 5.3 | Premium - strongest code |
+| Codex 5.2 | Premium |
+| Codex 5.1 Max | Premium |
+| GPT-5.5 | Premium |
+| GPT-5.4 | Premium |
+| GPT-5.2 | Premium |
+| GPT-5.1 | Premium |
+| Grok 4.3 | Premium |
+| Gemini 3.1 Pro | Premium |
+| Sonnet 4.6 | Premium |
+| Sonnet 4.5 | Standard |
+| Sonnet 4 | Standard |
+| GPT-5.4 Mini | Standard |
+| GPT-5.4 Nano | Light |
+| GPT-5 Mini | Light |
+| Codex 5.2 | Standard |
+| Codex 5.1 Mini | Light |
+| Haiku 4.5 | Light |
+| Gemini 3 Flash | Light |
+| Gemini 2.5 Flash | Light |
+| Kimi K2.5 | Standard |
+
+## Escalation guidance
+
+- Simple tasks (formatting, extraction, small fixes): Light tier or Composer 2.
+- Standard tasks (feature implementation, debugging): Sonnet 4.5+ or Codex 5.2+.
+- Hard problems (architecture, multi-file refactoring, complex reasoning): Opus 4.6+ or Codex 5.3.
+- When escalating: name the specific model in the prompt to the operator.

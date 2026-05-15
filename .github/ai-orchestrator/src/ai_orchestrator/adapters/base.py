@@ -1,4 +1,4 @@
-"""Classe de base des adaptateurs — contrat WEA-171 (dict in / dict out)."""
+"""Contrat commun des adaptateurs — WEA-171."""
 
 from __future__ import annotations
 
@@ -7,13 +7,8 @@ from typing import Any
 
 
 class BaseAdapter(ABC):
-    """Adaptateur : requête universelle ``dict`` → ``RunResponse`` sérialisé en ``dict``."""
-
-    @property
-    @abstractmethod
-    def provider_id(self) -> str:
-        """Valeur ``provider_used`` (ex. ``gemini_flash``)."""
+    """Adaptateur : entrée/sortie JSON alignées sur ``specs/api_contract.md``."""
 
     @abstractmethod
     def run(self, req: dict[str, Any]) -> dict[str, Any]:
-        """Exécute une ``RunRequest`` JSON-like ; retourne un ``RunResponse`` dict."""
+        """Exécute une ``RunRequest`` sérialisée (dict) et renvoie une ``RunResponse`` (dict)."""
