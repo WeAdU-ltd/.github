@@ -1,0 +1,20 @@
+---
+globs: "tests/**/*.py, conftest.py, pyproject.toml"
+alwaysApply: false
+---
+
+# Python tests (NEG-82)
+
+## Avant PR
+
+- `pytest tests/` complet (pas juste le fichier modifié). Flags CI : `--strict-markers --strict-config --timeout=180`.
+- Si touch `sys.modules` stubs, `conftest.py`, ou `tests/_support/` : suite 2× avec `--randomly-seed=` différents.
+
+## Stubs et `patch()`
+
+- Ne jamais remplacer `sys.modules["real_package"]` si le package réel est déjà importé. Préférer `if name not in sys.modules`.
+- Ne pas `setdefault("app.core.catalog", …)` à l'import — ça masque les vrais packages. Utiliser `unittest.mock.patch` autour du test.
+- Si prod fait `from app.core.catalog import X` dans une fonction : patcher `app.core.catalog.X`, pas une référence stale.
+- Un stub de module tiers (`asyncpg`, `httpx`) doit exposer tous les attributs que d'autres tests patchent.
+- Préférer `tests._support.heavy_deps_stubs` plutôt que dupliquer les stubs.
+- Dépendances dev dans `pyproject.toml` `[project.optional-dependencies] dev`.

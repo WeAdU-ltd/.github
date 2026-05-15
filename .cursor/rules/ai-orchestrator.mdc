@@ -1,0 +1,13 @@
+---
+globs: .github/ai-orchestrator/**
+alwaysApply: false
+---
+
+# AI Orchestrator
+
+- Tout le code de l'orchestrateur IA vit sous **`.github/ai-orchestrator/`** (chemin canonique). Ne pas créer de code orchestrateur ailleurs.
+- Contrat d'API : `specs/api_contract.md` (RunRequest / RunResponse).
+- Providers v1 : `lm_studio` (local, coût 0), `gemini_flash`, `claude_haiku`.
+- `privacy_level: local_only` → LM Studio obligatoire, cloud interdit.
+- `max_cost_usd` par requête. Budget global < 1000 €/mois (WEA-18).
+- `usage` block : `estimated_cost_usd`, `estimated_cloud_equivalent_cost_usd`, `estimated_savings_usd`.

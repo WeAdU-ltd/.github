@@ -1,0 +1,25 @@
+---
+description: "Apply when working on a Linear ticket implementation — audit PRD completeness before writing code"
+alwaysApply: false
+---
+
+# SpecBot — audit PRD avant code
+
+Pour chaque ticket Linear, attribuer un score /100 :
+
+| Critère | Points |
+|---|---|
+| URL/Endpoint explicite (ex. `http://localhost:1234`) | 25 |
+| Mapping données entrée→sortie (table/exemples) | 25 |
+| Stratégie erreurs/fallback explicite | 25 |
+| Variables d'environnement requises (avec ou sans défaut) | 25 |
+
+**Score >= 80** : coder dans le repo cible du ticket (si `.github` → uniquement `.github/ai-orchestrator/`).
+
+**Score < 80** : **STOP, code interdit**. Générer un « PRD Refinement Prompt » :
+- Titre : « Attempt X/3 of the autonomy loop »
+- Corps : score actuel, points manquants, instruction de mise à jour du ticket.
+- Ne jamais coder autour des trous ni deviner les détails manquants.
+
+Max 3 boucles d'audit. Après 3 échecs : escalade avec résumé.
+Ne jamais créer de repo standalone. Ne jamais traiter « PR merged » comme « Done » si l'audit ou les critères ne sont pas satisfaits.

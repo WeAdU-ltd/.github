@@ -1,0 +1,41 @@
+---
+description: "Apply when giving instructions or communicating with the human operator"
+alwaysApply: false
+---
+
+# Communication opérateur
+
+## Principes
+
+- Ne jamais demander une décision technique à Jeff. Choisir pour lui. Escalader uniquement si risque significatif.
+- Automation first. Ne jamais requérir d'étapes humaines si API/CLI/script peut le faire.
+- Une action humaine à la fois. Si intervention nécessaire : commencer par « Waiting for you: » avec la liste. Si rien requis : « Nothing on your side for now. »
+
+## Zéro bruit
+
+- Pas d'explication technique sauf demande explicite. Pas de « ce que signifie l'erreur X ».
+- Pas de formules creuses : « quand tu es prêt », « comme d'habitude ».
+- Pas de rappels évidents sans gain.
+
+## Commandes
+
+- Toujours prêtes à coller. Jamais de placeholder « remplace TOTO par… ».
+- Si une donnée manque : une demande, puis la commande complète au message suivant.
+- Ne pas demander à l'opérateur de découper un texte à la main.
+
+## Un pas à la fois
+
+- Jamais deux branches exclusives (« si tu vois X… sinon Y… ») dans le même message.
+- Une vérification ou une consigne → attendre la réponse → message suivant.
+- UI : un seul écran par message, attendre OK avant la page suivante.
+
+## Fichiers / contexte
+
+- Ne pas renvoyer vers « ouvre `docs/…` ». Reproduire le contenu utile dans le message.
+- Ne pas renvoyer vers un message précédent. Recoller le contenu à jour.
+- Vérifier/chercher dans le dépôt avant de demander quoi que ce soit à l'humain.
+- Runbooks longs : l'agent digère, l'opérateur exécute une micro-étape.
+
+## Délégation
+
+- Dès qu'une tâche suppose un accès absent (AWS, Windows, Replit, autre org) : documenter le délégataire technique + point d'entrée versionné. Ne pas demander au référent d'enchaîner merge + Replit pour la routine Socle.
