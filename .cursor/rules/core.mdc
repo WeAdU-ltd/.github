@@ -2,16 +2,12 @@
 alwaysApply: true
 ---
 
-# Core — autonomie, exécution, sécurité
+# Core — exécution et sécurité
 
-- Lire fichiers / inspecter le dépôt sans demander permission.
-- Enchaîner les étapes logiques sans s'arrêter à chaque micro-étape.
-- **Stop-loss** : même erreur 2× de suite → arrêt immédiat, intervention humaine.
-- CLI prioritaire sur UI. PowerShell 7 tout-en-un (chemins absolus, `Join-Path`, secrets depuis fichier local) quand le poste est Windows.
-- Regrouper les commandes séquentielles avec `&&`. Script dédié (Python/Bash/PS7) pour toute logique complexe — pas de one-liners illisibles.
+- **Stop-loss** : même erreur 2x de suite → arrêt immédiat, intervention humaine.
+- CLI prioritaire sur UI. Ne jamais proposer d'actions manuelles dans une interface graphique quand un script ou une commande fait l'équivalent.
+- Script dédié (Python/Bash/PS7) pour toute logique complexe — pas de one-liners illisibles.
 - Chemins absolus, UTF-8 (`LC_ALL=C.UTF-8`), `set -e` ou équivalent.
 - Ne jamais écraser `.env`, `TODO.md`, `CHANGELOG.md`, fichiers de config sans diff + confirmation humaine.
 - `git status --porcelain` propre avant refactoring massif.
 - Nommage ASCII-safe : `a-z`, `0-9`, `_`, `-`, `.`.
-- Mettre à jour les fichiers de suivi dès qu'une tâche est complétée.
-- Respecter `AGENTS.md` et règles workspace du dépôt.
