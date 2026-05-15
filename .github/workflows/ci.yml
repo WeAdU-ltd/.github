@@ -98,5 +98,13 @@ jobs:
           tar -xzf "/tmp/${tarball}" -C /tmp gitleaks
           sudo install -m 0755 /tmp/gitleaks /usr/local/bin/gitleaks
 
+      - name: AI orchestrator — deps, MCP server syntax, unit tests
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8
+          python3 -m pip install -q -r .github/ai-orchestrator/requirements.txt
+          python3 -m py_compile .github/ai-orchestrator/mcp_server.py
+          cd .github/ai-orchestrator && PYTHONPATH=. python3 -m unittest discover -s tests -q
+
       - name: Run gitleaks
         run: gitleaks detect --source . --redact --verbose

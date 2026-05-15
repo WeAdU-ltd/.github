@@ -23,7 +23,7 @@ class TestMcpSmoke(unittest.TestCase):
     def test_ai_route_preview_local_only(self) -> None:
         out = mcp_mod._ai_route_preview_impl("low", "local_only", "local")
         self.assertEqual(out["provider"], "lm_studio")
-        self.assertEqual(out["routing_reason"], "local_only enforced")
+        self.assertIn("lm_studio", out["routing_reason"])
         self.assertEqual(out["fallback_chain"], [])
 
     def test_ai_route_preview_privacy_violation(self) -> None:

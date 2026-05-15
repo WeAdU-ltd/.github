@@ -1,1 +1,1 @@
-"""Package orchestrateur IA (serveur MCP WEA-176)."""
+"""Package orchestrateur IA (adaptateurs, registre, MCP WEA-176)."""

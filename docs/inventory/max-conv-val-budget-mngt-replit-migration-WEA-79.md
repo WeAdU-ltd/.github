@@ -56,8 +56,8 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Exigence | État |
 |----------|------|
-| Code métier importé depuis Replit | **À faire** — l’export décrit l’arbre attendu (`main.py`, `wellbots/lambda`, etc.) ; le dépôt [`max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) n’a pas encore ce code sur `main`. |
-| README + socle minimal | **Partiel** — squelette WEA-35 + README placeholder (**2026-05-12**) ; à remplacer / compléter selon **§2 Run local** de l’export. |
+| Code métier importé depuis Replit | **Fait** — push applicatif **2026-05-13** depuis le workspace **Feed Optimizer** (Repl #17) vers [`WeAdU-ltd/max-conv-val-budget-mngt`](https://github.com/WeAdU-ltd/max-conv-val-budget-mngt) `main` ; preuve et procédure : [`feed-optimizer-replit-passation-2026-05-13.md`](./feed-optimizer-replit-passation-2026-05-13.md) (commits `bafa3ae`, `b75bde0` dixit passation). |
+| README + socle minimal | **Partiel** — compléter le README applicatif selon **§2 Run local** de l’export ; squelette WEA-35 remplacé côté arborescence par le push applicatif. |
 
 ---
 
@@ -65,8 +65,8 @@ Puis lier le résultat sur **WEA-80** et copier le fichier ici sous **§2** (nom
 
 | Exigence | État |
 |----------|------|
-| Prod / scheduling hors Replit **ou** ligne résiduelle justifiée dans [WEA-36 §5](./WEA-36-replit-migration-societe.md) | **Ouvert** — traité sur **WEA-84** ; fermeture Replit : [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete). |
+| Prod / scheduling hors Replit **ou** ligne résiduelle justifiée dans [WEA-36 §5](./WEA-36-replit-migration-societe.md) | **Fait** (**2026-05-13**) — selon l’[export §6](./max-conv-val-budget-mngt-replit-export-2026-05-12.md), la **production** du script budget Wellbots est sur **AWS Lambda** `wellbots-budget-lambda-prod` (secrets **SSM** `/wellbots/prod/*`, déclencheur **EventBridge** `wellbots-daily-trigger-prod`) ; la **FastAPI Replit** y est indiquée **non déployée en production** (dev / orchestration). La ligne résiduelle **Repl #7** a été **retirée** du tableau [WEA-36 §5](./WEA-36-replit-migration-societe.md) ; paragraphe **Historique — Repl #7** conservé. **Replit n’est pas critique** pour la boucle prod + scheduling **documentée** du script budget. Suite optionnelle : fermeture Repl et rotation `OP_SERVICE_ACCOUNT_TOKEN` côté Repl si le workspace n’est plus utilisé — [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete). |
 
 ---
 
-_Document vivant ; création dépôt + squelette **2026-05-12** ; export Repl / référent ingéré **2026-05-12**._
+_Document vivant ; création dépôt + squelette **2026-05-12** ; export Repl / référent ingéré **2026-05-12** ; code sur `main` + cutover documentés **2026-05-13** ([WEA-84](https://linear.app/weadu/issue/WEA-84/max-conv-val-budget-mngt-cutover-hors-replit-ou-classement-residuel-justifie))._

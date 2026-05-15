@@ -6,6 +6,8 @@
 
 **Documents** : export [`feed-optimizer-replit-export-2026-05-12.md`](./feed-optimizer-replit-export-2026-05-12.md) ; passation Repl [`feed-optimizer-replit-passation-2026-05-13.md`](./feed-optimizer-replit-passation-2026-05-13.md).
 
+Les agents sur ce dépôt `.github` **n’ont pas** le workspace Replit : le brief [WEA-140](https://linear.app/weadu/issue/WEA-140) s’exécute **dans** le Repl (session Cursor avec le code), consigne [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md).
+
 ## Décision opérateur (2026-05-13)
 
 - **Usage métier actuel** : **aucun** — le projet n’est pas utilisé au quotidien pour l’instant.
@@ -84,4 +86,4 @@ Tant que les points ci-dessous ne sont pas traités ou **explicitement** accept�
 
 ---
 
-_Document vivant ; décision opérateur **2026-05-13** ; dernier passage **2026-05-13**._
+_Document vivant ; création agent Socle : 2026-05-12 ; synthèse partielle WEA-141 + contrôle GitHub org §3.1 : **2026-05-12** ; décision opérateur **2026-05-13** ; dernier passage **2026-05-13**._

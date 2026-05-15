@@ -18,8 +18,14 @@ if str(_ORCH_ROOT) not in sys.path:
     sys.path.insert(0, str(_ORCH_ROOT))
 
 from orch_log import settings as orch_log_settings  # noqa: E402
-from routing import select_provider_chain  # noqa: E402
+from router import PrivacyViolationError, select_provider  # noqa: E402
 from schemas import RunRequest, RunInput, RunOptions  # noqa: E402
+
+_MCP_ROUTE_AVAILABLE_ADAPTERS: list[str] = [
+    "lm_studio",
+    "gemini_flash",
+    "claude_haiku",
+]
 
 TaskType = Literal["analysis", "generation", "extraction", "coding", "classification"]
 Complexity = Literal["low", "medium", "high"]
@@ -165,7 +171,21 @@ def _ai_route_preview_impl(
     preferred_model: PreferredModel | str,
 ) -> dict[str, Any]:
     req = _preview_request(complexity, privacy_level, preferred_model)
-    return select_provider_chain(req)
+    try:
+        decision = select_provider(req, _MCP_ROUTE_AVAILABLE_ADAPTERS)
+    except PrivacyViolationError as e:
+        return {
+            "provider": None,
+            "fallback_chain": [],
+            "routing_reason": f"privacy_violation: {e.message}",
+            "privacy_enforced": True,
+        }
+    return {
+        "provider": decision.provider,
+        "fallback_chain": list(decision.fallback_chain),
+        "routing_reason": decision.routing_reason,
+        "privacy_enforced": decision.privacy_enforced,
+    }
 
 
 def _usage_zero() -> dict[str, Any]:

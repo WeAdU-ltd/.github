@@ -1,0 +1,10 @@
+---
+globs: docs/AWS_*.md
+alwaysApply: false
+---
+
+# AWS — contrôle serveurs
+
+- Checks répétitifs ou commandes sur VMs AWS : **Systems Manager** (Fleet Manager) + GitHub Actions / OIDC. Pas de RDP pour la routine.
+- Norme versionnée : `docs/AWS_SSM_WEADU_STANDARD.md`.
+- Quand tu guides l'humain : inclure les étapes pertinentes dans le message (pas juste un lien vers le doc).

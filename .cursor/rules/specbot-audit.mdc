@@ -1,0 +1,27 @@
+---
+description: "Apply when working on a Linear ticket implementation — audit PRD completeness before writing code"
+alwaysApply: false
+---
+
+# SpecBot — audit PRD avant code
+
+## Quand appliquer
+
+Uniquement pour les tâches qui impliquent une **intégration externe** (API, base de données, pipeline de données, webhook, service tiers). Ne PAS appliquer pour : renommage, UI, texte, config, refactoring, documentation, corrections simples.
+
+## Score /100 (quand applicable)
+
+| Critère | Points |
+|---|---|
+| URL/Endpoint explicite | 25 |
+| Mapping données entrée→sortie (table/exemples) | 25 |
+| Stratégie erreurs/fallback explicite | 25 |
+| Variables d'environnement requises (avec ou sans défaut) | 25 |
+
+**Score >= 80** : coder dans le repo cible du ticket.
+
+**Score < 80** : **STOP, code interdit**. Générer un « PRD Refinement Prompt » :
+- Titre : « Attempt X/3 of the autonomy loop »
+- Corps : score actuel, points manquants, instruction de mise à jour du ticket.
+
+Max 3 boucles d'audit. Après 3 échecs : escalade avec résumé.
