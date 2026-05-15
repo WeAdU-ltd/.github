@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+
+# Core — exécution et sécurité
+
+- **Stop-loss** : même erreur 2x de suite → arrêt immédiat. 3 approches différentes échouées sur le même problème → arrêt et escalade (nommer un modèle plus puissant + fournir un prompt prêt à coller).
+- CLI prioritaire sur UI pour le travail de l'agent. PS7 copier-coller OK pour l'opérateur.
+- Script dédié (Python/Bash/PS7) pour toute logique complexe.
+- Chemins absolus, UTF-8, sortie en erreur si échec.
+- Ne jamais écraser `.env`, `TODO.md`, `CHANGELOG.md`, fichiers de config sans confirmation humaine (décrire le changement en langage simple, pas un diff technique).
+- Arbre Git propre avant refactoring massif.
+- Nommage ASCII-safe : `a-z`, `0-9`, `_`, `-`, `.`.
