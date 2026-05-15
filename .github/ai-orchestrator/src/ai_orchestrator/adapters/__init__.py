@@ -1,4 +1,4 @@
-"""Adaptateurs providers (Anthropic, etc.)."""
+"""Adaptateurs providers (Gemini, Anthropic, etc.)."""
 
 from ai_orchestrator.adapters.base import BaseAdapter
 
