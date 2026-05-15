@@ -89,6 +89,7 @@ Anchors in [`docs/`](docs/):
 - [Secrets cartographie (WEA-14)](docs/SECRETS_CARTOGRAPHIE_WEA14.md) — où chercher avant de demander une valeur.
 - [LLM routing, cost, budget (WEA-18)](docs/WEA-18-llm-routing-cost.md)
 - [Orchestrateur IA — standard MCP et `POST /ai/run` (WEA-183)](.github/ai-orchestrator/ORCHESTRATOR.md)
+- [Orchestrateur IA — serveur MCP Cursor / Devin (WEA-176)](#orchestrateur-ia--serveur-mcp-cursor--devin-wea-176)
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
   - [GCP (WEA-27)](docs/inventory/WEA-27-google-cloud.md)
   - [OVH (WEA-28)](docs/inventory/WEA-28-ovh-duplicates.md)
@@ -111,6 +112,43 @@ Décision documentée et checklist : [`docs/WEA-26-n8n-hebergement.md`](docs/WEA
 ## Brave Search API (agents)
 
 Convention secrets + smoke test : [`docs/BRAVE_SEARCH_API_WEA22.md`](docs/BRAVE_SEARCH_API_WEA22.md) ([WEA-22](https://linear.app/weadu/issue/WEA-22/brave-search-api-cles-et-quotas-pour-agents)).
+
+## Orchestrateur IA — serveur MCP Cursor / Devin (WEA-176)
+
+Le wrapper HTTP est sous [`.github/ai-orchestrator/`](.github/ai-orchestrator/) (`POST /ai/run`, contrat [`specs/api_contract.md`](.github/ai-orchestrator/specs/api_contract.md)). Le serveur MCP expose trois outils (`ai_run`, `ai_route_preview`, `ai_cost_summary`) : les agents n’embarquent pas les clés Gemini, Anthropic ou LM Studio — elles restent sur l’hôte qui exécute le wrapper et les adaptateurs.
+
+**Installation (une fois par environnement Python) :**
+
+```bash
+pip install -r .github/ai-orchestrator/requirements.txt
+```
+
+**Démarrer le wrapper** (processus séparé avant `ai_run` via MCP) :
+
+```bash
+cd .github/ai-orchestrator && uvicorn main:app --host 127.0.0.1 --port 8787
+```
+
+**Variables d’environnement :** `AI_ORCHESTRATOR_HOST` et `AI_ORCHESTRATOR_PORT` ciblent le wrapper (défauts `127.0.0.1` / `8787`). `AI_ORCHESTRATOR_API_TOKEN` est optionnel (en-tête `Authorization: Bearer` vers le wrapper). `AI_ORCHESTRATOR_LOG_PATH` fixe le fichier JSONL pour les agrégats de `ai_cost_summary` (défaut : `.github/ai-orchestrator/ai_orchestrator.jsonl`). Côté transport MCP : `AI_ORCHESTRATOR_MCP_HOST`, `AI_ORCHESTRATOR_MCP_PORT` (défaut **8788** pour SSE / streamable HTTP), `AI_ORCHESTRATOR_MCP_TRANSPORT` (`stdio` par défaut, ou `sse`, `http`, `streamable-http`).
+
+**Configuration Cursor (`mcpServers`) :**
+
+```json
+{
+  "mcpServers": {
+    "weadu-ai": {
+      "command": "python3",
+      "args": ["-m", "ai_orchestrator.mcp_server"],
+      "cwd": ".github/ai-orchestrator",
+      "env": {
+        "PYTHONPATH": "src"
+      }
+    }
+  }
+}
+```
+
+Ticket : [WEA-176](https://linear.app/weadu/issue/WEA-176/creer-le-serveur-mcp-pour-exposer-lorchestrateur-ia-aux-agents-cursor-et-devin).
 
 ## Cursor hooks (commit / agent)
 

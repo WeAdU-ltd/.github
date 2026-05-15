@@ -32,6 +32,31 @@ ORCHESTRATOR_AVAILABLE_ADAPTERS: list[str] = [
 ]
 
 
+def _log_run_outcome(payload: dict[str, Any]) -> None:
+    """Enregistre une ligne JSONL pour ``ai_cost_summary`` (WEA-176)."""
+    try:
+        from orch_log import append_run_line
+
+        usage = payload.get("usage") or {}
+        err = payload.get("error")
+        append_run_line(
+            {
+                "task_id": payload.get("task_id"),
+                "status": payload.get("status"),
+                "provider_used": payload.get("provider_used"),
+                "routing_reason": payload.get("routing_reason"),
+                "estimated_cost_usd": usage.get("estimated_cost_usd"),
+                "estimated_savings_usd": usage.get("estimated_savings_usd"),
+                "estimated_cloud_equivalent_cost_usd": usage.get(
+                    "estimated_cloud_equivalent_cost_usd"
+                ),
+                "error_code": err.get("code") if isinstance(err, dict) else None,
+            }
+        )
+    except Exception:
+        logger.debug("orch log append failed", exc_info=True)
+
+
 def _usage_zero() -> dict[str, Any]:
     return {
         "input_tokens": 0,
@@ -106,6 +131,7 @@ def _adapter_json_response(
         if isinstance(rr, str) and decision_rr not in rr:
             rr = f"{decision_rr}; {rr}"
         merged = {**result, "routing_reason": rr}
+        _log_run_outcome(merged)
         return JSONResponse(status_code=http, content=merged)
 
     rr_out = result.get("routing_reason")
@@ -113,7 +139,9 @@ def _adapter_json_response(
         merged_rr = f"{decision_rr}; {rr_out}"
     else:
         merged_rr = decision_rr
-    return JSONResponse(status_code=200, content={**result, "routing_reason": merged_rr})
+    out = {**result, "routing_reason": merged_rr}
+    _log_run_outcome(out)
+    return JSONResponse(status_code=200, content=out)
 
 
 def create_app() -> FastAPI:
@@ -144,6 +172,7 @@ def create_app() -> FastAPI:
             provider_used="none",
             routing_reason="pydantic_validation",
         )
+        _log_run_outcome(payload)
         return JSONResponse(status_code=422, content=payload)
 
     @app.post("/ai/run")
@@ -161,6 +190,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason="privacy_violation",
             )
+            _log_run_outcome(payload)
             return JSONResponse(status_code=400, content=payload)
 
         if decision.provider == "none":
@@ -171,6 +201,7 @@ def create_app() -> FastAPI:
                 provider_used="none",
                 routing_reason=decision.routing_reason,
             )
+            _log_run_outcome(payload)
             return JSONResponse(status_code=422, content=payload)
 
         chain = [decision.provider, *decision.fallback_chain]
@@ -189,16 +220,15 @@ def create_app() -> FastAPI:
                     result: dict[str, Any] = lm_run(payload_d)
                 except Exception as e:
                     logger.exception("lm_studio_adapter.run raised unexpectedly")
-                    return JSONResponse(
-                        status_code=500,
-                        content=_error_envelope(
-                            tid,
-                            code="internal_error",
-                            message=str(e),
-                            provider_used="lm_studio",
-                            routing_reason=f"{decision.routing_reason}; adapter_exception",
-                        ),
+                    err = _error_envelope(
+                        tid,
+                        code="internal_error",
+                        message=str(e),
+                        provider_used="lm_studio",
+                        routing_reason=f"{decision.routing_reason}; adapter_exception",
                     )
+                    _log_run_outcome(err)
+                    return JSONResponse(status_code=500, content=err)
                 return _adapter_json_response(tid, decision.routing_reason, result)
 
             if prov == "gemini_flash":
@@ -210,16 +240,15 @@ def create_app() -> FastAPI:
                     result = adapter.run(payload_d)
                 except Exception as e:
                     logger.exception("gemini_flash adapter.run raised unexpectedly")
-                    return JSONResponse(
-                        status_code=500,
-                        content=_error_envelope(
-                            tid,
-                            code="internal_error",
-                            message=str(e),
-                            provider_used="gemini_flash",
-                            routing_reason=f"{decision.routing_reason}; adapter_exception",
-                        ),
+                    err = _error_envelope(
+                        tid,
+                        code="internal_error",
+                        message=str(e),
+                        provider_used="gemini_flash",
+                        routing_reason=f"{decision.routing_reason}; adapter_exception",
                     )
+                    _log_run_outcome(err)
+                    return JSONResponse(status_code=500, content=err)
                 return _adapter_json_response(tid, decision.routing_reason, result)
 
             if prov == "claude_haiku":
@@ -227,31 +256,29 @@ def create_app() -> FastAPI:
                     result = adapter_registry["claude_haiku"](payload_d)
                 except Exception as e:
                     logger.exception("claude_haiku adapter raised unexpectedly")
-                    return JSONResponse(
-                        status_code=500,
-                        content=_error_envelope(
-                            tid,
-                            code="internal_error",
-                            message=str(e),
-                            provider_used="claude_haiku",
-                            routing_reason=f"{decision.routing_reason}; adapter_exception",
-                        ),
+                    err = _error_envelope(
+                        tid,
+                        code="internal_error",
+                        message=str(e),
+                        provider_used="claude_haiku",
+                        routing_reason=f"{decision.routing_reason}; adapter_exception",
                     )
+                    _log_run_outcome(err)
+                    return JSONResponse(status_code=500, content=err)
                 return _adapter_json_response(tid, decision.routing_reason, result)
 
             tried_cloud.append(prov)
 
         first = tried_cloud[0] if tried_cloud else decision.provider
-        return JSONResponse(
-            status_code=503,
-            content=_error_envelope(
-                tid,
-                code="adapter_not_implemented",
-                message=f"Provider {first} is not available in this version",
-                provider_used="none",
-                routing_reason=f"{decision.routing_reason}; routed_to_{first}_not_implemented",
-            ),
+        err = _error_envelope(
+            tid,
+            code="adapter_not_implemented",
+            message=f"Provider {first} is not available in this version",
+            provider_used="none",
+            routing_reason=f"{decision.routing_reason}; routed_to_{first}_not_implemented",
         )
+        _log_run_outcome(err)
+        return JSONResponse(status_code=503, content=err)
 
     return app
 
