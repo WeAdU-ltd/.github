@@ -5,9 +5,9 @@ alwaysApply: true
 # Core — exécution et sécurité
 
 - **Stop-loss** : même erreur 2x de suite → arrêt immédiat, intervention humaine.
-- CLI prioritaire sur UI. Ne jamais proposer d'actions manuelles dans une interface graphique quand un script ou une commande fait l'équivalent.
-- Script dédié (Python/Bash/PS7) pour toute logique complexe — pas de one-liners illisibles.
-- Chemins absolus, UTF-8 (`LC_ALL=C.UTF-8`), `set -e` ou équivalent.
-- Ne jamais écraser `.env`, `TODO.md`, `CHANGELOG.md`, fichiers de config sans diff + confirmation humaine.
-- `git status --porcelain` propre avant refactoring massif.
+- CLI prioritaire sur UI pour le travail de l'agent. PS7 copier-coller OK pour l'opérateur.
+- Script dédié (Python/Bash/PS7) pour toute logique complexe.
+- Chemins absolus, UTF-8, sortie en erreur si échec.
+- Ne jamais écraser `.env`, `TODO.md`, `CHANGELOG.md`, fichiers de config sans confirmation humaine (décrire le changement en langage simple, pas un diff technique).
+- Arbre Git propre avant refactoring massif.
 - Nommage ASCII-safe : `a-z`, `0-9`, `_`, `-`, `.`.
