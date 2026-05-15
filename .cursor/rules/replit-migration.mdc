@@ -1,0 +1,15 @@
+---
+globs: docs/inventory/*.md
+alwaysApply: false
+---
+
+# Migration Replit (WEA-36)
+
+Après lecture du dépôt applicatif cible (`README`, `docs/STAGING_*`, workflows `deploy-*.yml`, `.replit`) :
+
+1. **Prod vs résiduel** : si prod pointe vers AWS / GitHub Actions (pas `*.replit.app`) → cutover prod noté comme fait.
+2. **Résiduel** : URL `.replit.app` pour staging/E2E = ligne résiduelle ou tâche repo applicatif, pas question ouverte au chat.
+3. **Ne pas** dire « migration à finaliser » si prod est déjà sur GitHub/AWS → « résiduel documenté » ou « fermer le Repl ».
+4. **Import code** : dès premier push vers le dépôt cible → mettre à jour runbook `docs/inventory/*`, tableau §3/§5 WEA-36, poster preuve sur Linear via `linear_issue_comment.py`.
+5. **Inventaire WEA-33** : un Repl Team peut manquer au tableau ; ne pas l'assimiler sans même Repl ID. Sinon ajouter une ligne §3.
+6. L'agent `.github` **n'a pas** le workspace Repl — l'exécution du brief se fait dans le Repl (consigne WEA-35 §7).

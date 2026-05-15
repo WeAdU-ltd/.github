@@ -3,11 +3,20 @@
 from __future__ import annotations
 
 import logging
+import sys
+from pathlib import Path
 from typing import Any
+
+_ORCH_ROOT = Path(__file__).resolve().parent
+_SRC = _ORCH_ROOT / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+
+from ai_orchestrator.adapter_registry import adapter_registry, get_adapter
 
 from lm_studio_adapter.adapter import run as lm_run
 from router import PrivacyViolationError, select_provider
@@ -15,8 +24,12 @@ from schemas import RunRequest
 
 logger = logging.getLogger(__name__)
 
-# Adapters réellement déployés sur cette instance (WEA-175 ; étendre quand Gemini / Claude sont branchés).
-ORCHESTRATOR_AVAILABLE_ADAPTERS: list[str] = ["lm_studio"]
+# Adapters déployés sur cette instance (WEA-175) — aligné avec les modules présents.
+ORCHESTRATOR_AVAILABLE_ADAPTERS: list[str] = [
+    "lm_studio",
+    "gemini_flash",
+    "claude_haiku",
+]
 
 
 def _usage_zero() -> dict[str, Any]:
@@ -56,7 +69,7 @@ def _error_envelope(
 def _http_status_for_adapter_error(code: str) -> int:
     if code == "validation_error":
         return 422
-    if code in ("provider_unavailable", "provider_timeout"):
+    if code in ("provider_unavailable", "provider_timeout", "provider_config_error"):
         return 503
     if code in (
         "provider_bad_request",
@@ -67,6 +80,8 @@ def _http_status_for_adapter_error(code: str) -> int:
         return 400
     if code == "provider_rate_limited":
         return 429
+    if code == "provider_overloaded":
+        return 503
     if code == "provider_server_error":
         return 502
     return 502
@@ -77,6 +92,28 @@ def _request_to_lm_payload(req: RunRequest) -> dict[str, Any]:
     data = req.model_dump(mode="python")
     data["task_id"] = str(data["task_id"])
     return data
+
+
+def _adapter_json_response(
+    tid: str,
+    decision_rr: str,
+    result: dict[str, Any],
+) -> JSONResponse:
+    if result.get("status") == "error" and isinstance(result.get("error"), dict):
+        code = str(result["error"].get("code") or "error")
+        http = _http_status_for_adapter_error(code)
+        rr = result.get("routing_reason") or decision_rr
+        if isinstance(rr, str) and decision_rr not in rr:
+            rr = f"{decision_rr}; {rr}"
+        merged = {**result, "routing_reason": rr}
+        return JSONResponse(status_code=http, content=merged)
+
+    rr_out = result.get("routing_reason")
+    if isinstance(rr_out, str) and rr_out.strip():
+        merged_rr = f"{decision_rr}; {rr_out}"
+    else:
+        merged_rr = decision_rr
+    return JSONResponse(status_code=200, content={**result, "routing_reason": merged_rr})
 
 
 def create_app() -> FastAPI:
@@ -138,50 +175,83 @@ def create_app() -> FastAPI:
 
         chain = [decision.provider, *decision.fallback_chain]
         tried_cloud: list[str] = []
+        avail = set(ORCHESTRATOR_AVAILABLE_ADAPTERS)
 
         for prov in chain:
+            if prov not in avail:
+                tried_cloud.append(prov)
+                continue
+
+            payload_d = _request_to_lm_payload(req)
+
             if prov == "lm_studio":
-                payload_lm = _request_to_lm_payload(req)
                 try:
-                    result: dict[str, Any] = lm_run(payload_lm)
+                    result: dict[str, Any] = lm_run(payload_d)
                 except Exception as e:
                     logger.exception("lm_studio_adapter.run raised unexpectedly")
-                    payload = _error_envelope(
-                        tid,
-                        code="internal_error",
-                        message=str(e),
-                        provider_used="lm_studio",
-                        routing_reason=f"{decision.routing_reason}; adapter_exception",
+                    return JSONResponse(
+                        status_code=500,
+                        content=_error_envelope(
+                            tid,
+                            code="internal_error",
+                            message=str(e),
+                            provider_used="lm_studio",
+                            routing_reason=f"{decision.routing_reason}; adapter_exception",
+                        ),
                     )
-                    return JSONResponse(status_code=500, content=payload)
+                return _adapter_json_response(tid, decision.routing_reason, result)
 
-                if result.get("status") == "error" and isinstance(result.get("error"), dict):
-                    code = str(result["error"].get("code") or "error")
-                    http = _http_status_for_adapter_error(code)
-                    rr = result.get("routing_reason") or decision.routing_reason
-                    if isinstance(rr, str) and decision.routing_reason not in rr:
-                        rr = f"{decision.routing_reason}; {rr}"
-                    result = {**result, "routing_reason": rr}
-                    return JSONResponse(status_code=http, content=result)
+            if prov == "gemini_flash":
+                adapter = get_adapter("gemini_flash")
+                if adapter is None:
+                    tried_cloud.append(prov)
+                    continue
+                try:
+                    result = adapter.run(payload_d)
+                except Exception as e:
+                    logger.exception("gemini_flash adapter.run raised unexpectedly")
+                    return JSONResponse(
+                        status_code=500,
+                        content=_error_envelope(
+                            tid,
+                            code="internal_error",
+                            message=str(e),
+                            provider_used="gemini_flash",
+                            routing_reason=f"{decision.routing_reason}; adapter_exception",
+                        ),
+                    )
+                return _adapter_json_response(tid, decision.routing_reason, result)
 
-                rr_out = result.get("routing_reason")
-                if isinstance(rr_out, str) and rr_out.strip():
-                    merged = f"{decision.routing_reason}; {rr_out}"
-                else:
-                    merged = decision.routing_reason
-                return JSONResponse(status_code=200, content={**result, "routing_reason": merged})
+            if prov == "claude_haiku":
+                try:
+                    result = adapter_registry["claude_haiku"](payload_d)
+                except Exception as e:
+                    logger.exception("claude_haiku adapter raised unexpectedly")
+                    return JSONResponse(
+                        status_code=500,
+                        content=_error_envelope(
+                            tid,
+                            code="internal_error",
+                            message=str(e),
+                            provider_used="claude_haiku",
+                            routing_reason=f"{decision.routing_reason}; adapter_exception",
+                        ),
+                    )
+                return _adapter_json_response(tid, decision.routing_reason, result)
 
             tried_cloud.append(prov)
 
         first = tried_cloud[0] if tried_cloud else decision.provider
-        payload = _error_envelope(
-            tid,
-            code="adapter_not_implemented",
-            message=f"Provider {first} is not available in this version",
-            provider_used="none",
-            routing_reason=f"{decision.routing_reason}; routed_to_{first}_not_implemented",
+        return JSONResponse(
+            status_code=503,
+            content=_error_envelope(
+                tid,
+                code="adapter_not_implemented",
+                message=f"Provider {first} is not available in this version",
+                provider_used="none",
+                routing_reason=f"{decision.routing_reason}; routed_to_{first}_not_implemented",
+            ),
         )
-        return JSONResponse(status_code=503, content=payload)
 
     return app
 
