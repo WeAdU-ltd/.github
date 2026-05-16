@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <!--
-  Google Ads — publish checklist (replace before live traffic):
-  - Set REPLACE_CANONICAL_PAGE_URL to this page’s absolute HTTPS URL (must match the domain used as Final URL in Google Ads).
-  - Set REPLACE_DBA, REPLACE_BUSINESS_LEGAL_NAME, REPLACE_BUSINESS_HOURS_US_TIMEZONE, and full U.S. address fields.
-  - Set the phone to your real number in ALL of: visible E.164 text, tel: href, and JSON-LD "telephone". Use E.164 with + and digits only (see Google Ads help: E.164 format).
-  - The number must be standard text on the page (not an image) for Google phone verification (Destination requirements / Unverified phone number).
-  - Do not use premium-rate, vanity-only, fax, or disallowed virtual/personal numbering for the country you target (see Unacceptable phone number).
-  - If you ever use a premium-rate line, disclose per-call or per-minute cost prominently on this page (Dishonest pricing practices).
-  - Match the business name on this page to call ads / call assets; answer calls by stating that same name (Call ad requirements).
-  - Keep this page free of interstitial pop-ups, auto-redirects, and abusive click patterns (Destination experience).
-  - Policy references: Destination requirements, Insufficient original content, Misrepresentation, Dishonest pricing practices,
-    Call ad requirements, Unverified phone number, Destination experience, Trademarks — all in the Google Ads Policy Help Center.
+  Publish: If this file is NOT served from https://travelmakers.us/ , update
+  <link rel="canonical"> and JSON-LD "url" to the final HTTPS URL (must match Google Ads final URL domain).
 -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REPLACE_DBA — Flight booking by phone (U.S.)</title>
-  <meta name="description" content="Call REPLACE_DBA for U.S. flight booking assistance by phone. Independent service; not an airline or Google. Standard U.S. number; fees quoted before payment." />
-  <link rel="canonical" href="REPLACE_CANONICAL_PAGE_URL" />
+  <title>The Travel Makers — Flight booking by phone (U.S.)</title>
+  <meta name="description" content="Call The Travel Makers for U.S. flight booking by phone. Operated by PCM TRAVELS US LLC. Not an airline or Google. Toll-free U.S. number; fees quoted before payment." />
+  <link rel="canonical" href="https://travelmakers.us/" />
   <style>
     :root {
       --bg: #0b1220;
@@ -110,17 +101,18 @@
     footer p { font-size: 0.78rem; }
     strong { color: var(--text); font-weight: 600; }
     abbr { text-decoration: underline dotted; cursor: help; }
+    a.site { color: #93b4ff; }
   </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
-    "name": "REPLACE_DBA",
-    "legalName": "REPLACE_BUSINESS_LEGAL_NAME",
+    "name": "The Travel Makers",
+    "legalName": "PCM TRAVELS US LLC",
     "telephone": "+18442130321",
-    "url": "REPLACE_CANONICAL_PAGE_URL",
+    "url": "https://travelmakers.us/",
     "areaServed": { "@type": "Country", "name": "United States" },
-    "description": "Independent U.S. flight booking assistance by telephone. Not an airline or carrier."
+    "description": "U.S. flight booking assistance by telephone and online. Not an airline or carrier."
   }
   </script>
 </head>
@@ -129,7 +121,7 @@
     <header>
       <span class="tag">U.S. flight assistance by phone</span>
       <h1>Book flights with a live travel assistant</h1>
-      <p><strong>REPLACE_DBA</strong> (<abbr title="Legal entity on record">legal name:</abbr> REPLACE_BUSINESS_LEGAL_NAME) provides telephone support to search and book commercial air travel for customers in the United States.</p>
+      <p><strong>The Travel Makers</strong> is a travel booking brand. Telephone reservations for customers in the United States are handled on behalf of <strong>PCM TRAVELS US LLC</strong>. Book online anytime at <a class="site" href="https://travelmakers.us/">travelmakers.us</a> or <a class="site" href="https://www.thetravelmakers.com/">thetravelmakers.com</a>.</p>
     </header>
 
     <section class="card" aria-labelledby="call-title">
@@ -137,7 +129,7 @@
       <p class="phone-row">Phone number (international E.164 format):</p>
       <p class="phone-e164" id="business-phone-e164">+18442130321</p>
       <a class="cta" href="tel:+18442130321">Call now</a>
-      <p class="notice">Use the exact same number on this page and in your Google&nbsp;Ads call settings. The number must stay visible as text (not only inside a graphic).</p>
+      <p class="notice">Use this exact number in your Google&nbsp;Ads call settings. The number must remain visible as plain text (not only inside an image) for verification.</p>
     </section>
 
     <section class="card" aria-labelledby="service-title">
@@ -153,34 +145,33 @@
     <section class="card" aria-labelledby="identity-title">
       <h2 id="identity-title">Who we are (and are not)</h2>
       <ul>
-        <li>We are an <strong>independent</strong> travel business. We are not an airline, not an airport operator, and not Google.</li>
-        <li>We do not claim to be an airline’s official site. Unless a separate authorized partnership is shown on this page, we are not the carrier.</li>
-        <li>Carrier names may appear only to describe flights you can book, not to suggest endorsement.</li>
+        <li>We are a <strong>travel agency / booking service</strong>, not an airline, not an airport operator, and not Google.</li>
+        <li>We do not claim to be an airline’s official website. Carrier names may be used only to describe flights you can book, not to imply endorsement by the airline.</li>
       </ul>
     </section>
 
     <section class="card" aria-labelledby="pricing-title">
       <h2 id="pricing-title">Charges, fees, and payment</h2>
-      <p>This is a <strong>standard U.S. telephone number</strong> (not a premium-rate line). Your phone company may charge airtime, toll, or international rates according to your plan.</p>
+      <p>This is a <strong>U.S. toll-free (844)</strong> number, not a premium-rate line. Your phone company may still charge according to your plan if applicable.</p>
       <p>Any <strong>service or agency fees</strong> and the <strong>full ticket price including taxes and carrier surcharges</strong> are explained <strong>on the call before you agree to pay</strong>.</p>
     </section>
 
     <section class="card" aria-labelledby="calls-title">
       <h2 id="calls-title">Call handling</h2>
-      <p>Calls may be recorded for quality and training. When we answer, we state our business name the same way it appears in your Google&nbsp;Ads call experience.</p>
-      <p><strong>Hours:</strong> REPLACE_BUSINESS_HOURS_US_TIMEZONE</p>
+      <p>Calls may be recorded for quality and training. When we answer, we identify ourselves using the same business name you see in your Google&nbsp;Ads call experience (for example, <strong>The Travel Makers</strong>).</p>
+      <p><strong>Hours:</strong> Calls may be answered 24 hours a day, 7 days a week. Peak staffing is typically Monday–Sunday, 8:00 a.m.–8:00 p.m. Eastern Time.</p>
     </section>
 
     <section class="card" aria-labelledby="legal-title">
       <h2 id="legal-title">Business details</h2>
-      <p><strong>Legal entity:</strong> REPLACE_BUSINESS_LEGAL_NAME</p>
-      <p><strong>Doing business as:</strong> REPLACE_DBA</p>
-      <p><strong>U.S. business address:</strong> REPLACE_STREET, REPLACE_CITY, REPLACE_STATE REPLACE_ZIP</p>
+      <p><strong>U.S. legal entity:</strong> PCM TRAVELS US LLC</p>
+      <p><strong>Doing business as:</strong> The Travel Makers</p>
+      <p><strong>U.S. business address:</strong> 10685-B Hazelhurst Dr, Houston, TX 77043, United States</p>
+      <p><strong>Parent company (United Kingdom):</strong> THE TRAVEL MAKERS UK LTD — registered office: 24 Market Square, Marlowes, Hemel Hempstead, England HP1 1ER, United Kingdom.</p>
     </section>
 
     <footer>
-      <p>REPLACE_DBA — flight booking assistance by phone. Independent third party; not affiliated with any airline or with Google.</p>
-      <p>Replace every <code>REPLACE_*</code> placeholder before publishing.</p>
+      <p>The Travel Makers — flight booking by phone for U.S. customers. Operated by PCM TRAVELS US LLC. Not affiliated with any airline or with Google.</p>
     </footer>
   </div>
 </body>
