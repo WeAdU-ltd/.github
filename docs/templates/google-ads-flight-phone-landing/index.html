@@ -8,9 +8,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Travel Makers — Flight booking by phone (U.S.)</title>
-  <meta name="description" content="Call The Travel Makers for U.S. flight booking by phone. Operated by PCM TRAVELS US LLC. Not an airline or Google. Toll-free U.S. number; fees quoted before payment." />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="robots" content="index,follow" />
+  <title>The Travel Makers — Book U.S. flights by phone</title>
+  <meta name="description" content="Call toll-free to book U.S. flights with The Travel Makers. Live agents; fees and total price explained before you pay. Operated by PCM TRAVELS US LLC." />
   <link rel="canonical" href="https://travelmakers.us/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="The Travel Makers — Book U.S. flights by phone" />
+  <meta property="og:description" content="Call toll-free for live flight booking help. Operated by PCM TRAVELS US LLC." />
+  <meta property="og:url" content="https://travelmakers.us/" />
   <style>
     :root {
       --bg: #0b1220;
@@ -23,6 +29,10 @@
       --accent-hover: #1d4ed8;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
     body {
       margin: 0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -33,6 +43,9 @@
       min-height: 100vh;
     }
     .wrap { max-width: 36rem; margin: 0 auto; padding: 1.25rem 1rem 2.5rem; }
+    @media (max-width: 640px) {
+      .wrap { padding-bottom: 5.5rem; }
+    }
     header { margin-bottom: 1.25rem; }
     h1 {
       font-size: 1.35rem;
@@ -65,27 +78,43 @@
       margin-bottom: 1rem;
     }
     .phone-row { margin-top: 0.35rem; }
-    .phone-e164 {
+    a.phone-e164 {
+      display: inline-block;
       font-weight: 700;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       letter-spacing: 0.02em;
       color: var(--text);
       word-break: break-all;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+      text-decoration-color: #4b6cb3;
     }
+    a.phone-e164:hover { color: #fff; text-decoration-color: #93b4ff; }
     a.cta {
       display: block;
       text-align: center;
       text-decoration: none;
       font-weight: 700;
-      font-size: 1.05rem;
-      padding: 0.95rem 1rem;
+      font-size: 1.08rem;
+      line-height: 1.2;
+      min-height: 48px;
+      padding: 1rem 1.1rem;
       border-radius: 12px;
       background: var(--accent);
       color: #fff;
-      margin-top: 0.75rem;
+      margin-top: 0.85rem;
+      box-sizing: border-box;
     }
     a.cta:hover { background: var(--accent-hover); }
     a.cta:active { transform: scale(0.99); }
+    a.cta:focus-visible {
+      outline: 3px solid #93c5fd;
+      outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      a.cta:active { transform: none; }
+    }
     footer {
       margin-top: 1.75rem;
       padding-top: 1rem;
@@ -97,6 +126,41 @@
     strong { color: var(--text); font-weight: 600; }
     abbr { text-decoration: underline dotted; cursor: help; }
     a.site { color: #93b4ff; }
+    a.site:focus-visible { outline: 2px solid #93b4ff; outline-offset: 2px; }
+    .call-strip {
+      display: none;
+    }
+    @media (max-width: 640px) {
+      .call-strip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(20, 28, 46, 0.97);
+        border-top: 1px solid var(--border);
+        backdrop-filter: blur(8px);
+      }
+      .call-strip a {
+        flex: 1;
+        max-width: 22rem;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+      }
+      .call-strip a:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+      .call-strip a:hover { background: var(--accent-hover); }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -106,6 +170,10 @@
     "legalName": "PCM TRAVELS US LLC",
     "telephone": "+18442130321",
     "url": "https://travelmakers.us/",
+    "sameAs": [
+      "https://travelmakers.us/",
+      "https://www.thetravelmakers.com/"
+    ],
     "areaServed": { "@type": "Country", "name": "United States" },
     "description": "U.S. flight booking assistance by telephone and online. Not an airline or carrier."
   }
@@ -115,15 +183,15 @@
   <div class="wrap">
     <header>
       <span class="tag">U.S. flight assistance by phone</span>
-      <h1>Book flights with a live travel assistant</h1>
-      <p><strong>The Travel Makers</strong> is a travel booking brand. Telephone reservations for customers in the United States are handled on behalf of <strong>PCM TRAVELS US LLC</strong>. Book online anytime at <a class="site" href="https://travelmakers.us/">travelmakers.us</a> or <a class="site" href="https://www.thetravelmakers.com/">thetravelmakers.com</a>.</p>
+      <h1>Book U.S. flights over the phone</h1>
+      <p><strong>The Travel Makers</strong> is a travel booking brand. Telephone reservations for customers in the United States are handled on behalf of <strong>PCM TRAVELS US LLC</strong>. You can also book online at <a class="site" href="https://travelmakers.us/">travelmakers.us</a> or <a class="site" href="https://www.thetravelmakers.com/">thetravelmakers.com</a>.</p>
     </header>
 
     <section class="card" aria-labelledby="call-title">
       <h2 id="call-title">Call us</h2>
-      <p class="phone-row">Phone:</p>
-      <p class="phone-e164" id="business-phone-e164">+18442130321</p>
-      <a class="cta" href="tel:+18442130321">Call now</a>
+      <p class="phone-row">Phone (tap to dial on mobile):</p>
+      <p><a class="phone-e164" id="business-phone-e164" href="tel:+18442130321" aria-label="Call The Travel Makers at +1 844 213 0321">+18442130321</a></p>
+      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">Call now — toll-free</a>
     </section>
 
     <section class="card" aria-labelledby="service-title">
@@ -164,9 +232,19 @@
       <p><strong>Parent company (United Kingdom):</strong> THE TRAVEL MAKERS UK LTD — registered office: 24 Market Square, Marlowes, Hemel Hempstead, England HP1 1ER, United Kingdom.</p>
     </section>
 
+    <section class="card" aria-labelledby="cta2-title">
+      <h2 id="cta2-title">Ready to book?</h2>
+      <p>Speak with an agent now on our toll-free line.</p>
+      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers to book a flight">Call +18442130321</a>
+    </section>
+
     <footer>
       <p>The Travel Makers — flight booking by phone for U.S. customers. Operated by PCM TRAVELS US LLC. Not affiliated with any airline or with Google.</p>
     </footer>
+  </div>
+
+  <div class="call-strip" role="region" aria-label="Quick call">
+    <a href="tel:+18442130321">Call The Travel Makers</a>
   </div>
 </body>
 </html>
