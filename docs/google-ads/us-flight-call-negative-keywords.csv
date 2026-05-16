@@ -1,0 +1,62 @@
+cluster,keyword,reason_excluded
+official_airline_care,delta skymiles customer service,Intent fidélité / service — pas réservation payante via intermédiaire ciblé.
+official_airline_care,united mileageplus support,Idem miles / compte — hors funnel réservation téléphonique transactionnelle.
+official_airline_care,american airlines aadvantage help,Idem programme fidélité — faible alignement réservation immédiate.
+official_airline_care,airline customer service number generic,Recherche service client compagnie — souvent résolu sans achat / mauvais alignement acheteur.
+official_airline_care,complaints department airline,Intent réclamation — non transactionnel réservation.
+miles_rewards,how to redeem miles,Optimisation miles — pas réservation billet payant via l’offre.
+miles_rewards,upgrade with miles only,Upgrade miles — hors bundle réservation standard.
+miles_rewards,status match frequent flyer,Statut FF — hors scope réservation.
+miles_rewards,award flight availability tool,Disponibilité primes — trafic info / outil.
+baggage_lost_delayed,lost luggage claim form,Bagages perdus — post-voyage / sinistre.
+baggage_lost_delayed,delayed baggage compensation eu261,Mélange réglementaire / réclamation — hors réservation US call.
+baggage_lost_delayed,baggage fees dispute only,Litige frais bagage — support après achat.
+status_tracking,flight status today,Statut vol — info temps réel sans intention d’achat.
+status_tracking,is my flight delayed,Idem tracking — pas réservation.
+status_tracking,flight tracker live map,Carte / tracker — curiosité ou suivi.
+status_tracking,gate change notification only,Notification porte — micro-intent post-réservation.
+cheap_scalp_only,ultra cheap flights scam,Qualité / arnaque — risque policy + mauvais lead.
+cheap_scalp_only,error fare alerts only,Chasse erreur tarif — peu aligné appel centre réservation.
+cheap_scalp_only,standby list only file,Standby seul — niche opérationnelle compagnie.
+career_hr,united airlines careers,Emploi — hors conversion.
+career_hr,delta pilot jobs,Idem recrutement.
+career_hr,flight attendant hiring 2026,Idem RH.
+complaints_litigation,sue airline small claims,Litige — hors funnel.
+complaints_litigation,airline class action settlement,Collectif / admin — hors réservation.
+tech_login_app,united app not working,Support app — pas réservation nouvelle.
+tech_login_app,reset delta password,Compte web — IT support.
+tech_login_app,check in not working website,Bug check-in en ligne — souvent support technique.
+checkin_pass_only,online check in only no booking,Check-in seul sans nouvelle réservation.
+checkin_pass_only,boarding pass reprint kiosk,Impression borne — post-achat aéroport.
+insurance_confusion,travel insurance claim only,Sinistre assurance — autre vertical.
+insurance_confusion,flight insurance compare quotes only,Comparateur assurance seul — dilue l’intent vol réservable par téléphone.
+news_generics,plane crash news today,News / peur — pas intent achat.
+news_generics,flight diverted yesterday story,Actualité incident — hors cible.
+non_us_intent_mismatch,cheap flights europe only,Geo / produit hors US domestic ciblé.
+non_us_intent_mismatch,international student visa flight bundle,Bundle visa — complexité / hors cœur offre sans validation acheteur.
+cargo_charter_misc,cargo charter quote only,Fret — hors passagers.
+cargo_charter_misc,private jet empty leg only,Jet privé — autre segment prix / compliance.
+refund_chargeback_only,chargeback airline ticket,Chargeback — post-achat litige.
+refund_chargeback_only,refund policy eu261 cash,Remboursement réglementaire EU — hors US call vertical sans validation.
+gift_card_voucher_only,airline gift card balance check,Solde carte cadeau — non réservation.
+gift_card_voucher_only,voucher expired complaint,Réclamation bon — post-vente.
+airport_parking_only,airport parking reservation only,Parking aéroport — accessoire sans vol.
+lounge_access_only,airport lounge day pass only,Pass salon — add-on sans réservation vol.
+tsa_security_only,tsa precheck appointment only,TSA Pre — administration voyage hors réservation billet.
+tsa_security_only,global entry interview slots only,Idem trusted traveler — hors cœur.
+hotel_bundle_only,hotel package vegas flight included,Package hôtel dominant — dilution intent vol pur (filtrer si l’offre est vol-only).
+cruise_bundle_only,cruise with flights included,Croisière — autre vertical vacances.
+train_misc,amtrak instead of flight,Train — substitution transport.
+bus_misc,megabus vs flying cheap,Bus — hors scope vol.
+weather_only,hurricane flight cancellation news only,Météo / annulation info — pas achat.
+schedule_only,airline schedule pdf download only,Télécharge horaire statique — recherche info.
+fleet_only,what aircraft is flight ua123,Fleet geek — pas réservation.
+wifi_onboard_only,inflight wifi purchase united,Wi-Fi à bord — upsell post-contexte.
+pet_cargo_only,pet cargo international rules only,Fret animal règlementaire — niche.
+minor_unaccompanied_only,unaccompanied minor form only,UM seul — process compagnie spécifique (valider avec acheteur avant exclusion large).
+military_discount_only,military discount flights id only,Remise militaire ID — peut être OK ou non selon programme ; à réviser après Search Terms.
+student_discount_only,studentuniverse cheap flights only,Étudiant aggrégateur — concurrence / intent faible qualité appel.
+package_tour_operator,tour operator package europe land only,Terre seule — hors vol US domestic broker.
+error_page_airline,airline website down today,Incident site — support / info.
+duplicate_brand_nav,united airlines homepage,Navigation marque directe — souvent brand pur (à modérer selon stratégie exact match).
+duplicate_brand_nav,american airlines official site login,Login officiel — fuite vers canal compagnie.
