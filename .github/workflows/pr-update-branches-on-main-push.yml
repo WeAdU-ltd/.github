@@ -1,0 +1,55 @@
+# After each push to the default branch, merge the new base into open PR heads
+# (same intent as the "Update branch" button). Reduces "behind" / stale merges.
+#
+# Limits: cannot resolve content conflicts (API returns 422); fork PRs are skipped.
+# Complements: auto-merge-pr.yml, pr-merge-state-labels.yml
+
+name: PR update branches after main
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pr-update-branches-main-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  update-open-prs:
+    name: Merge main into open PR branches
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update each open PR branch from main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8
+          REPO="${{ github.repository }}"
+          mapfile -t PRS < <(
+            gh pr list \
+              --repo "$REPO" \
+              --base main \
+              --state open \
+              --json number,isCrossRepository \
+              --jq '.[] | select(.isCrossRepository==false) | .number'
+          )
+          if [[ ${#PRS[@]} -eq 0 ]]; then
+            echo "No same-repo open PRs targeting main."
+            exit 0
+          fi
+          for n in "${PRS[@]}"; do
+            echo "--- PR #${n} ---"
+            if gh api -X PUT "repos/${REPO}/pulls/${n}/update-branch" --silent 2>/dev/null; then
+              echo "update-branch accepted (202) for #${n}"
+            else
+              echo "update-branch skipped or failed for #${n} (conflicts, rules, or already up to date)"
+            fi
+            sleep 2
+          done
