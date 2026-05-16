@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <!--
-  Mobile-only traffic (Google Ads on phones): layout and tap targets are tuned for small viewports.
-  Crawlers / QA on desktop still get a usable page. If Final URL host differs, fix canonical + JSON-LD url.
-  Google Ads: +18442130321 as plain text (same as call assets); E.164 + digits only in visible link text.
-  CTA design avoids misleading “system UI” patterns (Google destination / misrepresentation).
+  Mobile-only (Google Ads phones). Sources — official Google guidance applied here:
+  - Phone-first mobile site: https://support.google.com/google-ads/answer/2549057 (click-to-call; limit distractions)
+  - Call ads + site optimization: https://support.google.com/google-ads/answer/6197475 (accessible call buttons; tappable number)
+  - Landing page experience: https://support.google.com/google-ads/answer/1659694 (clear, useful, relevant copy)
+  - Mobile advertising overview: https://support.google.com/google-ads/answer/6167155
+  - Destination experience policy: https://support.google.com/adspolicy/answer/16427615 (no misleading UI; functional page)
+  Publish: match canonical + JSON-LD url to the live HTTPS final URL. Keep +18442130321 as plain text matching call assets.
 -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
+  <meta name="color-scheme" content="dark" />
   <meta name="robots" content="index,follow" />
   <title>The Travel Makers — Book U.S. flights by phone</title>
   <meta name="description" content="Call toll-free to book U.S. flights with The Travel Makers. Live agents; fees and total price explained before you pay. Operated by PCM TRAVELS US LLC." />
@@ -41,7 +45,7 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.55;
-      font-size: clamp(1rem, 2.75vw, 1.0625rem);
+      font-size: clamp(1.02rem, 2.85vw, 1.08rem);
       min-height: 100vh;
       -webkit-text-size-adjust: 100%;
     }
@@ -49,6 +53,17 @@
       max-width: 28rem;
       margin: 0 auto;
       padding: 1rem max(1rem, env(safe-area-inset-left)) calc(5.75rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-right));
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     h1 {
       font-size: 1.5rem;
@@ -86,18 +101,34 @@
       border-color: #334b7a;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     }
+    .hero-points {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.85rem;
+    }
+    .hero-points li {
+      position: relative;
+      padding-left: 1.25rem;
+      margin-bottom: 0.42rem;
+      font-size: 0.93rem;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+    .hero-points li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: #3b82f6;
+    }
     .hero-lead {
       margin: 0 0 1rem;
-      font-size: 0.92rem;
+      font-size: 0.93rem;
       line-height: 1.45;
     }
-    .hero-note {
-      margin: 1rem 0 0;
-      font-size: 0.8rem;
-      color: var(--dim);
-      line-height: 1.4;
-    }
-    .hero-note a.site { font-weight: 500; }
     .phone-row {
       margin: 0 0 0.25rem;
       font-size: 0.8rem;
@@ -110,7 +141,7 @@
     a.phone-e164 {
       display: inline-block;
       font-weight: 800;
-      font-size: 1.35rem;
+      font-size: 1.38rem;
       letter-spacing: 0.03em;
       color: var(--text);
       word-break: break-all;
@@ -171,17 +202,34 @@
       a.cta:active { transform: none; }
     }
     footer {
-      margin-top: 1.75rem;
+      margin-top: 1.5rem;
       padding-top: 1rem;
       border-top: 1px solid var(--border);
       font-size: 0.78rem;
       color: var(--dim);
     }
-    footer p { font-size: 0.78rem; }
+    footer p { font-size: 0.78rem; margin-bottom: 0.55rem; }
+    .footer-web {
+      font-size: 0.76rem;
+      color: var(--dim);
+      margin: 0 0 0.75rem;
+      line-height: 1.45;
+    }
+    .footer-web a.site {
+      color: #7c9bd4;
+      font-weight: 500;
+      padding: 0.35rem 0;
+    }
     strong { color: var(--text); font-weight: 600; }
     abbr { text-decoration: underline dotted; cursor: help; }
     a.site { color: #93b4ff; }
     a.site:focus-visible { outline: 2px solid #93b4ff; outline-offset: 2px; }
+    address {
+      font-style: normal;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 0.75rem;
+    }
     .call-strip {
       display: flex;
       align-items: center;
@@ -245,72 +293,81 @@
 </head>
 <body>
   <div class="wrap">
-    <section class="card card--hero" aria-labelledby="hero-title">
-      <span class="tag">U.S. flight assistance by phone</span>
-      <h1 id="hero-title">Book U.S. flights over the phone</h1>
-      <p class="hero-lead"><strong>The Travel Makers</strong> — U.S. flight booking by phone, operated by <strong>PCM TRAVELS US LLC</strong>. Toll-free line; not an airline.</p>
-      <p class="phone-row">Phone (tap to call)</p>
-      <p class="phone-wrap"><a class="phone-e164" id="business-phone-e164" href="tel:+18442130321" aria-label="Call The Travel Makers at +1 844 213 0321">+18442130321</a></p>
-      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">
-        <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-        <span>Call now — toll-free</span>
-      </a>
-      <p class="hero-note">Or book online: <a class="site" href="https://travelmakers.us/">travelmakers.us</a> · <a class="site" href="https://www.thetravelmakers.com/">thetravelmakers.com</a></p>
-    </section>
+    <main id="main-content">
+      <section class="card card--hero" aria-labelledby="hero-title sr-call-heading">
+        <span class="tag">U.S. flight assistance by phone</span>
+        <h1 id="hero-title">Book U.S. flights over the phone</h1>
+        <h2 class="sr-only" id="sr-call-heading">Call us</h2>
+        <ul class="hero-points" aria-label="Why call">
+          <li>Toll-free U.S. line — tap the number or button to dial</li>
+          <li>Live agents for U.S. flight booking and changes</li>
+          <li>Total price and fees explained before you agree to pay</li>
+        </ul>
+        <p class="hero-lead"><strong>The Travel Makers</strong> — phone reservations for U.S. customers, operated by <strong>PCM TRAVELS US LLC</strong>. Not an airline.</p>
+        <p class="phone-row">Phone</p>
+        <p class="phone-wrap"><a class="phone-e164" id="business-phone-e164" href="tel:+18442130321" aria-label="Call The Travel Makers at +1 844 213 0321">+18442130321</a></p>
+        <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">
+          <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+          <span>Call now — toll-free</span>
+        </a>
+      </section>
 
-    <section class="card" aria-labelledby="service-title">
-      <h2 id="service-title">What you get on the call</h2>
-      <ul>
-        <li>Help comparing flight options, dates, and cabin classes based on your stated needs.</li>
-        <li>Explanation of fare rules, change and cancellation policies when shown by the airline or booking source.</li>
-        <li>Ticketing or payment steps only after you confirm the itinerary and the total price.</li>
-      </ul>
-      <p>We do <strong>not</strong> guarantee the lowest fare, a specific seat, or any airline outcome. Fares and availability change until a ticket is issued and paid under the carrier’s rules.</p>
-    </section>
+      <section class="card" aria-labelledby="service-title">
+        <h2 id="service-title">What you get on the call</h2>
+        <ul>
+          <li>Help comparing flight options, dates, and cabin classes based on your stated needs.</li>
+          <li>Explanation of fare rules, change and cancellation policies when shown by the airline or booking source.</li>
+          <li>Ticketing or payment steps only after you confirm the itinerary and the total price.</li>
+        </ul>
+        <p>We do <strong>not</strong> guarantee the lowest fare, a specific seat, or any airline outcome. Fares and availability change until a ticket is issued and paid under the carrier’s rules.</p>
+      </section>
 
-    <section class="card" aria-labelledby="identity-title">
-      <h2 id="identity-title">Who we are (and are not)</h2>
-      <ul>
-        <li>We are a <strong>travel agency / booking service</strong>, not an airline, not an airport operator, and not Google.</li>
-        <li>We do not claim to be an airline’s official website. Carrier names may be used only to describe flights you can book, not to imply endorsement by the airline.</li>
-      </ul>
-    </section>
+      <section class="card" aria-labelledby="identity-title">
+        <h2 id="identity-title">Who we are (and are not)</h2>
+        <ul>
+          <li>We are a <strong>travel agency / booking service</strong>, not an airline, not an airport operator, and not Google.</li>
+          <li>We do not claim to be an airline’s official website. Carrier names may be used only to describe flights you can book, not to imply endorsement by the airline.</li>
+        </ul>
+      </section>
 
-    <section class="card" aria-labelledby="pricing-title">
-      <h2 id="pricing-title">Charges, fees, and payment</h2>
-      <p>This is a <strong>U.S. toll-free (844)</strong> number, not a premium-rate line. Your phone company may still charge according to your plan if applicable.</p>
-      <p>Any <strong>service or agency fees</strong> and the <strong>full ticket price including taxes and carrier surcharges</strong> are explained <strong>on the call before you agree to pay</strong>.</p>
-    </section>
+      <section class="card" aria-labelledby="pricing-title">
+        <h2 id="pricing-title">Charges, fees, and payment</h2>
+        <p>This is a <strong>U.S. toll-free (844)</strong> number, not a premium-rate line. Your phone company may still charge according to your plan if applicable.</p>
+        <p>Any <strong>service or agency fees</strong> and the <strong>full ticket price including taxes and carrier surcharges</strong> are explained <strong>on the call before you agree to pay</strong>.</p>
+      </section>
 
-    <section class="card" aria-labelledby="calls-title">
-      <h2 id="calls-title">Call handling</h2>
-      <p>Calls may be recorded for quality and training. When we answer, we identify ourselves as <strong>The Travel Makers</strong>.</p>
-      <p><strong>Hours:</strong> Calls may be answered 24 hours a day, 7 days a week. Peak staffing is typically Monday–Sunday, 8:00 a.m.–8:00 p.m. Eastern Time.</p>
-    </section>
+      <section class="card" aria-labelledby="calls-title">
+        <h2 id="calls-title">Call handling</h2>
+        <p>Calls may be recorded for quality and training. When we answer, we identify ourselves as <strong>The Travel Makers</strong>.</p>
+        <p><strong>Hours:</strong> Calls may be answered 24 hours a day, 7 days a week. Peak staffing is typically Monday–Sunday, 8:00 a.m.–8:00 p.m. Eastern Time.</p>
+      </section>
 
-    <section class="card" aria-labelledby="legal-title">
-      <h2 id="legal-title">Business details</h2>
-      <p><strong>U.S. legal entity:</strong> PCM TRAVELS US LLC</p>
-      <p><strong>Doing business as:</strong> The Travel Makers</p>
-      <p><strong>U.S. business address:</strong> 10685-B Hazelhurst Dr, Houston, TX 77043, United States</p>
-      <p><strong>Parent company (United Kingdom):</strong> THE TRAVEL MAKERS UK LTD — registered office: 24 Market Square, Marlowes, Hemel Hempstead, England HP1 1ER, United Kingdom.</p>
-    </section>
+      <section class="card" aria-labelledby="legal-title">
+        <h2 id="legal-title">Business details</h2>
+        <p><strong>U.S. legal entity:</strong> PCM TRAVELS US LLC</p>
+        <p><strong>Doing business as:</strong> The Travel Makers</p>
+        <p><strong>U.S. mailing address:</strong></p>
+        <address>10685-B Hazelhurst Dr, Houston, TX 77043, United States</address>
+        <p><strong>Parent company (United Kingdom):</strong> THE TRAVEL MAKERS UK LTD — registered office: 24 Market Square, Marlowes, Hemel Hempstead, England HP1 1ER, United Kingdom.</p>
+      </section>
 
-    <section class="card" aria-labelledby="cta2-title">
-      <h2 id="cta2-title">Ready to book?</h2>
-      <p>Speak with an agent now on our toll-free line.</p>
-      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers to book a flight">
-        <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-        <span>Call now — toll-free</span>
-      </a>
-    </section>
+      <section class="card" aria-labelledby="cta2-title">
+        <h2 id="cta2-title">Ready to book?</h2>
+        <p>Speak with an agent now on our toll-free line.</p>
+        <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers to book a flight">
+          <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+          <span>Call now — toll-free</span>
+        </a>
+      </section>
+    </main>
 
     <footer>
+      <p class="footer-web">Prefer the website? <a class="site" rel="noopener noreferrer" href="https://travelmakers.us/">travelmakers.us</a> · <a class="site" rel="noopener noreferrer" href="https://www.thetravelmakers.com/">thetravelmakers.com</a> — booking online is optional; this page is for calls.</p>
       <p>The Travel Makers — flight booking by phone for U.S. customers. Operated by PCM TRAVELS US LLC. Not affiliated with any airline or with Google.</p>
     </footer>
   </div>
 
-  <div class="call-strip" role="region" aria-label="Quick call">
+  <div class="call-strip" role="region" aria-label="Call to book">
     <a href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">
       <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
       <span>Call now</span>
