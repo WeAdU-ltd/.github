@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <!--
-  Publish: If this file is NOT served from https://travelmakers.us/ , update
-  <link rel="canonical"> and JSON-LD "url" to the final HTTPS URL (must match Google Ads final URL domain).
-  Google Ads: keep +18442130321 as plain text (same as call assets); E.164 with + and digits only in source.
+  Mobile-only traffic (Google Ads on phones): layout and tap targets are tuned for small viewports.
+  Crawlers / QA on desktop still get a usable page. If Final URL host differs, fix canonical + JSON-LD url.
+  Google Ads: +18442130321 as plain text (same as call assets); E.164 + digits only in visible link text.
 -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
   <meta name="robots" content="index,follow" />
   <title>The Travel Makers — Book U.S. flights by phone</title>
@@ -39,19 +39,21 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.55;
-      font-size: 1rem;
+      font-size: clamp(1rem, 2.75vw, 1.0625rem);
       min-height: 100vh;
+      -webkit-text-size-adjust: 100%;
     }
-    .wrap { max-width: 36rem; margin: 0 auto; padding: 1.25rem 1rem 2.5rem; }
-    @media (max-width: 640px) {
-      .wrap { padding-bottom: 5.5rem; }
+    .wrap {
+      max-width: 28rem;
+      margin: 0 auto;
+      padding: 1rem max(1rem, env(safe-area-inset-left)) calc(5.75rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-right));
     }
     header { margin-bottom: 1.25rem; }
     h1 {
-      font-size: 1.35rem;
+      font-size: 1.45rem;
       font-weight: 700;
       margin: 0 0 0.5rem;
-      line-height: 1.25;
+      line-height: 1.2;
     }
     .tag {
       display: inline-block;
@@ -91,6 +93,12 @@
       text-decoration-color: #4b6cb3;
     }
     a.phone-e164:hover { color: #fff; text-decoration-color: #93b4ff; }
+    a.phone-e164,
+    a.cta,
+    .call-strip a,
+    a.site {
+      touch-action: manipulation;
+    }
     a.cta {
       display: block;
       text-align: center;
@@ -128,39 +136,39 @@
     a.site { color: #93b4ff; }
     a.site:focus-visible { outline: 2px solid #93b4ff; outline-offset: 2px; }
     .call-strip {
-      display: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 0.65rem max(1rem, env(safe-area-inset-left)) calc(0.65rem + env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-right));
+      background: rgba(20, 28, 46, 0.97);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(8px);
     }
-    @media (max-width: 640px) {
-      .call-strip {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 20;
-        padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
-        background: rgba(20, 28, 46, 0.97);
-        border-top: 1px solid var(--border);
-        backdrop-filter: blur(8px);
-      }
-      .call-strip a {
-        flex: 1;
-        max-width: 22rem;
-        text-align: center;
-        font-weight: 700;
-        font-size: 1rem;
-        padding: 0.85rem 1rem;
-        border-radius: 12px;
-        background: var(--accent);
-        color: #fff;
-        text-decoration: none;
-      }
-      .call-strip a:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
-      .call-strip a:hover { background: var(--accent-hover); }
+    .call-strip a {
+      flex: 1;
+      max-width: 22rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      min-height: 48px;
+      line-height: 1.2;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+    .call-strip a:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+    .call-strip a:hover { background: var(--accent-hover); }
   </style>
   <script type="application/ld+json">
   {
@@ -189,7 +197,7 @@
 
     <section class="card" aria-labelledby="call-title">
       <h2 id="call-title">Call us</h2>
-      <p class="phone-row">Phone (tap to dial on mobile):</p>
+      <p class="phone-row">Phone (tap to call):</p>
       <p><a class="phone-e164" id="business-phone-e164" href="tel:+18442130321" aria-label="Call The Travel Makers at +1 844 213 0321">+18442130321</a></p>
       <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">Call now — toll-free</a>
     </section>
