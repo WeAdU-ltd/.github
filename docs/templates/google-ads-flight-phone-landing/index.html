@@ -3,6 +3,7 @@
   Mobile-only traffic (Google Ads on phones): layout and tap targets are tuned for small viewports.
   Crawlers / QA on desktop still get a usable page. If Final URL host differs, fix canonical + JSON-LD url.
   Google Ads: +18442130321 as plain text (same as call assets); E.164 + digits only in visible link text.
+  CTA design avoids misleading “system UI” patterns (Google destination / misrepresentation).
 -->
 <html lang="en">
 <head>
@@ -27,6 +28,7 @@
       --dim: #7c8aa6;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.42);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -48,20 +50,21 @@
       margin: 0 auto;
       padding: 1rem max(1rem, env(safe-area-inset-left)) calc(5.75rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-right));
     }
-    header { margin-bottom: 1.25rem; }
     h1 {
-      font-size: 1.45rem;
-      font-weight: 700;
-      margin: 0 0 0.5rem;
-      line-height: 1.2;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 0.45rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
     }
     .tag {
       display: inline-block;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: var(--dim);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
+      margin-bottom: 0.35rem;
     }
     h2 {
       font-size: 1rem;
@@ -79,18 +82,42 @@
       padding: 1.2rem 1.1rem;
       margin-bottom: 1rem;
     }
-    .phone-row { margin-top: 0.35rem; }
+    .card--hero {
+      border-color: #334b7a;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    }
+    .hero-lead {
+      margin: 0 0 1rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    .hero-note {
+      margin: 1rem 0 0;
+      font-size: 0.8rem;
+      color: var(--dim);
+      line-height: 1.4;
+    }
+    .hero-note a.site { font-weight: 500; }
+    .phone-row {
+      margin: 0 0 0.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .phone-wrap { margin: 0 0 0.15rem; }
     a.phone-e164 {
       display: inline-block;
-      font-weight: 700;
-      font-size: 1.2rem;
-      letter-spacing: 0.02em;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.03em;
       color: var(--text);
       word-break: break-all;
       text-decoration: underline;
       text-decoration-thickness: 2px;
-      text-underline-offset: 4px;
-      text-decoration-color: #4b6cb3;
+      text-underline-offset: 5px;
+      text-decoration-color: #5b7fd4;
     }
     a.phone-e164:hover { color: #fff; text-decoration-color: #93b4ff; }
     a.phone-e164,
@@ -98,24 +125,44 @@
     .call-strip a,
     a.site {
       touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(37, 99, 235, 0.35);
+    }
+    .cta-icon {
+      flex-shrink: 0;
+      width: 1.35rem;
+      height: 1.35rem;
     }
     a.cta {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
       text-align: center;
       text-decoration: none;
-      font-weight: 700;
-      font-size: 1.08rem;
+      font-weight: 800;
+      font-size: 1.12rem;
       line-height: 1.2;
-      min-height: 48px;
-      padding: 1rem 1.1rem;
-      border-radius: 12px;
-      background: var(--accent);
+      letter-spacing: 0.01em;
+      min-height: 54px;
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #3b82f6 0%, var(--accent) 55%, #1d4ed8 100%);
       color: #fff;
-      margin-top: 0.85rem;
+      margin-top: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow:
+        0 4px 0 #1e40af,
+        0 8px 24px var(--accent-glow);
       box-sizing: border-box;
     }
-    a.cta:hover { background: var(--accent-hover); }
-    a.cta:active { transform: scale(0.99); }
+    a.cta:hover {
+      background: linear-gradient(180deg, #60a5fa 0%, var(--accent-hover) 55%, #1d4ed8 100%);
+      filter: brightness(1.03);
+    }
+    a.cta:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #1e40af, 0 4px 16px var(--accent-glow);
+    }
     a.cta:focus-visible {
       outline: 3px solid #93c5fd;
       outline-offset: 3px;
@@ -153,22 +200,31 @@
     .call-strip a {
       flex: 1;
       max-width: 22rem;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1rem;
-      min-height: 48px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      min-height: 52px;
       line-height: 1.2;
       padding: 0.85rem 1rem;
-      border-radius: 12px;
-      background: var(--accent);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #3b82f6 0%, var(--accent) 55%, #1d4ed8 100%);
       color: #fff;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 4px 0 #1e40af, 0 6px 20px var(--accent-glow);
     }
     .call-strip a:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
-    .call-strip a:hover { background: var(--accent-hover); }
+    .call-strip a:hover { filter: brightness(1.05); }
+    .call-strip a:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #1e40af, 0 4px 14px var(--accent-glow);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .call-strip a:active { transform: none; }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -189,17 +245,17 @@
 </head>
 <body>
   <div class="wrap">
-    <header>
+    <section class="card card--hero" aria-labelledby="hero-title">
       <span class="tag">U.S. flight assistance by phone</span>
-      <h1>Book U.S. flights over the phone</h1>
-      <p><strong>The Travel Makers</strong> is a travel booking brand. Telephone reservations for customers in the United States are handled on behalf of <strong>PCM TRAVELS US LLC</strong>. You can also book online at <a class="site" href="https://travelmakers.us/">travelmakers.us</a> or <a class="site" href="https://www.thetravelmakers.com/">thetravelmakers.com</a>.</p>
-    </header>
-
-    <section class="card" aria-labelledby="call-title">
-      <h2 id="call-title">Call us</h2>
-      <p class="phone-row">Phone (tap to call):</p>
-      <p><a class="phone-e164" id="business-phone-e164" href="tel:+18442130321" aria-label="Call The Travel Makers at +1 844 213 0321">+18442130321</a></p>
-      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">Call now — toll-free</a>
+      <h1 id="hero-title">Book U.S. flights over the phone</h1>
+      <p class="hero-lead"><strong>The Travel Makers</strong> — U.S. flight booking by phone, operated by <strong>PCM TRAVELS US LLC</strong>. Toll-free line; not an airline.</p>
+      <p class="phone-row">Phone (tap to call)</p>
+      <p class="phone-wrap"><a class="phone-e164" id="business-phone-e164" href="tel:+18442130321" aria-label="Call The Travel Makers at +1 844 213 0321">+18442130321</a></p>
+      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">
+        <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+        <span>Call now — toll-free</span>
+      </a>
+      <p class="hero-note">Or book online: <a class="site" href="https://travelmakers.us/">travelmakers.us</a> · <a class="site" href="https://www.thetravelmakers.com/">thetravelmakers.com</a></p>
     </section>
 
     <section class="card" aria-labelledby="service-title">
@@ -243,7 +299,10 @@
     <section class="card" aria-labelledby="cta2-title">
       <h2 id="cta2-title">Ready to book?</h2>
       <p>Speak with an agent now on our toll-free line.</p>
-      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers to book a flight">Call +18442130321</a>
+      <a class="cta" href="tel:+18442130321" aria-label="Call The Travel Makers to book a flight">
+        <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+        <span>Call now — toll-free</span>
+      </a>
     </section>
 
     <footer>
@@ -252,7 +311,10 @@
   </div>
 
   <div class="call-strip" role="region" aria-label="Quick call">
-    <a href="tel:+18442130321">Call The Travel Makers</a>
+    <a href="tel:+18442130321" aria-label="Call The Travel Makers now, toll-free U.S. line">
+      <svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+      <span>Call now</span>
+    </a>
   </div>
 </body>
 </html>
