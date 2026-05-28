@@ -21,7 +21,7 @@ Les agents **uniquement** sur `WeAdU-ltd/.github` n’ont pas le workspace Repli
 |------|------|
 | **URL canonique** | **`https://github.com/WeAdU-ltd/waste-watcher`** |
 | **Slug** | `waste-watcher` (libellé inventaire *Waste Watcher* ; UI Repl *Waste Controller*) |
-| **Création / bootstrap** | Script [`scripts/waste_watcher_repo_wea88.py`](../../scripts/waste_watcher_repo_wea88.py) ; CI manuelle [`waste-watcher-repo-wea88.yml`](../../.github/workflows/waste-watcher-repo-wea88.yml) (`workflow_dispatch`) avec `LINEAR_API_KEY` + `GITHUB_TOKEN` org |
+| **Création / bootstrap** | Script [`scripts/waste_watcher_repo_wea88.py`](../../scripts/waste_watcher_repo_wea88.py) ; CI [`waste-watcher-repo-wea88.yml`](../../.github/workflows/waste-watcher-repo-wea88.yml) — secret org **`GITHUB_ORG_REPO_CREATE_TOKEN`** (PAT avec droit de **créer** un dépôt sous `WeAdU-ltd`, ex. réutiliser le PAT 1Password `shared_github_pat` si portées suffisantes — voir passation Feed Optimizer) + `LINEAR_API_KEY` |
 | **Label Linear `repo`** | **`WeAdU-ltd/waste-watcher`** ([WEA-17](../CHARTE_AGENTS_LINEAR_WEA17.md)) — remplace `WeAdU-ltd/.github` sur le ticket WEA-88 |
 | **Inventaire org [WEA-12](https://linear.app/weadu/issue/WEA-12/github-inventaire-orgs-comptes-repos-et-acces)** | Régénérer après création effective du dépôt |
 
@@ -51,7 +51,7 @@ Les agents **uniquement** sur `WeAdU-ltd/.github` n’ont pas le workspace Repli
 | URL `https://github.com/WeAdU-ltd/waste-watcher` connue et notée sur le ticket | **Fait** (doc + script ; confirmation API après `--apply` ou workflow) |
 | Label Linear groupe `repo` aligné | **Fait** (cible `WeAdU-ltd/waste-watcher` ; appliqué par script avec `LINEAR_API_KEY`) |
 
-**Bloquant Done strict** : le dépôt doit **exister** sur GitHub (vérifier `gh repo view WeAdU-ltd/waste-watcher`). Si le jeton de la session agent ne peut pas créer le repo, lancer le workflow **`Bootstrap waste-watcher repo (WEA-88)`** sur `main` ou exécuter le script avec un PAT org ayant `repo` + création de dépôts.
+**Bloquant Done strict** : le dépôt doit **exister** sur GitHub (`gh repo view WeAdU-ltd/waste-watcher`). Le `GITHUB_TOKEN` Actions **seul** ne suffit pas (org : `createRepository` refusé — run [26565910020](https://github.com/WeAdU-ltd/.github/actions/runs/26565910020)). Ajouter le secret org **`GITHUB_ORG_REPO_CREATE_TOKEN`** puis relancer le workflow **`Bootstrap waste-watcher repo (WEA-88)`** sur `main`.
 
 ---
 

@@ -42,7 +42,12 @@ REPO_LABEL_NAME = FULL
 
 
 def _gh_token() -> str:
-    for key in ("GITHUB_TOKEN", "GH_TOKEN", "GH_ORG_READ_TOKEN"):
+    for key in (
+        "GITHUB_ORG_REPO_CREATE_TOKEN",
+        "GITHUB_TOKEN",
+        "GH_TOKEN",
+        "GH_ORG_READ_TOKEN",
+    ):
         val = os.environ.get(key, "").strip()
         if val:
             return val
@@ -96,17 +101,25 @@ def github_create_repo(apply: bool) -> bool:
     if not token:
         print("GitHub: no GITHUB_TOKEN/GH_TOKEN — cannot create repo.", file=sys.stderr)
         return False
-    _run(
-        [
-            "gh",
-            "repo",
-            "create",
-            FULL,
-            "--private",
-            "--description",
-            "Waste Watcher / Waste Controller — migration Replit (WEA-88, WEA-33 #8)",
-        ]
-    )
+    try:
+        _run(
+            [
+                "gh",
+                "repo",
+                "create",
+                FULL,
+                "--private",
+                "--description",
+                "Waste Watcher / Waste Controller — migration Replit (WEA-88, WEA-33 #8)",
+            ]
+        )
+    except subprocess.CalledProcessError:
+        print(
+            "GitHub: createRepository refused (enable org Actions repo creation "
+            "or set GITHUB_ORG_REPO_CREATE_TOKEN with admin:org / repo create).",
+            file=sys.stderr,
+        )
+        return github_repo_exists()
     return github_repo_exists()
 
 
@@ -327,22 +340,32 @@ def main() -> int:
     else:
         print("GitHub: skipped.")
 
+    linear_done = args.skip_linear
     if not args.skip_linear:
         api_key = os.environ.get("LINEAR_API_KEY", "").strip()
         if not api_key:
             print("Linear: LINEAR_API_KEY not set in this session.", file=sys.stderr)
             if args.apply:
                 return 1
+        elif not linear_align_issue(api_key, args.apply, repo_ok):
+            return 1
         else:
-            if not linear_align_issue(api_key, args.apply, repo_ok):
-                return 1
+            linear_done = True
 
-    if args.apply and repo_ok:
-        print(f"Done: {REPO_URL}")
-        return 0
     if not args.apply:
         print("Dry-run complete. Re-run with --apply to execute.")
-    return 0 if repo_ok else 1
+        return 0
+
+    if repo_ok:
+        print(f"Done: {REPO_URL}")
+        return 0
+    if linear_done:
+        print(
+            f"Linear updated; GitHub repo still missing — add GITHUB_ORG_REPO_CREATE_TOKEN "
+            f"or create {REPO_URL} manually, then re-run.",
+            file=sys.stderr,
+        )
+    return 1
 
 
 if __name__ == "__main__":
