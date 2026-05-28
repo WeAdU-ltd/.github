@@ -59,7 +59,7 @@ Aligné [WEA-35 §7](./WEA-35-weadu-socle-v5-lab-template.md) — exécutée **2
 | Consolider la réponse de l’agent Repl **ou** lien doc dépôt / PR | **Fait** : export [`waste-watcher-replit-export-2026-05-26.md`](./waste-watcher-replit-export-2026-05-26.md) + synthèse ici. |
 | Colonnes équivalentes WEA-33 mises à jour **ou** lien vers PR dépôt | **Fait** : tableau §3 [WEA-33](./WEA-33-replit-inventory.md) ligne **#8** aligné sur l’export (sauf équivalent `WeAdU-ltd/<repo>` — **à créer** en migration [WEA-36](./WEA-36-replit-migration-societe.md)). |
 
-**Suite (hors WEA-87 strict)** : créer dépôt `WeAdU-ltd/<slug>` (ex. `waste-controller`), pousser le code, CI + README ; cutover prod ou ligne résiduelle Replit ; [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
+**Suite (hors WEA-87 strict)** : dépôt cible **`WeAdU-ltd/waste-watcher`** ([WEA-88](https://linear.app/weadu/issue/WEA-88), [runbook](./waste-watcher-replit-migration-WEA-88.md)) ; pousser le code, CI + README ; cutover prod ou ligne résiduelle Replit ; [WEA-38](https://linear.app/weadu/issue/WEA-38/replit-fermeture-apres-bascule-complete).
 
 ---
 
