@@ -1,0 +1,19 @@
+name: Bootstrap waste-watcher repo (WEA-88)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Create repo, push socle, align Linear (WEA-88)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        run: python3 scripts/waste_watcher_repo_wea88.py --apply
