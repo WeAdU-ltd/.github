@@ -20,6 +20,7 @@ jobs:
 
       - name: Create repo, push socle, align Linear (WEA-88)
         env:
+          GITHUB_ORG_REPO_CREATE_TOKEN: ${{ secrets.GITHUB_ORG_REPO_CREATE_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
         run: python3 scripts/waste_watcher_repo_wea88.py --apply
