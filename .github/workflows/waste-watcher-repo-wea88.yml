@@ -2,6 +2,12 @@ name: Bootstrap waste-watcher repo (WEA-88)
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/waste-watcher-repo-wea88.yml
+      - scripts/waste_watcher_repo_wea88.py
 
 permissions:
   contents: write
