@@ -1,0 +1,221 @@
+fqdn,dns_public,dns_a_records,http_via_dns,http_via_cluster_host,categorie_audit,situation,action_recommandee
+a.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+a.keywy.com,oui (hors IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,200,off_ovh_hosting,"DNS ailleurs (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+aa.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+aa.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+aca.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+aeromexico.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+aircanada.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines-usa.agency,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines-usa.chat,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines-usa.info,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines-usa.site,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines.change-flights.to,oui (hors IP OVH),"13.248.169.48, 76.223.54.146",200,200,off_ovh_hosting,"DNS ailleurs (13.248.169.48, 76.223.54.146…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+airlines.company,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+alaska.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+alaska.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+alaska.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+allegiant.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+american.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+american.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+american.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+arasaka-sarl.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+asa.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+askaflorist.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+ava.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+avianca.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+avianca.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+avlanca.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+boarding.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+booking.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+canada.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+canada.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+canada.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+change-flights.to,oui (hors IP OVH),"13.248.169.48, 76.223.54.146",200,200,off_ovh_hosting,"DNS ailleurs (13.248.169.48, 76.223.54.146…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+confirmation.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+copa.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+copa.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+copa.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+dal.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+delta.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+delta.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+delta.airlines-usa.agency,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+delta.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+delta.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+delta.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+depannageserruriermarseille.fr,oui (hors IP OVH),"104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 2606:4700:3033::ac43:ac58",200,200,off_ovh_hosting,"DNS ailleurs (104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 260…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+destination.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+dishwasher.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+dishwasher.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+dl.keywy.com,oui (hors IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,200,off_ovh_hosting,"DNS ailleurs (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+dryer.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+dryer.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+e-ticket.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+exterminator.same-day.pro,oui (hors IP OVH),"172.234.24.211, 172.239.57.117",,200,off_ovh_hosting,"DNS ailleurs (172.234.24.211, 172.239.57.117…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+fare.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+fft.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+flights.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+flights.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+fly.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+frontier.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+georgesappliancesrepair.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+hawaiian.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+hvac-sys.com,oui (hors IP OVH),"172.234.24.211, 172.239.57.117",,200,off_ovh_hosting,"DNS ailleurs (172.234.24.211, 172.239.57.117…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+interjet.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+jetbiue.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+jetblue.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+jetblue.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+jmelectrician.com,oui (hors IP OVH),"13.248.243.5, 76.223.105.230",200,200,off_ovh_hosting,"DNS ailleurs (13.248.243.5, 76.223.105.230…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+keywy.com,oui (hors IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,403,off_ovh_hosting,DNS ailleurs ; cluster HTTP 403,Detacher du multisite OVH (recommandé)
+nks.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+pestwipe.com,oui (hors IP OVH),"147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9",200,200,off_ovh_hosting,"DNS ailleurs (147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+prestashop.arasaka-sarl.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+refrigerator.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+refrigerator.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+reservation.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+same-day.pro,oui (hors IP OVH),"172.234.24.211, 172.239.57.117",,200,off_ovh_hosting,"DNS ailleurs (172.234.24.211, 172.239.57.117…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+schedule.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+serrurierfabre.fr,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+southwest.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+southwest.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+southwest.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+spirit.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+spirit.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+spirit.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+suncountry.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+swest.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+travel.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+trip.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+turkish.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+turkish.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+turkish.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+ual.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+united.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+united.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+usa.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+usa.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+vivaaerobus.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+volaris.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+volaris.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+volaris.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+volaris.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+washing-machine.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+washing-machine.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+way.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+weadufu.cluster028.hosting.ovh.net,oui (hors IP OVH),51.91.236.193,200,200,off_ovh_hosting,DNS ailleurs (51.91.236.193…) ; fichiers encore sur cluster OVH,Detacher du multisite OVH (trafic ne passe pas par OVH)
+westjet.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+westjet.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+westjet.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+wordpress.arasaka-sarl.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.a.keywy.com,non,,,200,dns_none,Pas de DNS public ; contenu encore sur le cluster OVH,Revue humaine avant détachement
+www.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.aa.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.aa.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.aeromexico.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.aircanada.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-usa.agency,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-usa.chat,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-usa.info,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines-usa.site,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines.change-flights.to,oui (hors IP OVH),"13.248.169.48, 76.223.54.146",200,200,off_ovh_hosting,"DNS ailleurs (13.248.169.48, 76.223.54.146…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.airlines.company,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.alaska.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.alaska.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.alaska.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.allegiant.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.american.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.american.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.american.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.arasaka-sarl.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.askaflorist.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.avianca.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.avianca.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.avlanca.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.boarding.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.booking.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.canada.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.canada.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.canada.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.change-flights.to,oui (hors IP OVH),"13.248.169.48, 76.223.54.146",200,200,off_ovh_hosting,"DNS ailleurs (13.248.169.48, 76.223.54.146…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.confirmation.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.copa.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.copa.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.copa.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.dal.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.delta.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.delta.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.delta.airlines-usa.agency,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.delta.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.delta.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.delta.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.depannageserruriermarseille.fr,oui (hors IP OVH),"104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 2606:4700:3033::ac43:ac58",200,200,off_ovh_hosting,"DNS ailleurs (104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 260…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.destination.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.dishwasher.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.dishwasher.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.dl.keywy.com,non,,,200,dns_none,Pas de DNS public ; contenu encore sur le cluster OVH,Revue humaine avant détachement
+www.dryer.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.dryer.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.e-ticket.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.exterminator.same-day.pro,oui (hors IP OVH),"172.234.24.211, 172.239.57.117",,200,off_ovh_hosting,"DNS ailleurs (172.234.24.211, 172.239.57.117…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.fare.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.flights.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.flights.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.fly.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.frontier.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.georgesappliancesrepair.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.hawaiian.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.hvac-sys.com,oui (hors IP OVH),"172.234.24.211, 172.239.57.117",,200,off_ovh_hosting,"DNS ailleurs (172.234.24.211, 172.239.57.117…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.interjet.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.jetbiue.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.jetblue.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.jetblue.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.jmelectrician.com,oui (hors IP OVH),"13.248.243.5, 76.223.105.230",200,200,off_ovh_hosting,"DNS ailleurs (13.248.243.5, 76.223.105.230…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.keywy.com,oui (hors IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,200,off_ovh_hosting,"DNS ailleurs (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.pestwipe.com,oui (hors IP OVH),"147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9",200,200,off_ovh_hosting,"DNS ailleurs (147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.prestashop.arasaka-sarl.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.refrigerator.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.refrigerator.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.reservation.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.same-day.pro,oui (hors IP OVH),"172.234.24.211, 172.239.57.117",,200,off_ovh_hosting,"DNS ailleurs (172.234.24.211, 172.239.57.117…) ; fichiers encore sur cluster OVH",Detacher du multisite OVH (trafic ne passe pas par OVH)
+www.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.schedule.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.southwest.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.southwest.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.southwest.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.spirit.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.spirit.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.spirit.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.suncountry.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.travel.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.trip.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.turkish.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.turkish.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.turkish.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.ual.airlines-usa.click,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.united.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.united.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.usa.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.usa.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.vivaaerobus.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.volaris.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.volaris.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.volaris.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.volaris.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.washing-machine.phoenix-az.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.washing-machine.same-day.repair,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.way.airlines-usa.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.westjet.a2zflights.online,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.westjet.airlines-phone-directory.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.westjet.airlines.city,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
+www.wordpress.arasaka-sarl.com,non,,,500,dns_none,Pas de DNS public ; cluster HTTP 500,Revue humaine
