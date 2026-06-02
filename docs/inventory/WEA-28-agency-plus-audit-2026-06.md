@@ -6,127 +6,161 @@ Rapport d’audit pour répondre à la question : **faut-il garder l’hébergem
 
 **Poste principal** : renouvellement **Agency Plus** 12 mois — **695,88 € HT** — hébergement `weadufu.cluster028.hosting.ovh.net`.
 
+**Audit automatisé** : 2026-06-02, clés 1Password `OVH_WeAdU_Unlimited`, scripts `ovh_inventory_wea28.py` + `ovh_audit_agency_plus.py` (+ sonde Host sur IP cluster).
+
 ---
 
 ## 1. Synthèse exécutive
 
 | Question | Réponse |
 |----------|---------|
-| Agency Plus, c’est quoi ? | Nouveau nom OVH (gamme **Agencies 2027**) pour l’ancienne **Performance 3** ; **695,88 € HT/an** au catalogue ([blog OVH mai 2026](https://blog.ovhcloud.com/en-webhosting-2026/)). |
-| Est-ce lié aux apps prod (COS, negative-terms, stocks…) ? | **Non** — ces URLs pointent vers **AWS** (`18.135.12.229`), pas vers le cluster OVH. |
-| Est-ce lié à `weadu.com` ? | **Non** — `weadu.com` → `198.202.211.1` + Google Workspace. |
-| À quoi sert Agency Plus chez WeAdU ? | Hébergement **mutualisé multisite** : **~220 domaines attachés** (instantané API 2026-05-03), **~8,9 Go** utilisés / quota élevé, CDN actif. |
-| Faut-il résilier tout de suite ? | **Non** — sans liste complète des 220 sites, risque SEO / affiliation. |
-| Recommandation (juin 2026) | **Garder à court terme**, ouvrir **purge + downgrade** : viser **Agency** (467,88 € HT/an) après audit des multisites ; **ne pas** couper DNS/email OVH avec l’hébergement. |
+| Agency Plus, c’est quoi ? | Gamme **Agencies 2027** (ex **Performance 3** catalogue) — **695,88 € HT/an** ([blog OVH mai 2026](https://blog.ovhcloud.com/en-webhosting-2026/)). |
+| Lié aux apps prod (`leadgen`, `negative-terms`, `stocks`…) ? | **Non** — **AWS** `18.135.12.229` ; **generads.com** n’est pas dans les 220 multisites attachés. |
+| Lié à `weadu.com` / `getweadu.com` / `weadu.fr` ? | **Non** — ces domaines **ne figurent pas** dans les 220 attachés ; hébergement / DNS ailleurs. |
+| À quoi sert Agency Plus ? | **220 entrées multisite** sur le cluster, surtout domaines **SEO compagnies aériennes** (`a2zflights.online`, `airlines.city`, `airlines-usa.com`, etc.) + quelques `keywy.com`, `arasaka-sarl.com`, `*.repair`. |
+| Combien sont vraiment « vivants » ? | **~22** répondent en HTTP sur le cluster (sonde `Host:` sur `213.186.33.5`) ; **197** renvoient **404** ; **199** n’ont **aucun** enregistrement DNS public. |
+| Faut-il garder Agency Plus ? | **Non au tarif actuel** — payer **~696 € HT/an** pour ~22 sites dont le trafic public passe souvent par **Cloudflare / AWS / autre** est disproportionné. |
+| Recommandation | **Purge massive** des multisites morts (199+), **détacher** les 21 dont le DNS ne pointe plus vers OVH, puis **downgrade** (cible **Agency** 467,88 € HT/an ou inférieur selon quota multisite restant). |
 
-**Économie potentielle** : **~228 € HT/an** (Agency Plus → Agency) après validation des limites multisite ; plus si purge de sites morts (projet dédié).
-
----
-
-## 2. Facturation et transition tarifaire OVH 2026
-
-| Élément | Détail |
-|---------|--------|
-| Montant Agency Plus | **695,88 € HT / an** (= **57,99 € HT / mois**) |
-| Ancien tarif Performance 3 (2016) | 356,28 € HT / an (**+95 %**) |
-| Ancien tarif Performance 4 (2016) | 448,68 € HT / an — facture dit **Agency Plus**, pas Agency Max (923,88 €) |
-| Offre API (mai 2026) | `hosting-performance-4` sur `weadufu.cluster028…` — mapping commercial à confirmer dans le **manager** |
-| Renouvellement auto (capture manager) | **01/06/2027** pour hébergement + CDN |
-| Avoir transition mai 2026 | OVH annonce remboursement auto si renouvelé avant 01/06 au **ancien** tarif — facture datée **01/06/2026** → **vérifier manuellement** dans [manager OVH](https://www.ovh.com/manager/) → Factures / Avoirs |
-| Autres postes facture | Zimbra Starter 0,30 € HT ; CDN Basic inclus ; MX Plans / emails (rubrique non détaillée dans la capture) |
-
-**API billing** (02/06/2026) : clés `OVH_APP_*` → `GET /me/bill`, `/me/order`, `/hosting/web` = **NOT_GRANTED**. Facturation : **console uniquement**.
+**Économie réaliste** : **228–400 € HT/an** (downgrade + purge) ; potentiellement plus si le nombre de multisites actifs tombe sous un palier d’offre inférieur.
 
 ---
 
-## 3. Ce qui ne justifie pas Agency Plus (déjà ailleurs)
+## 2. Facturation (API OVH, 2026-06-02)
 
-Audit DNS (zone `generads.com` accessible en API + lookups publics) :
+| Ligne facture FR78255331 | Montant HT |
+|--------------------------|------------|
+| **Agency Plus renewal (12 months)** | **695,88 €** |
+| Zimbra Starter monthly pricing | 0,30 € |
+| CDN basic option rental 12 months | 0,00 € |
+| weadu.fr / weadu.co.uk renouvellement | ~15,77 € |
+| Zones DNS / divers | ~0 € |
 
-| FQDN / service | IP / hébergement | Lien Agency Plus |
-|----------------|------------------|------------------|
-| `leadgen.generads.com` | AWS `18.135.12.229` | DNS OVH seulement |
-| `negative-terms.generads.com` | AWS | idem |
-| `staging-negative-terms.generads.com` | AWS | idem |
-| `stocks.generads.com` | AWS | idem |
-| `dash.generads.com` | AWS | idem |
-| `weadu.com` | `198.202.211.1` (hors OVH mutualisé) | — |
-| n8n, Wellbots, runner GitHub | AWS ([WEA-29](./WEA-29-aws-ec2-inventory.md)) | — |
+**TTC** : **853,98 €** (TVA 142,33 €).
 
-**6/30** FQDN échantillonnés (DNS API + marque) = **doublon AWS** : la prod ne consomme pas le CPU/RAM Agency Plus.
+| Élément technique | Valeur |
+|-------------------|--------|
+| Offre API | `hosting-performance-4` |
+| Libellé facture | **Agency Plus** |
+| Stockage utilisé | ~8,6 Go / 1000 Go |
+| Renouvellement auto (manager, mai 2026) | **01/06/2027** |
 
----
-
-## 4. Ce qui justifie encore un hébergement OVH (pas forcément Agency Plus)
-
-| FQDN (échantillon audit 02/06/2026) | Catégorie audit | IP |
-|-------------------------------------|-----------------|-----|
-| `getweadu.com`, `www.getweadu.com` | **active** (HTTP 200) | OVH `213.186.33.5` |
-| `weadu.co.uk` | **active** | OVH |
-| `weadu.fr` | **unknown** (réponse HTTP ambiguë) | à revoir |
-| `weadu.com` | **off_ovh_hosting** | autre hébergeur |
-
-Les **~220 multisites** attachés au cluster (non listés en entier : API hosting **non accordée** au token actuel) représentent le **levier SEO / landing** historique — **8,9 Go** utilisés suggère du contenu réel, pas un plan vide.
+**Transition tarifaire OVH 2026** : hausse **+95 %** vs ancien Performance 3 (356,28 € → 695,88 € HT). Vérifier dans le manager un **avoir** si renouvellement avant 01/06/2026 au tarif historique (facture datée 01/06/2026).
 
 ---
 
-## 5. Limites de l’audit automatisé (02/06/2026)
+## 3. Résultats audit — 220 multisites attachés
 
-| Blocage | Impact |
-|---------|--------|
-| `OVH_APPLICATION_*` (1Password) | **Credential does not exist** — jeu invalide |
-| `OVH_APP_*` + consumer key | Accès **partiel** : `GET /domain/zone` OK ; **`/hosting/web`**, **`/me/bill`**, records sur la plupart des zones = **403 NOT_GRANTED** |
-| Liste 220 FQDN | **Non exportée** — instantané mai 2026 ([WEA-28](./WEA-28-ovh-duplicates.md)) inchangé côté API |
-| Échantillon audité | **30 FQDN** (zone `generads.com` + domaines marque) |
+### 3.1 Classification DNS publique (script audit)
 
-**Action infra** : régénérer une **consumer key** OVH avec droits `GET /hosting/web/*`, `GET /me/bill`, `GET /domain/zone/*/record` (toutes zones), stocker dans 1Password (`OVH_APPLICATION_*` ou `OVH_APP_*` unifiés), puis relancer :
+| Catégorie | Nombre | Signification |
+|-----------|--------|---------------|
+| **dns_none** | **199** | Aucune résolution DNS `A`/`AAAA` pour le FQDN — site **inaccessible** depuis Internet tel quel. |
+| **off_ovh_hosting** | **21** | DNS pointe vers **Cloudflare**, **AWS**, ou autre — pas vers `213.186.33.x`. |
+
+Aucun FQDN attaché ne pointe vers l’IP mutualisée classique **213.186.33.5** en DNS public.
+
+### 3.2 Sondage direct sur le cluster OVH (`Host:` + IP)
+
+| Population | HTTP 2xx sur cluster | HTTP 4xx / erreur |
+|------------|----------------------|-------------------|
+| 199 × `dns_none` | **2** | **197** (surtout 404 — entrée multisite **morte**) |
+| 21 × `off_ovh_hosting` | **20** | **1** |
+
+**Total « contenu encore servi par le cluster »** : **~22 FQDN** (dont le trafic réel peut aller ailleurs via DNS, ex. `keywy.com` → Cloudflare).
+
+### 3.3 Répartition par suffixe (220 attachés)
+
+| Suffixe | Sites attachés |
+|---------|----------------|
+| `a2zflights.online` | 42 |
+| `airlines.city` | 34 |
+| `airlines-usa.com` | 34 |
+| `airlines-phone-directory.com` | 27 |
+| `airlines-usa.click` | 17 |
+| `phoenix-az.repair` / `same-day.repair` | 10 chacun |
+| `keywy.com` / `arasaka-sarl.com` | 6 chacun |
+| Autres (`change-flights.to`, `same-day.pro`, …) | reste |
+
+### 3.4 Exemples `off_ovh_hosting` (DNS ailleurs, fichier encore sur OVH)
+
+| FQDN | DNS actuel (aperçu) |
+|------|---------------------|
+| `keywy.com`, `www.keywy.com` | Cloudflare |
+| `change-flights.to`, `airlines.change-flights.to` | AWS / parking |
+| `pestwipe.com` | Hébergeur tiers |
+| `same-day.pro`, `hvac-sys.com` | Autre IP |
+
+→ Candidats à **détachement** du multisite (le trafic ne passe pas par ce cluster).
+
+---
+
+## 4. Ce qui ne dépend pas d’Agency Plus
+
+| Service | Hébergement |
+|---------|-------------|
+| `*.generads.com` prod (COS, negative-terms, stocks, …) | **AWS** |
+| `weadu.com` | Autre IP + Google Workspace |
+| `getweadu.com`, `weadu.fr` (marque) | **Pas** dans les 220 multisites — DNS/hébergement séparés |
+| Zones DNS OVH, MX, Zimbra | Facturés **à part** |
+
+---
+
+## 5. Scénarios de décision (chiffrage)
+
+| Scénario | Condition | Économie HT/an | Risque |
+|----------|-----------|----------------|--------|
+| **A. Garder Agency Plus** | Statu quo | 0 € | **Élevé** — surpaiement pour ~22 sites utiles |
+| **B. Purge + Agency** | &lt;50 multisites actifs après nettoyage | **~228 €** (695 → 468 €) | Moyen — vérifier quota OVH |
+| **C. Purge agressive + offre inférieure** | &lt;10 sites réellement servis | **400–600 €** | Moyen — valider avec OVH commercial |
+| **D. Résiliation hébergement** | Aucun site conservé | **695 €** | **Très élevé** si une landing génère encore du CA |
+
+**Recommandation** : **B ou C** — commencer par supprimer les **199** entrées sans DNS + **404** sur cluster, puis détacher les **21** « DNS ailleurs », recompter les multisites restants, **downgrader** avant le 01/06/2027.
+
+---
+
+## 6. Plan d’action opérationnel
+
+1. **Manager OVH** → Hébergements → `weadufu.cluster028…` → multisites : export / suppression par lots (priorité : `dns_none` + 404 confirmés).
+2. **Vérifier** les **2** FQDN `dns_none` qui répondent encore en Host-header — seuls à investiguer avant suppression.
+3. **Revoir** les **20** `off_ovh_hosting` qui répondent encore sur OVH — migrer fichiers si besoin, puis **détacher**.
+4. **Demander downgrade** vers **Agency** (ou offre adaptée au nombre de multisites restants).
+5. **Conserver** `OVH_WeAdU_Unlimited` dans 1Password pour scripts ; laisser `OVH_APP_*` en droits restreints pour `pd-detection` si souhaité.
+
+---
+
+## 7. Régénération de l’audit
 
 ```bash
-export OVH_APPLICATION_KEY=… OVH_APPLICATION_SECRET=… OVH_CONSUMER_KEY=…
+export OVH_APPLICATION_KEY=$(python3 scripts/onepassword_resolve_ref.py --print-value "op://Replit/OVH_WeAdU_Unlimited/Application Key")
+export OVH_APPLICATION_SECRET=$(python3 scripts/onepassword_resolve_ref.py --print-value "op://Replit/OVH_WeAdU_Unlimited/Application Secret")
+export OVH_CONSUMER_KEY=$(python3 scripts/onepassword_resolve_ref.py --print-value "op://Replit/OVH_WeAdU_Unlimited/Consumer Key")
+
 python3 scripts/ovh_inventory_wea28.py --export-domains --write /tmp/ovh-snapshot.json
-python3 scripts/ovh_audit_agency_plus.py --inventory /tmp/ovh-snapshot.json --write /tmp/ovh-audit-summary.json
+python3 scripts/ovh_audit_agency_plus.py --inventory /tmp/ovh-snapshot.json --write /tmp/ovh-audit-summary.json --csv /tmp/ovh-audit-sites.csv
 ```
 
----
-
-## 6. Scénarios de décision (chiffrage)
-
-| Scénario | Condition | Coût hébergement HT/an | Économie vs actuel | Risque |
-|----------|-----------|------------------------|--------------------|--------|
-| **A. Garder Agency Plus** | Majorité des 220 sites actifs / SEO | 695,88 € | 0 € | Faible |
-| **B. Downgrade → Agency** | Ressources suffisantes, ≤ limite multisite offre Agency | 467,88 € | **~228 €** | Moyen — valider limites OVH |
-| **C. Purge + Agency** | >50 % sites morts après audit complet | 467,88 € + temps purge | **228–400 €** | Moyen — SEO |
-| **D. Migration statique AWS/S3** | Sites HTML/PHP simples, peu de BDD | ~120–360 € (ordre de grandeur) | variable | Élevé — projet |
-| **E. Résiliation hébergement** | 0 site utile sur cluster | 0 € | **695,88 €** | **Très élevé** |
-
-**Renouvellement 24/48 mois** (catalogue OVH) : Agency Plus à **45,99 € / 36,99 € HT/mois** — à comparer si vous **gardez** l’offre.
+Ne pas committer `/tmp/ovh-snapshot.json` (liste complète des FQDN).
 
 ---
 
-## 7. Recommandation opérationnelle
-
-1. **Court terme** : conserver Agency Plus jusqu’à export des **220 FQDN** (manager ou API élargie).
-2. **Vérifier** avoir OVH transition tarifaire (facture 01/06/2026).
-3. **Moyen terme** : campagne **purge** sites morts + test **downgrade Agency** (économie **~228 € HT/an**).
-4. **Ne pas** confondre avec résiliation **DNS / domaines / MX / Zimbra** — services **séparés** sur la facture.
-
----
-
-## 8. Scripts ajoutés dans ce dépôt
+## 8. Scripts
 
 | Script | Rôle |
 |--------|------|
-| [`scripts/ovh_inventory_wea28.py`](../../scripts/ovh_inventory_wea28.py) | Inventaire API + `--export-domains` + résolution 1Password SDK |
-| [`scripts/ovh_audit_agency_plus.py`](../../scripts/ovh_audit_agency_plus.py) | Classification DNS/HTTP + billing (si droits API) |
-| [`scripts/ovh_dns_zone_inventory.py`](../../scripts/ovh_dns_zone_inventory.py) | Export records DNS par zone (gestion erreurs par zone) |
+| [`scripts/ovh_inventory_wea28.py`](../../scripts/ovh_inventory_wea28.py) | Inventaire API + `--export-domains` |
+| [`scripts/ovh_audit_agency_plus.py`](../../scripts/ovh_audit_agency_plus.py) | DNS + HTTP + billing |
+| [`scripts/ovh_dns_zone_inventory.py`](../../scripts/ovh_dns_zone_inventory.py) | Records par zone DNS |
+
+Credentials : **`op://Replit/OVH_WeAdU_Unlimited/{Application Key,Application Secret,Consumer Key}`**.
 
 ---
 
 ## 9. Écart vs critères WEA-28
 
-| Critère WEA-28 | État |
-|----------------|------|
-| Liste actifs OVH | **Partiel** — zones DNS + hosting mai 2026 ; **220 FQDN non rafraîchis** (API) |
-| Décisions garder / migrer / couper | **Mises à jour** — voir [WEA-28 §3](./WEA-28-ovh-duplicates.md) |
+| Critère | État |
+|---------|------|
+| Liste actifs OVH | **Fait** — 220 FQDN exportés (2026-06-02) |
+| Décisions garder / migrer / couper | **Fait** — purge + downgrade ; voir [WEA-28 §3](./WEA-28-ovh-duplicates.md) |
 
 Ticket : [WEA-28](https://linear.app/weadu/issue/WEA-28/ovh-inventaire-et-doublons-vs-aws-gcp).
