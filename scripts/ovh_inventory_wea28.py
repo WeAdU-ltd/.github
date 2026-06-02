@@ -11,12 +11,15 @@ or run under `op run` with those variables pointing at 1Password references, e.g
 Where `ovh_inventory_wea28.op.env` contains lines like:
   OVH_APPLICATION_KEY=op://VaultName/OVH_APPLICATION_KEY/credential
 
+Cloud agents without `op` CLI: OP_SERVICE_ACCOUNT_TOKEN + op:// refs resolve via 1Password SDK.
+
 Does not print secrets. Output is JSON on stdout (or --write path).
 """
 
 from __future__ import annotations
 
 import argparse
+import asyncio
 import hashlib
 import json
 import os
@@ -28,6 +31,21 @@ from collections import Counter
 from typing import Any
 
 DEFAULT_BASE = "https://eu.api.ovh.com/1.0"
+_OP_CACHE: dict[str, str] = {}
+
+
+async def _resolve_op_sdk(ref: str) -> str:
+    from onepassword.client import Client
+
+    token = os.environ.get("OP_SERVICE_ACCOUNT_TOKEN", "").strip()
+    if not token:
+        raise RuntimeError("Missing OP_SERVICE_ACCOUNT_TOKEN for op:// resolution")
+    client = await Client.authenticate(
+        auth=token,
+        integration_name="WeAdU-agents",
+        integration_version="1.0.0",
+    )
+    return str(await client.secrets.resolve(ref)).strip()
 
 
 def _env_or_op(name: str, op_ref: str) -> str:
@@ -35,13 +53,15 @@ def _env_or_op(name: str, op_ref: str) -> str:
     if v and not v.startswith("op://"):
         return v
     ref = v if v.startswith("op://") else op_ref
+    if ref in _OP_CACHE:
+        return _OP_CACHE[ref]
     try:
-        return subprocess.check_output(["op", "read", ref], text=True, timeout=30).strip()
-    except (FileNotFoundError, subprocess.CalledProcessError) as e:
-        raise RuntimeError(
-            f"Missing {name} and `op read {ref}` failed ({e}). "
-            "Export the three OVH_* variables or use `op run` with op:// references."
-        ) from e
+        value = subprocess.check_output(["op", "read", ref], text=True, timeout=30).strip()
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        value = asyncio.run(_resolve_op_sdk(ref))
+    _OP_CACHE[ref] = value
+    os.environ[name] = value
+    return value
 
 
 def _credentials() -> tuple[str, str, str]:
@@ -119,7 +139,7 @@ def _suffix_counts(domains: list[str], min_labels: int = 2) -> list[tuple[str, i
     return c.most_common(25)
 
 
-def build_report(base: str) -> dict[str, Any]:
+def build_report(base: str, *, include_attached_domains: bool = False) -> dict[str, Any]:
     ak, asec, ck = _credentials()
     me = _get(base, ak, asec, ck, "/me")
     zones = _get(base, ak, asec, ck, "/domain/zone")
@@ -152,6 +172,7 @@ def build_report(base: str) -> dict[str, Any]:
         ),
         "attached_domains_count": len(attached),
         "attached_domains_top_suffixes": _suffix_counts(attached),
+        "attached_domains": sorted(attached) if include_attached_domains else None,
         "vps": vps,
         "dedicated_servers": dedi,
         "public_cloud_projects": cloud,
@@ -164,10 +185,18 @@ def main() -> int:
     p.add_argument("--base", default=os.environ.get("OVH_API_BASE", DEFAULT_BASE), help="API base URL")
     p.add_argument("--write", metavar="FILE", help="Write JSON report to this file")
     p.add_argument("--json", action="store_true", help="Print JSON to stdout (default)")
+    p.add_argument(
+        "--export-domains",
+        action="store_true",
+        help="Include full attached_domains list in JSON (do not commit publicly)",
+    )
     args = p.parse_args()
 
     try:
-        report = build_report(args.base.rstrip("/"))
+        report = build_report(
+            args.base.rstrip("/"),
+            include_attached_domains=args.export_domains,
+        )
     except Exception as e:
         print(f"error: {e}", file=sys.stderr)
         return 1

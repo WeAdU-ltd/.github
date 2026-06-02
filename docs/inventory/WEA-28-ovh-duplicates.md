@@ -94,7 +94,9 @@ L’API OVH ne voit **pas** les actifs AWS / GCP : le tableau reste **à complé
 
 1. Croiser la section 2 avec les projets GCP / stacks AWS réels (WEA-27 et runbooks internes).
 2. Si besoin de **lister les 220 FQDN** : exécuter le script localement, sortie JSON (`--write`) — ne pas committer cette liste en masse sans revue (PII / spam / historique).
-3. Après validation humaine des critères de fait sur Linear, mettre à jour les décisions §3 et ouvrir les sous-tickets de migration ou de résiliation si besoin.
+3. **Audit Agency Plus (2026-06)** : voir [WEA-28-agency-plus-audit-2026-06.md](./WEA-28-agency-plus-audit-2026-06.md) — facture FR78255331, échantillon DNS, recommandation purge + downgrade.
+4. **Ré-accorder la consumer key OVH** (`GET /hosting/web`, `/me/bill`, records toutes zones) — le jeu `OVH_APP_*` actuel est limité à `generads.com` (juin 2026).
+5. Après validation humaine des critères de fait sur Linear, mettre à jour les décisions §3 et ouvrir les sous-tickets de migration ou de résiliation si besoin.
 
 ---
 
