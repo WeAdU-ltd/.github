@@ -104,7 +104,7 @@ Anchors in [`docs/`](docs/):
   - [negative-search-terms-tool — Repl 4 → Negative-Terms (WEA-61)](docs/inventory/negative-search-terms-replit-migration-2026-05-06.md)
   - [wellbots-shopping-ads-checker — Repl 5 → SH-Checker-Bids (WEA-67)](docs/inventory/wellbots-shopping-ads-checker-replit-migration-2026-05-06.md) — chaîne migration **terminée** (**2026-05**)
   - [pd-detection — Repl 15 / Finance-RH (WEA-128 / WEA-131)](docs/inventory/pd-detection-replit-migration-WEA-128.md) — gabarit GitHub [`templates/pd-detection-app/`](templates/pd-detection-app/README.md), [`scripts/init_pd_detection_app_template.sh`](scripts/init_pd_detection_app_template.sh)
-  - [Waste Watcher — Repl 8 / synthèse inventaire (WEA-87)](docs/inventory/waste-watcher-replit-synthesis-WEA-87.md) — export [`waste-watcher-replit-export-2026-05-26.md`](docs/inventory/waste-watcher-replit-export-2026-05-26.md) (*Waste Controller*) ; dépôt cible [`WeAdU-ltd/waste-watcher`](https://github.com/WeAdU-ltd/waste-watcher) ([WEA-88](docs/inventory/waste-watcher-replit-migration-WEA-88.md)) ; [WEA-33](docs/inventory/WEA-33-replit-inventory.md) ligne **#8**
+  - [Waste Watcher — Repl 8 / synthèse inventaire (WEA-87)](docs/inventory/waste-watcher-replit-synthesis-WEA-87.md) — export [`waste-watcher-replit-export-2026-05-26.md`](docs/inventory/waste-watcher-replit-export-2026-05-26.md) (*Waste Controller*) ; dépôt cible [`WeAdU-ltd/waste-watcher`](https://github.com/WeAdU-ltd/waste-watcher) ([WEA-88](docs/inventory/waste-watcher-replit-migration-WEA-88.md)) ; [README + CI préparés / import code bloqué WEA-89](docs/inventory/waste-watcher-code-readme-ci-WEA-89.md) ; [WEA-33](docs/inventory/WEA-33-replit-inventory.md) ligne **#8**
 
 ## n8n hosting (budget < 20 €/mois)
 

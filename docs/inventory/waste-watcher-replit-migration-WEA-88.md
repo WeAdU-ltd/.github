@@ -31,8 +31,8 @@ Les agents **uniquement** sur `WeAdU-ltd/.github` n’ont pas le workspace Repli
 
 | Exigence | État |
 |----------|------|
-| Code métier importé depuis Replit | **À faire** — monorepo pnpm (voir export § Run local) |
-| README applicatif + CI | **Partiel** — README migration + socle WEA-35 sur `main` après bootstrap WEA-88 |
+| Code métier importé depuis Replit | **Bloqué WEA-89** — dépôt cible non résolvable depuis `.github` le 2026-06-09 ; monorepo pnpm absent de ce dépôt (voir export § Run local) |
+| README applicatif + CI | **Préparé WEA-89** — le bootstrap génère README run/test/deploy + secrets nommés et CI minimale ; preuve : [runbook WEA-89](./waste-watcher-code-readme-ci-WEA-89.md) |
 
 ---
 
