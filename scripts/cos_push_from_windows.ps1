@@ -5,7 +5,8 @@
   en fusionnant avec le README déjà sur GitHub (historiques sans lien commun).
 
 .EXAMPLE
-  $env:GITHUB_COS_PAT = '<PAT depuis 1Password ou GitHub Settings>'
+  # Canonical: op://Replit/github-weadu-socle-commun-token/credential (env GH_TOKEN or GITHUB_COS_PAT alias)
+  $env:GITHUB_COS_PAT = '<PAT depuis 1Password github-weadu-socle-commun-token>'
   powershell -ExecutionPolicy Bypass -File .\scripts\cos_push_from_windows.ps1
 
 .NOTES
@@ -54,7 +55,7 @@ foreach ($line in $requiredIgnore) {
 }
 
 if (-not $env:GITHUB_COS_PAT -or $env:GITHUB_COS_PAT.Length -lt 10) {
-    throw 'Définissez GITHUB_COS_PAT (PAT avec scope repo sur WeAdU-ltd/cos).'
+    throw 'Définissez GITHUB_COS_PAT ou GH_TOKEN (canonical: github-weadu-socle-commun-token).'
 }
 
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
