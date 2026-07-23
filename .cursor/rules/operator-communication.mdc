@@ -41,3 +41,7 @@ L'opérateur (Jeff) n'est pas technique. Pas de jargon, pas de code dans les mes
 ## Délégation
 
 - Si une tâche suppose un accès absent (AWS, Windows, Replit, autre org) : documenter le délégataire + point d'entrée, pas une check-list technique pour l'opérateur.
+
+## Référence ticket
+
+- Ligne `🎫 …` obligatoire en fin de message : voir [`.cursor/rules/message-ticket-reference.mdc`](message-ticket-reference.mdc).
