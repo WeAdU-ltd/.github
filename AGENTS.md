@@ -14,7 +14,7 @@
 4. Écrire la liste **« Écart vs critères »** + la suite — ne pas attendre qu'on demande.
 5. **PR fusionnée / CI vert ≠ Done** tant que les critères de fait ne sont pas couverts.
 6. Si `LINEAR_API_KEY` est absent dans la session : lister les écarts dans le message final au lieu de poster sur Linear.
-7. **Référence ticket obligatoire** : tout message d'agent se termine par une ligne `🎫 …` indiquant le ou les tickets concernés (ou `🎫 Aucun ticket` + raison).
+7. **Référence ticket obligatoire** : tout message d'agent se termine par une ligne `🎫 NEG-XXXX` (identifiant seul, sans lien ni titre) ou `🎫 Aucun ticket` + raison.
    Détails : [`.cursor/rules/message-ticket-reference.mdc`](.cursor/rules/message-ticket-reference.mdc).
 
 ## Où mettre à jour ces règles
