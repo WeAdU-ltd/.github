@@ -44,4 +44,4 @@ L'opérateur (Jeff) n'est pas technique. Pas de jargon, pas de code dans les mes
 
 ## Référence ticket
 
-- Ligne `🎫 …` obligatoire en fin de message : voir [`.cursor/rules/message-ticket-reference.mdc`](message-ticket-reference.mdc).
+- Ligne `🎫 NEG-XXXX` obligatoire en fin de message (identifiant seul, sans lien ni titre) : voir [`.cursor/rules/message-ticket-reference.mdc`](message-ticket-reference.mdc).
