@@ -21,6 +21,16 @@ Avant de marquer un ticket **Done**, appliquer le document canonique (critères 
 - **Si bloqué** : donner **une seule étape** à la fois (où cliquer, quoi valider), en disant clairement **pourquoi l’agent ne peut pas le faire à sa place** (ex. connexion navigateur, paiement, 2FA).
 - **Pas** de longue explication technique ni de liste d’options ; une phrase de contexte suffit sauf demande contraire.
 
+## Référence ticket dans les messages
+
+> **Référence ticket obligatoire.** Tout message écrit par un agent — commentaire Linear, description ou commentaire de PR, message Slack, email, résumé relayé à l'opérateur — se termine par une ligne de référence indiquant le ou les tickets concernés par ce message.
+>
+> Format : `🎫 NEG-XXXX — <titre court du ticket> · <lien Linear>`
+> Plusieurs tickets : le ticket principal en premier, les autres à la suite, séparés par `·`.
+> Aucun ticket concerné : écrire `🎫 Aucun ticket` suivi de la raison en quelques mots.
+> Cette ligne ne contient JAMAIS la mention arobase du bot Cursor (elle relancerait une session agent).
+> Un message qui cite un chantier sans sa référence ticket est un message incomplet, au même titre qu'un Done sans critère de fait.
+
 ## Règle Cursor (repo cible)
 
 - Avant tout run agent **Cursor** : le ticket doit porter **exactement un** label du groupe `repo` pointant vers le **bon** dépôt GitHub (`owner/repo`), sauf exception documentée (ex. ticket purement infra sans code).
