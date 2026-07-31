@@ -17,6 +17,10 @@
 7. **Référence ticket obligatoire** : tout message d'agent se termine par une ligne `🎫 NEG-XXXX` (identifiant seul, sans lien ni titre) ou `🎫 Aucun ticket` + raison.
    Détails : [`.cursor/rules/message-ticket-reference.mdc`](.cursor/rules/message-ticket-reference.mdc).
 
+## Vérification anti-conflit avant nouvelle règle
+
+Avant qu'un agent (Claude ou Cursor) **écrit ou modifie** une règle opérationnelle dans un **canon** — mémoire, document Linear, `AGENTS.md`, `.cursor/rules`, instructions projet, paramètres Cursor/GitHub — il **vérifie** qu'elle ne **contredit** pas une règle déjà en vigueur à un autre niveau (mémoire, instructions projet, Linear, dépôt, Cursor, GitHub, Settings). En cas de **contradiction détectée**, l'agent **ne tranche pas seul** : il signale le conflit à Jeff dans le canal habituel. **Anti-redondance** : si une règle est déjà canonique à un endroit, ne pas la dupliquer ailleurs.
+
 ## Où mettre à jour ces règles
 
 - **Code** : PR sur `WeAdU-ltd/.github` (ce fichier + `.cursor/rules/`).
