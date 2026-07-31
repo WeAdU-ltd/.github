@@ -43,21 +43,13 @@ Dès que les **critères de fait** sont remplis : passer le ticket en **Done** t
 - **Une** question ou **une** action claire à la fois.
 - Ou créer un **sous-ticket** avec les critères restants.
 
-### Cursor — règles utilisateur (à coller une fois par l'humain)
-
-Coller dans **Cursor → Settings → Rules** (règles **User** / globales) :
-
-```
-Tous les agents : avant de mettre un ticket Linear en Done, applique intégralement AGENTS.md du dépôt WeAdU-ltd/.github :
-https://github.com/WeAdU-ltd/.github/blob/main/AGENTS.md
-Ne pas confondre « PR fusionnée » et « ticket terminé ». Ne pas attendre que l'humain demande si c'est complet : écrire sur le ticket tout écart par rapport aux critères de fait.
-```
+Les agents lisent ce fichier directement depuis le dépôt ; aucune copie hors dépôt n'est nécessaire ni souhaitée.
 
 ## Référence ticket obligatoire
 
 Tout message écrit par un agent — commentaire Linear, description ou commentaire de PR, message Slack, email, résumé relayé à l'opérateur — se termine par une ligne de référence indiquant le ou les tickets concernés par ce message.
 
-Format : `🎫 NEG-XXXX` — **l'identifiant du ticket seul, sans lien et sans titre** (décision Jeff 2026-07-23). Plusieurs tickets : identifiants séparés par une virgule, le ticket principal en premier — exemple `🎫 NEG-2017, NEG-2018`. Aucun ticket concerné : écrire `🎫 Aucun ticket` suivi de la raison en quelques mots. Cette ligne ne contient JAMAIS la mention arobase du bot Cursor (elle relancerait une session agent).
+Format : `🎫 XXXX` — **l'identifiant du ticket seul, sans préfixe « NEG- », sans lien et sans titre** (décision Jeff 2026-07-28). Plusieurs tickets : identifiants séparés par un tiret, le ticket principal en premier — exemple `🎫 2017-2018`. Aucun ticket concerné : écrire `🎫 Aucun ticket` suivi de la raison en quelques mots. Cette ligne ne contient JAMAIS la mention arobase du bot Cursor (elle relancerait une session agent).
 
 Détails : [`.cursor/rules/message-ticket-reference.mdc`](.cursor/rules/message-ticket-reference.mdc).
 
