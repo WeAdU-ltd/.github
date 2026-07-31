@@ -11,9 +11,9 @@ Documenter la **charte agents** : le travail se fait **à partir d’un ticket L
 
 ## Fermeture d’un ticket — **obligatoire** (tous agents, tous projets)
 
-Avant de marquer un ticket **Done**, appliquer le document canonique (critères de fait, écarts, etc.) :
+Avant de marquer un ticket **Done**, appliquer le canon (critères de fait, écarts, etc.) :
 
-**[Règle agents — Critères de fait avant Done (tous projets)](https://linear.app/weadu/document/regle-agents-criteres-de-fait-avant-done-tous-projets-2b32aec9e234)**
+[`AGENTS.md`](../AGENTS.md) — section **Critères de fait avant Done (tous projets)** ([GitHub](https://github.com/WeAdU-ltd/.github/blob/main/AGENTS.md)).
 
 ## Communication avec l’humain (obligatoire)
 
