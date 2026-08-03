@@ -23,15 +23,9 @@ Avant de marquer un ticket **Done**, appliquer le canon (critères de fait, éca
 
 ## Référence ticket dans les messages
 
-> **Référence ticket obligatoire.** Tout message écrit par un agent — commentaire Linear, description ou commentaire de PR, message Slack, email, résumé relayé à l'opérateur — se termine par une ligne de référence indiquant le ou les tickets concernés par ce message.
->
-> Format : `🎫 NEG-XXXX` — **l'identifiant du ticket seul, sans lien et sans titre** (décision Jeff 2026-07-23).
-> Plusieurs tickets : identifiants séparés par une virgule, le ticket principal en premier — exemple `🎫 NEG-2017, NEG-2018`.
-> Aucun ticket concerné : écrire `🎫 Aucun ticket` suivi de la raison en quelques mots.
-> Cette ligne ne contient JAMAIS la mention arobase du bot Cursor (elle relancerait une session agent).
-> Un message qui cite un chantier sans sa référence ticket est un message incomplet, au même titre qu'un Done sans critère de fait.
->
-> La consigne générale « toujours fournir un lien cliquable vers l'objet cité » ne s'applique pas à cette ligne de référence, qui reste volontairement sans lien.
+Règle canonique unique : [`AGENTS.md`](../AGENTS.md) — section **Référence ticket obligatoire** ([GitHub](https://github.com/WeAdU-ltd/.github/blob/main/AGENTS.md)), déclinée pour Cursor dans [`.cursor/rules/message-ticket-reference.mdc`](../.cursor/rules/message-ticket-reference.mdc).
+
+Le format en vigueur est celui de la **décision Jeff du 2026-07-28** (`🎫 XXXX`, identifiant seul sans préfixe « NEG- », plusieurs tickets séparés par un tiret). Ce document ne recopie plus la règle : toute évolution se fait dans `AGENTS.md`, jamais ici.
 
 ## Règle Cursor (repo cible)
 
