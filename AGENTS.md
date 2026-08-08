@@ -57,6 +57,29 @@ Détails : [`.cursor/rules/message-ticket-reference.mdc`](.cursor/rules/message-
 
 Avant qu'un agent (Claude ou Cursor) **écrit ou modifie** une règle opérationnelle dans un **canon** — mémoire, document Linear, `AGENTS.md`, `.cursor/rules`, instructions projet, paramètres Cursor/GitHub — il **vérifie** qu'elle ne **contredit** pas une règle déjà en vigueur à un autre niveau (mémoire, instructions projet, Linear, dépôt, Cursor, GitHub, Settings). En cas de **contradiction détectée**, l'agent **ne tranche pas seul** : il signale le conflit à Jeff dans le canal habituel. **Anti-redondance** : si une règle est déjà canonique à un endroit, ne pas la dupliquer ailleurs.
 
+## Couverture vérificateur obligatoire (NEG-2532)
+
+Toute PR qui **crée un nouveau mécanisme récurrent** doit mettre à jour le vérificateur Wellbots en parallèle, ou documenter explicitement pourquoi ce n'est pas nécessaire.
+
+### Mécanismes concernés
+
+- Workflow GitHub Actions avec déclencheur `schedule:` (cron)
+- Mutation Google Ads automatisée (script ou cron avec apply)
+- Règle de doctrine (`.cursor/rules`, manifeste yaml, garde-fou architectural)
+
+### Obligation dans la PR
+
+Dans la **même PR**, l'une des deux options :
+
+1. **Ajouter la règle manifeste** correspondante dans `workbench/config/wellbots/verifier/` (ou l'extension du vérificateur adaptée), **ou**
+2. **Ligne explicite** dans la description de PR : `Couverture vérificateur : non nécessaire — <raison>`
+
+### CI (Negative-Terms)
+
+Le workflow `verifier-guard` émet un **warning** (non bloquant) si la PR ajoute un fichier `.github/workflows/*.yml` contenant `schedule:` sans mention `Couverture vérificateur` dans le corps de la PR.
+
+Filet quotidien matrice de couverture : ticket NEG-2533.
+
 ## Où mettre à jour ces règles
 
 - **Code** : PR sur `WeAdU-ltd/.github` (ce fichier + `.cursor/rules/`).
