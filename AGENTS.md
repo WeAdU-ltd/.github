@@ -27,15 +27,22 @@ Si une amélioration **réduit** le travail manuel répétitif (merge, statuts L
 
 ### Statuts Linear (zéro friction pour l'humain)
 
-Dès que les **critères de fait** sont remplis : passer le ticket en **Done** tout de suite. **Interdit** : laisser **In Progress** (ou autre statut « en cours ») alors que le travail est terminé — l'humain ne doit pas « rattraper » le statut à la main.
+Arbitrage WEA-239 conflit 1 (option B, 2026-08-11T16:04Z) :
+
+1. **Règle générale** : dès que les **critères de fait** sont prouvés, l'agent passe le ticket en **Done**. **Interdit** : laisser **In Progress** (ou autre statut « en cours ») alors que le travail est terminé — l'humain ne doit pas « rattraper » le statut à la main.
+2. **Exception unique (Done Guard)** : sur le dépôt `WeAdU-ltd/Negative-Terms` et l'équipe Linear qui le porte, un agent Cursor **ne passe pas** le ticket à Done. Il écrit son verdict, liste les critères remplis, et s'arrête. La clôture est posée par le compte opérateur (`LINEAR_OPERATOR_USER_ID`), sous lequel agit le connecteur Linear de l'architecte.
+3. **Motif** : c'est le seul dépôt qui mute Google Ads en production ; une clôture prématurée y a un coût financier.
+4. **Rien n'attend Jeff** dans aucun des deux cas.
 
 ### Avant de mettre un ticket Linear en Done
 
+Qui pose le Done (agent Cursor vs compte opérateur sur `Negative-Terms`) : voir **Statuts Linear** ci-dessus. Les points suivants restent obligatoires avant toute clôture :
+
 1. Relire la section **« Critères de fait »** du ticket **ligne par ligne**.
 2. Pour **chaque** critère : **fait** (avec lien ou fichier) **ou** **bloqué** (avec la prochaine action).
-3. **Interdit** : mettre **Done** si un critère n'est pas rempli, sauf si l'humain a écrit **explicitement** sur le ticket qu'il accepte un report / un découpage.
+3. **Interdit** : clôturer si un critère n'est pas rempli, sauf si l'humain a écrit **explicitement** sur le ticket qu'il accepte un report / un découpage.
 4. Si quelque chose manque : **ne pas** attendre que l'humain demande « est-ce complet ? ». Écrire sur le ticket une liste **« Écart vs critères »** + ce que l'agent fait ensuite (compléter seul / sous-ticket / **une** question à l'humain).
-5. **Fusion PR / CI vert** ≠ **Done** tant que les critères de fait du **ticket Linear** ne sont pas couverts.
+5. **Fusion PR / CI vert** ≠ critères de fait couverts — et donc ≠ Done — tant que la checklist du **ticket Linear** n'est pas prouvée.
 6. Si `LINEAR_API_KEY` est absent dans la session : lister les écarts dans le message final au lieu de poster sur Linear.
 
 ### Si l'agent ne peut pas tout faire seul
