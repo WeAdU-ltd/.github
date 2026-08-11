@@ -14,6 +14,22 @@ Règle absolue pour tous les agents (tous projets).
 
 Si une amélioration **réduit** le travail manuel répétitif (merge, statuts Linear, hooks) et que le **risque est faible**, l'agent ou l'assistant **le fait** ou **crée le ticket** sans redemander une validation explicite « oui/non ».
 
+Arbitrage WEA-239 conflit 2 (option A, 2026-08-11T20:37Z) : **autonomie par défaut**. **7** gestes, et 7 seulement, exigent l'accord préalable de Jeff :
+
+| # | Geste réservé | Seuil / périmètre exact |
+| -- | -- | -- |
+| 1 | Dépense | 20 $/mois, tout coût récurrent, ou dépassement d'un plafond ponctuel déjà fixé |
+| 2 | Contenu des comptes | Toute mutation Google Ads, Merchant Center, Shopify ou Google Sheets touchant la sémantique, le manifeste, les règles métier ou les seuils |
+| 3 | Stratégie | Structure de campagnes, routage, arbitrages de couverture (dont réplication multi-sites), décisions produit |
+| 4 | Communication externe | Emails clients, échanges Google, tout envoi sortant |
+| 5 | Lancement d'un agent Cursor | Tout déclenchement, y compris une relance — règle du 2026-08-06 |
+| 6 | Modification des règles elles-mêmes | Écrire ou modifier une règle opérationnelle dans un canon : `AGENTS.md`, `.cursor/rules`, `config/governance.md`, charte [WEA-17](https://linear.app/weadu/issue/WEA-17/charte-agents-linear-source-interdits-features-nouveaux-projets), instructions projet |
+| 7 | Secrets et accès | Créer, faire tourner, révoquer un identifiant, ou élargir le périmètre d'un accès existant |
+
+Les gestes **6** et **7** ne sont pas nouveaux : ils étendent au canon d'organisation les règles déjà locales **R10** (« les règles ne changent pas d'elles-mêmes ») et **R2** (secrets hors périmètre interdit) de `config/governance.md` dans `WeAdU-ltd/Negative-Terms`.
+
+**Tout ce qui n'est pas dans ce tableau s'exécute sans demander**, et l'agent informe après coup. Cela inclut explicitement : diagnostics en lecture seule, création et cadrage de tickets, étiquettes et statuts Linear, fusion d'une demande prête, plomberie d'intégration continue (rebase, fermeture de demande, déblocage de contrôle), surveillance et clôtures.
+
 ### Parallèle sur un même dépôt GitHub
 
 - **À éviter** : plusieurs agents qui ouvrent **plusieurs PR en parallèle** sur le **même dépôt** sans file de fusion — cela crée des **conflits** et une file que l'humain ne doit pas découvrir.
