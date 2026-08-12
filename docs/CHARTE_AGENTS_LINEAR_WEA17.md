@@ -7,7 +7,7 @@ Projet Linear : **Autonomie agents (Cursor, GitHub, Google…)**.
 
 ## Objectif
 
-Documenter la **charte agents** : le travail se fait **à partir d’un ticket Linear** ; **sans accord humain explicite**, il est **interdit** de lancer une nouvelle **feature produit** ou un nouveau **projet / dépôt**. Le reste (PR, merge, déploiement lorsque les garde-fous Git et l’organisation le permettent) reste **autorisé** selon la politique du dépôt et des workflows (CI, protections de branches, secrets).
+Documenter la **charte agents** : le travail se fait **à partir d’un ticket Linear**. Les gestes qui exigent l’accord préalable de Jeff (liste fermée) sont dans [`AGENTS.md`](../AGENTS.md) — section **Principe effort humain** ; cette charte ne porte plus de réserve propre. Le reste (PR, merge, déploiement lorsque les garde-fous Git et l’organisation le permettent) reste **autorisé** selon la politique du dépôt et des workflows (CI, protections de branches, secrets).
 
 ## Fermeture d’un ticket — **obligatoire** (tous agents, tous projets)
 
