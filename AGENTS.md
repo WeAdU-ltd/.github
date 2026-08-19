@@ -49,13 +49,13 @@ Le geste **8** : créer un dépôt engage un périmètre durable — secrets, co
 Arbitrage WEA-239 conflit 1 (option B, 2026-08-11T16:04Z) :
 
 1. **Règle générale** : dès que les **critères de fait** sont prouvés, l'agent passe le ticket en **Done**. **Interdit** : laisser **In Progress** (ou autre statut « en cours ») alors que le travail est terminé — l'humain ne doit pas « rattraper » le statut à la main.
-2. **Exception unique (Done Guard)** : sur le dépôt `WeAdU-ltd/Negative-Terms` et l'équipe Linear qui le porte, un agent Cursor **ne passe pas** le ticket à Done. Il écrit son verdict, liste les critères remplis, et s'arrête. La clôture est posée par le compte opérateur (`LINEAR_OPERATOR_USER_ID`), sous lequel agit le connecteur Linear de l'architecte.
-3. **Motif** : c'est le seul dépôt qui mute Google Ads en production ; une clôture prématurée y a un coût financier.
-4. **Rien n'attend Jeff** dans aucun des deux cas.
+2. **Périmètre restreint (Done Guard, NEG-2498)** : sur le dépôt `WeAdU-ltd/Negative-Terms`, le Done Guard ne s'applique qu'aux tickets portant le label `ads-mutation` ou le marqueur texte `ATTENTION, mutation Ads` — c'est-à-dire les tickets qui mutent Google Ads, Merchant Center ou Shopify en production. Sur ces tickets uniquement, un agent Cursor **ne passe pas** le ticket à Done lui-même : il écrit son verdict, liste les critères remplis, poste `#done-confirme` avec le marqueur de relais (voir ci-dessous), et le Done Guard confirme la clôture. Les tickets audits, CI, docs et tout ce qui n'est pas une mutation Ads ferment **librement**, comme la règle générale au point 1.
+3. **Confirmation de clôture (Ads uniquement)** : la confirmation se fait par le marqueur machine-lisible `<!-- operator-confirm: relayed-from-chat | by: … | ts: … -->` posté par n'importe quel agent — **aucune validation préalable de Jeff n'est requise avant de le poster** (décision Jeff, 2026-08-19). L'agent poste `#done-confirme` dès que les critères de fait du ticket sont prouvés, exactement comme pour un ticket hors périmètre.
+4. **Rien n'attend Jeff** dans aucun cas, y compris les tickets Ads.
 
 ### Avant de mettre un ticket Linear en Done
 
-Qui pose le Done (agent Cursor vs compte opérateur sur `Negative-Terms`) : voir **Statuts Linear** ci-dessus. Les points suivants restent obligatoires avant toute clôture :
+Les points suivants restent obligatoires avant toute clôture, sur tous les tickets :
 
 1. Relire la section **« Critères de fait »** du ticket **ligne par ligne**.
 2. Pour **chaque** critère : **fait** (avec lien ou fichier) **ou** **bloqué** (avec la prochaine action).
