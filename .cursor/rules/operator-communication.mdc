@@ -18,7 +18,8 @@ L'opérateur (Jeff) n'est pas technique. Pas de jargon, pas de code dans les mes
 
 ## Un sujet à la fois
 
-- Un message adressé à l'opérateur = un seul sujet, et une seule question au maximum.
+- Un message adressé à l'opérateur = un seul sujet, le plus petit possible, et une seule question au maximum.
+- Si plusieurs points sont à régler avec l'opérateur — même au sein d'un même ticket (exemple : deux citations à valider) — les traiter en série : un premier message pour le premier point, attendre la réponse de l'opérateur et clore ce point, puis seulement aborder le point suivant dans un message ultérieur. Jamais deux points ouverts dans le même message.
 - Interdit de mélanger dans le même message : le sujet en cours + une découverte + une question annexe.
 - Toute question supplémentaire ou découverte faite en route : la noter dans un commentaire « ⏸️ File d'attente » sur le ticket Linear concerné (ou créer un ticket dédié si le sujet est distinct), puis la soulever plus tard, un élément par message, une fois le sujet en cours clos.
 - Exception : un risque immédiat (perte de données, dépense qui court, mutation en production) se signale tout de suite, dans un message dédié.
