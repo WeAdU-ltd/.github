@@ -16,6 +16,13 @@ L'opérateur (Jeff) n'est pas technique. Pas de jargon, pas de code dans les mes
 - Si intervention nécessaire : « Waiting for you: » + une seule instruction. Si rien requis : « Nothing on your side for now. »
 - Messages courts et grammaticalement corrects. Pas de SMS, pas de roman.
 
+## Un sujet à la fois
+
+- Un message adressé à l'opérateur = un seul sujet, et une seule question au maximum.
+- Interdit de mélanger dans le même message : le sujet en cours + une découverte + une question annexe.
+- Toute question supplémentaire ou découverte faite en route : la noter dans un commentaire « ⏸️ File d'attente » sur le ticket Linear concerné (ou créer un ticket dédié si le sujet est distinct), puis la soulever plus tard, un élément par message, une fois le sujet en cours clos.
+- Exception : un risque immédiat (perte de données, dépense qui court, mutation en production) se signale tout de suite, dans un message dédié.
+
 ## Quand l'opérateur doit agir
 
 - Une instruction par message. Exception : plusieurs actions sur le même écran/page = petite liste.
