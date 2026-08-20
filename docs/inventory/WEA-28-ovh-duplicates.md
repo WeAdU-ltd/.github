@@ -100,7 +100,7 @@ L’API OVH ne voit **pas** les actifs AWS / GCP : le tableau reste **à complé
 
 ## 5. Regénération inventaire (API)
 
-Prérequis : [CLI 1Password](https://developer.1password.com/docs/cli) (`op`) et accès lecture aux entrées `OVH_APPLICATION_KEY`, `OVH_APPLICATION_SECRET`, `OVH_CONSUMER_KEY` (chemins 1Password ajustables).
+Prérequis : [CLI 1Password](https://developer.1password.com/docs/cli) (`op`) ou `OP_SERVICE_ACCOUNT_TOKEN` + SDK ; entrée **`OVH_WeAdU_Unlimited`** (ou `OVH_APPLICATION_*` / `OVH_APP_*` selon droits).
 
 ```bash
 # Copier l’exemple vers un fichier local (gitignored) et adapter les chemins op:// si besoin
