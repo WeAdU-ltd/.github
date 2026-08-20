@@ -55,3 +55,8 @@ Les dépôts applicatifs qui consomment `WeAdU-ltd/.github/.github/workflows/aut
 ---
 
 _Document statique ; mise à jour lorsque le [socle secrets (WEA-15)](./SECRETS_SOCLE_WEA15.md) ou les conventions d’équipe évoluent._
+
+
+## Credentials audit 2026-07-14 (Negative-Terms)
+
+Canonical GitHub PAT item: `github-weadu-socle-commun-token`. Canonical Gmail env: `GMAIL_APP_PASSWORD` ← item `PD_GMAIL_APP_PASSWORD`. See WeAdU-ltd/Negative-Terms `docs/CREDENTIALS_AUDIT_INVENTORY.md` and Sheet audit.
