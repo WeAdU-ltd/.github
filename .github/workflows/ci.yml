@@ -57,6 +57,12 @@ jobs:
           test -f "$tmp/.cursor/hooks.json"
           rm -rf "$tmp"
 
+      - name: Waste Watcher repo bootstrap script (syntax + dry-run)
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/waste_watcher_repo_wea88.py
+          python3 scripts/waste_watcher_repo_wea88.py --skip-github --skip-linear >/dev/null
+
       - name: pd-detection app template init script (syntax + dry-run + pytest)
         run: |
           set -euo pipefail
