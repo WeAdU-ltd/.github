@@ -106,6 +106,45 @@ Le workflow `verifier-guard` émet un **warning** (non bloquant) si la PR ajoute
 
 Filet quotidien matrice de couverture : ticket NEG-2533.
 
+## Handoff entre sessions (tous agents, tous projets)
+
+Règle absolue pour tous les agents (tous projets), en complément de la section **Critères de fait avant Done**. Origine : [WEA-253](https://linear.app/weadu/issue/WEA-253/handoff-entre-sessions-nommer-le-livrable-depot-durable-sort-du) — PDF prospect Hampshire Generators produit en session Claude puis introuvable par la session suivante (28/08/2026), douze heures travaillées sur un document homonyme trouvé dans un dépôt GitHub.
+
+### Ligne 1 du handoff, avant tout récit
+
+`LIVRABLE : <fichier exact> — v<version> — <N pages> — <langue> — <emplacement actuel, ou « aucun — à déposer d'urgence »>`
+
+Chantier sans fichier livrable (code ou config seuls) : `LIVRABLE : aucun — sortie = <ticket/PR>`.
+
+### Geste 1 de la session qui reprend
+
+Avant tout autre travail : localiser et confirmer le livrable de la ligne 1 (l'ouvrir, l'afficher, ou citer son lien exact). Introuvable : l'écrire avant toute autre action — ne jamais continuer sur un document trouvé par ailleurs sans preuve de correspondance.
+
+### Ce que le livrable n'est pas
+
+Si le type du ticket ne correspond pas au type du livrable (ex. ticket « code / dépôt » pour un livrable qui est un document), la session sortante l'écrit explicitement — c'est ce signal, absent le 28/08, qui aurait évité la confusion. À défaut, lister tout fichier ou document homonyme connu ailleurs (dépôt, Drive).
+
+### Dépôt durable, avant fin de session
+
+Aucune session ne se termine avec un livrable qui n'existe que dans le chat qui l'a produit. Avant handoff : pièce jointe sur le ticket Linear, ou Drive avec lien inséré dans le ticket. Un fichier qui n'existe que dans un chat n'existe pas.
+
+### Générateur
+
+Script ou agent ayant produit le livrable : nommer son sort — **versionné** (chemin + commit), ou explicitement **« non versionné, à reconstruire »** avec assez de détail (méthode, outils, prompts) pour le refaire.
+
+### Points ouverts
+
+Liste de contrôle (`- [ ]`), jamais un récit.
+
+### Identifiant de session Claude (`cse_…`)
+
+À inclure, étiqueté **« pour Jeff »**, jamais comme source consultable par un agent (aucun outil ne le résout). L'accompagner d'un repère lisible — date, sujet — pour rester utile en recherche manuelle.
+
+### Application par surface
+
+- **Cursor** (dépôt `Negative-Terms`) : mise en œuvre dans [`linear-ticket-topo-fr.mdc`](https://github.com/WeAdU-ltd/Negative-Terms/blob/main/.cursor/rules/linear-ticket-topo-fr.mdc), [`agent-subtask-handoff-fresh-agent.mdc`](https://github.com/WeAdU-ltd/Negative-Terms/blob/main/.cursor/rules/agent-subtask-handoff-fresh-agent.mdc), [`handoff-google-doc-copy.mdc`](https://github.com/WeAdU-ltd/Negative-Terms/blob/main/.cursor/rules/handoff-google-doc-copy.mdc) et le template [`AGENT_SESSION_HANDOFF_TEMPLATE.md`](https://github.com/WeAdU-ltd/Negative-Terms/blob/main/docs/templates/AGENT_SESSION_HANDOFF_TEMPLATE.md).
+- **Claude** (chat, session, document de projet) : le résumé de compaction et le document de projet portent les mêmes champs — pas d'implémentation dédiée hors ce fichier.
+
 ## Où mettre à jour ces règles
 
 - **Code** : PR sur `WeAdU-ltd/.github` (ce fichier + `.cursor/rules/`).
