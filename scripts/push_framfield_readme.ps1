@@ -1,7 +1,8 @@
+# DEPRECATED alias: prefer op://Replit/github-weadu-socle-commun-token (NEG credentials audit).
 #!/usr/bin/env pwsh
 # Adds README.md at repo root (WEA-59 template) and pushes to origin/main.
 # Run on Jeff's machine from any directory (uses absolute paths by default).
-# Requires: framfield_github_pat.txt (one line = PAT with repo scope).
+# Requires: PAT file (legacy name framfield_github_pat.txt) — prefer socle commun token.
 # Usage: pwsh -File scripts/push_framfield_readme.ps1
 #    or: pwsh -File ... -RepoDir 'D:\path' -PatFile 'D:\path\pat.txt'
 
