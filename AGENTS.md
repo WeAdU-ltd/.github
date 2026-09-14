@@ -39,6 +39,18 @@ Le geste **8** : créer un dépôt engage un périmètre durable — secrets, co
 - **Si plusieurs tickets** sur le **même** label `repo` : **un seul** agent actif sur ce dépôt **à la fois**, **ou** utiliser une **merge queue** / merges **séquentiels** quand l'infra le permet.
 - **Interdit** de conseiller à l'humain de « tout lancer en parallèle » sur le même repo pour gagner du temps — le coût en conflits PR est trop souvent **supérieur** au gain.
 
+### Comptes Cursor multiples
+
+Deux comptes Cursor distincts, un par dépôt (règle Jeff, 2026-09-14) :
+
+| Préfixe ticket | Label Linear | Compte Cursor | Dépôt |
+| -- | -- | -- | -- |
+| `NEG-*` | `cursor-a` | penjeff@gmail.com (Compte A / Bot 1) | `WeAdU-ltd/Negative-Terms` |
+| `WEACOM-*` | `cursor-b` | jeff@weadu.com (Compte B / Bot 2) | `WeAdU-ltd/weadu-com-webflow` |
+
+- À la création du ticket Linear : poser le label `cursor-a` ou `cursor-b` selon le préfixe.
+- **Interdit** : lancer un agent NEG sur le compte B, ou un agent WEACOM sur le compte A.
+
 ### File de PR (aucun signalement humain requis)
 
 - Après ouverture d'une PR : l'agent suit jusqu'à **merge** (ou échec documenté). S'il y a **conflits**, **Draft** non prêt, ou branche **DIRTY** : l'agent **rebase / résout** ou ouvre un **ticket de déblocage** (ex. type [WEA-41](https://linear.app/weadu/issue/WEA-41/github-deblayer-pr-ouvertes-rebase-merge-reste-wea)) **et** commente la PR — **sans** attendre que l'humain remonte le problème.
