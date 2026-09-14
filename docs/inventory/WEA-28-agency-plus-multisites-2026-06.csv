@@ -1,0 +1,221 @@
+fqdn,dns_public,enregistrements_A,http_si_dns_public,http_cluster_sonde_Host,situation,action_OVH_manager,ne_pas_confondre_avec
+a.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+a.keywy.com,Oui (pas IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,200,"DNS public vers autre hébergeur (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+aa.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+aa.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+aca.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+aeromexico.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+aircanada.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines-usa.agency,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines-usa.chat,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines-usa.info,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines-usa.site,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines.change-flights.to,Oui (pas IP OVH),"13.248.169.48, 76.223.54.146",200,200,"DNS public vers autre hébergeur (13.248.169.48, 76.223.54.146) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+airlines.company,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+alaska.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+alaska.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+alaska.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+allegiant.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+american.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+american.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+american.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+arasaka-sarl.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+asa.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+askaflorist.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+ava.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+avianca.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+avianca.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+avlanca.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+boarding.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+booking.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+canada.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+canada.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+canada.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+change-flights.to,Oui (pas IP OVH),"13.248.169.48, 76.223.54.146",200,200,"DNS public vers autre hébergeur (13.248.169.48, 76.223.54.146) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+confirmation.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+copa.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+copa.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+copa.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+dal.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+delta.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+delta.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+delta.airlines-usa.agency,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+delta.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+delta.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+delta.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+depannageserruriermarseille.fr,Oui (pas IP OVH),"104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 2606:4700:3033::ac43:ac58",200,200,"DNS public vers autre hébergeur (104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 2606:4700:3033::ac43:ac) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+destination.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+dishwasher.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+dishwasher.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+dl.keywy.com,Oui (pas IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,200,"DNS public vers autre hébergeur (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+dryer.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+dryer.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+e-ticket.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+exterminator.same-day.pro,Oui (pas IP OVH),"172.234.24.211, 172.239.57.117",,200,"DNS public vers autre hébergeur (172.234.24.211, 172.239.57.117) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+fare.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+fft.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+flights.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+flights.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+fly.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+frontier.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+georgesappliancesrepair.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+hawaiian.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+hvac-sys.com,Oui (pas IP OVH),"172.234.24.211, 172.239.57.117",,200,"DNS public vers autre hébergeur (172.234.24.211, 172.239.57.117) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+interjet.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+jetbiue.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+jetblue.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+jetblue.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+jmelectrician.com,Oui (pas IP OVH),"13.248.243.5, 76.223.105.230",200,200,"DNS public vers autre hébergeur (13.248.243.5, 76.223.105.230) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+keywy.com,Oui (pas IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,403,"DNS public vers autre hébergeur (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760)",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+nks.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+pestwipe.com,Oui (pas IP OVH),"147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9",200,200,"DNS public vers autre hébergeur (147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+prestashop.arasaka-sarl.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+refrigerator.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+refrigerator.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+reservation.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+same-day.pro,Oui (pas IP OVH),"172.234.24.211, 172.239.57.117",,200,"DNS public vers autre hébergeur (172.234.24.211, 172.239.57.117) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+schedule.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+serrurierfabre.fr,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+southwest.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+southwest.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+southwest.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+spirit.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+spirit.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+spirit.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+suncountry.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+swest.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+travel.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+trip.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+turkish.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+turkish.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+turkish.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+ual.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+united.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+united.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+usa.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+usa.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+vivaaerobus.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+volaris.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+volaris.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+volaris.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+volaris.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+washing-machine.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+washing-machine.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+way.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+weadufu.cluster028.hosting.ovh.net,Oui (pas IP OVH),51.91.236.193,200,200,DNS public vers autre hébergeur (51.91.236.193) ; copie encore sur cluster OVH,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+westjet.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+westjet.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+westjet.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+wordpress.arasaka-sarl.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.a.keywy.com,Non,,,200,Pas de DNS public ; le cluster OVH sert encore du contenu (Host),Revue humaine avant détachement,Pas suppression du nom de domaine ni de la zone DNS
+www.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.aa.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.aa.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.aeromexico.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.aircanada.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-usa.agency,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-usa.chat,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-usa.info,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines-usa.site,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines.change-flights.to,Oui (pas IP OVH),"13.248.169.48, 76.223.54.146",200,200,"DNS public vers autre hébergeur (13.248.169.48, 76.223.54.146) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.airlines.company,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.alaska.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.alaska.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.alaska.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.allegiant.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.american.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.american.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.american.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.arasaka-sarl.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.askaflorist.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.avianca.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.avianca.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.avlanca.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.boarding.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.booking.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.canada.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.canada.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.canada.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.change-flights.to,Oui (pas IP OVH),"13.248.169.48, 76.223.54.146",200,200,"DNS public vers autre hébergeur (13.248.169.48, 76.223.54.146) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.confirmation.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.copa.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.copa.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.copa.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.dal.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.delta.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.delta.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.delta.airlines-usa.agency,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.delta.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.delta.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.delta.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.depannageserruriermarseille.fr,Oui (pas IP OVH),"104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 2606:4700:3033::ac43:ac58",200,200,"DNS public vers autre hébergeur (104.21.63.223, 172.67.172.88, 2606:4700:3032::6815:3fdf, 2606:4700:3033::ac43:ac) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.destination.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.dishwasher.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.dishwasher.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.dl.keywy.com,Non,,,200,Pas de DNS public ; le cluster OVH sert encore du contenu (Host),Revue humaine avant détachement,Pas suppression du nom de domaine ni de la zone DNS
+www.dryer.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.dryer.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.e-ticket.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.exterminator.same-day.pro,Oui (pas IP OVH),"172.234.24.211, 172.239.57.117",,200,"DNS public vers autre hébergeur (172.234.24.211, 172.239.57.117) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.fare.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.flights.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.flights.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.fly.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.frontier.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.georgesappliancesrepair.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.hawaiian.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.hvac-sys.com,Oui (pas IP OVH),"172.234.24.211, 172.239.57.117",,200,"DNS public vers autre hébergeur (172.234.24.211, 172.239.57.117) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.interjet.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.jetbiue.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.jetblue.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.jetblue.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.jmelectrician.com,Oui (pas IP OVH),"13.248.243.5, 76.223.105.230",200,200,"DNS public vers autre hébergeur (13.248.243.5, 76.223.105.230) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.keywy.com,Oui (pas IP OVH),"104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760",403,200,"DNS public vers autre hébergeur (104.21.39.96, 172.67.144.9, 2606:4700:3032::ac43:9009, 2606:4700:3037::6815:2760) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.pestwipe.com,Oui (pas IP OVH),"147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9",200,200,"DNS public vers autre hébergeur (147.93.17.108, 2a02:4780:11:1933:0:13b0:a100:9) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.prestashop.arasaka-sarl.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.refrigerator.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.refrigerator.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.reservation.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.same-day.pro,Oui (pas IP OVH),"172.234.24.211, 172.239.57.117",,200,"DNS public vers autre hébergeur (172.234.24.211, 172.239.57.117) ; copie encore sur cluster OVH",Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.schedule.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.southwest.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.southwest.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.southwest.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.spirit.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.spirit.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.spirit.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.suncountry.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.travel.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.trip.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.turkish.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.turkish.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.turkish.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.ual.airlines-usa.click,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.united.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.united.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.usa.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.usa.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.vivaaerobus.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.volaris.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.volaris.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.volaris.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.volaris.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.washing-machine.phoenix-az.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.washing-machine.same-day.repair,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.way.airlines-usa.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.westjet.a2zflights.online,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.westjet.airlines-phone-directory.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.westjet.airlines.city,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS
+www.wordpress.arasaka-sarl.com,Non,,,500,Pas de DNS public ; cluster HTTP 500 — multisite inutile,Detacher du multisite OVH,Pas suppression du nom de domaine ni de la zone DNS

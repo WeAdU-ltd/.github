@@ -93,6 +93,7 @@ Anchors in [`docs/`](docs/):
 - **Inventaires cloud** (régénérables par script, secrets hors repo) :
   - [GCP (WEA-27)](docs/inventory/WEA-27-google-cloud.md)
   - [OVH (WEA-28)](docs/inventory/WEA-28-ovh-duplicates.md)
+  - [OVH — audit Agency Plus juin 2026](docs/inventory/WEA-28-agency-plus-audit-2026-06.md) — facture FR78255331, besoin réel vs AWS/DNS
   - [AWS EC2 (WEA-29)](docs/inventory/WEA-29-aws-ec2-inventory.md)
   - [Replit — inventaire ~15 Repls (WEA-33)](docs/inventory/WEA-33-replit-inventory.md)
   - [Replit — migration vagues repos société (WEA-36)](docs/inventory/WEA-36-replit-migration-societe.md) — tableau Repl → GitHub → procédure de run, liste résiduelle Replit
