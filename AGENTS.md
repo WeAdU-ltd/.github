@@ -56,11 +56,13 @@ Deux comptes Cursor distincts, un par dépôt (règle Jeff, 2026-09-14) :
 
 ### Repli si Cursor est inutilisable
 
-Décision Jeff, 2026-09-16 ([WEA-256](https://linear.app/weadu/issue/WEA-256/repli-agent-claude-code-a-la-place-de-cursor-si-cursor-est)) : Cursor est considéré **inutilisable** sur un ticket dès que l'une de ces conditions est vraie — message d'erreur explicite au déclenchement (ex. quota épuisé), ou blocage constaté au-delà du seuil de stagnation du skill « ok? ».
+Décision Jeff, 2026-09-16 ([WEA-256](https://linear.app/weadu/issue/WEA-256/repli-agent-claude-code-a-la-place-de-cursor-si-cursor-est)) : Cursor est considéré **inutilisable** sur un ticket dès que l'une de ces conditions est vraie — message d'erreur explicite au déclenchement (ex. quota épuisé), ou blocage constaté au-delà des seuils de stagnation du skill « ok? » (Cursor : plus de 20 min sans commit ; Linear : plus de 2 h sans changement ; cassé immédiatement si branche supprimée, PR fermée sans merge ou agent introuvable).
+
+**Détection à la charge de l'agent, jamais de Jeff** (précision du 2026-09-16, WEA-256) : Jeff ne repère et ne signale jamais lui-même un ticket bloqué. Une vérification planifiée (scheduled task Claude, cadence horaire) parcourt les tickets `cursor-a` / `cursor-b` en cours et applique les seuils ci-dessus avec preuve, exactement comme le skill « ok? ».
 
 Dans ce cas, **Claude code à la place de Cursor**, sur le même ticket, le même dépôt et les mêmes critères de fait. Le Go déjà donné pour la mission couvre cette bascule : **aucun nouvel accord n'est redemandé à Jeff**. Claude applique normalement les autres règles de ce fichier (File de PR, Statuts Linear, Avant de mettre un ticket en Done, Référence ticket).
 
-Jeff est informé de la bascule après coup (message de statut ou de clôture) — jamais comme une question bloquante.
+Jeff est informé de la bascule après coup, par un commentaire sur le ticket concerné — jamais comme une question bloquante.
 
 ### File de PR (aucun signalement humain requis)
 
