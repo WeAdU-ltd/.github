@@ -54,6 +54,14 @@ Deux comptes Cursor distincts, un par dépôt (règle Jeff, 2026-09-14) :
 - À la création du ticket Linear : poser le label `cursor-a` ou `cursor-b` selon le préfixe.
 - **Interdit** : lancer un agent NEG sur le compte B, ou un agent WEACOM sur le compte A.
 
+### Repli si Cursor est inutilisable
+
+Décision Jeff, 2026-09-16 ([WEA-256](https://linear.app/weadu/issue/WEA-256/repli-agent-claude-code-a-la-place-de-cursor-si-cursor-est)) : Cursor est considéré **inutilisable** sur un ticket dès que l'une de ces conditions est vraie — message d'erreur explicite au déclenchement (ex. quota épuisé), ou blocage constaté au-delà du seuil de stagnation du skill « ok? ».
+
+Dans ce cas, **Claude code à la place de Cursor**, sur le même ticket, le même dépôt et les mêmes critères de fait. Le Go déjà donné pour la mission couvre cette bascule : **aucun nouvel accord n'est redemandé à Jeff**. Claude applique normalement les autres règles de ce fichier (File de PR, Statuts Linear, Avant de mettre un ticket en Done, Référence ticket).
+
+Jeff est informé de la bascule après coup (message de statut ou de clôture) — jamais comme une question bloquante.
+
 ### File de PR (aucun signalement humain requis)
 
 - Après ouverture d'une PR : l'agent suit jusqu'à **merge** (ou échec documenté). S'il y a **conflits**, **Draft** non prêt, ou branche **DIRTY** : l'agent **rebase / résout** ou ouvre un **ticket de déblocage** (ex. type [WEA-41](https://linear.app/weadu/issue/WEA-41/github-deblayer-pr-ouvertes-rebase-merge-reste-wea)) **et** commente la PR — **sans** attendre que l'humain remonte le problème.
