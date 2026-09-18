@@ -60,9 +60,14 @@ Décision Jeff, 2026-09-16 ([WEA-256](https://linear.app/weadu/issue/WEA-256/rep
 
 **Détection à la charge de l'agent, jamais de Jeff** (précision du 2026-09-16, WEA-256) : Jeff ne repère et ne signale jamais lui-même un ticket bloqué. Une vérification planifiée (scheduled task Claude, cadence horaire) parcourt les tickets `cursor-a` / `cursor-b` en cours et applique les seuils ci-dessus avec preuve, exactement comme le skill « ok? ».
 
-Dans ce cas, **Claude code à la place de Cursor**, sur le même ticket, le même dépôt et les mêmes critères de fait. Le Go déjà donné pour la mission couvre cette bascule : **aucun nouvel accord n'est redemandé à Jeff**. Claude applique normalement les autres règles de ce fichier (File de PR, Statuts Linear, Avant de mettre un ticket en Done, Référence ticket).
+**Ordre de repli** (décision Jeff, 2026-09-18, [WEA-258](https://linear.app/weadu/issue/WEA-258/repli-cursor-option-coding-sessions-linear-claude-code-codex-en-plus)) — Cursor reste le moteur essayé en premier sur tout ticket ; ce qui suit ne s'applique qu'une fois Cursor jugé inutilisable, sur le même ticket, le même dépôt et les mêmes critères de fait :
 
-Jeff est informé de la bascule après coup, par un commentaire sur le ticket concerné — jamais comme une question bloquante.
+1. **Codex, via une Coding session Linear.** L'agent délègue le ticket à l'agent **« Linear »** (utilisateur Linear `69ad7e9c-d347-46c4-9b34-81a617c56d97`, champ *delegate*). Aucun utilisateur « Codex » n'existe dans l'espace de travail : c'est le réglage *Settings → AI & Agents → Coding sessions* (activé le 2026-09-18, agent Codex) qui fait tourner Codex. La session ouvre elle-même la PR, comme Cursor. Coût : crédits IA de l'espace de travail Linear.
+2. **Claude code à la place de Cursor** (règle WEA-256), seulement si la coding session est indisponible ou échoue : délégation refusée ou impossible (fonction désactivée, crédits épuisés), ou aucune activité de l'agent Linear (ni commentaire, ni PR) au-delà des seuils de stagnation ci-dessus.
+
+Le Go déjà donné pour la mission couvre ces bascules : **aucun nouvel accord n'est redemandé à Jeff**. L'agent applique normalement les autres règles de ce fichier (File de PR, Statuts Linear, Avant de mettre un ticket en Done, Référence ticket). Portée : tous les dépôts et projets de l'espace de travail Linear `weadu`, quel que soit le compte Claude qui détecte le blocage.
+
+Jeff est informé de chaque bascule après coup, par un commentaire sur le ticket concerné — jamais comme une question bloquante.
 
 ### File de PR (aucun signalement humain requis)
 
