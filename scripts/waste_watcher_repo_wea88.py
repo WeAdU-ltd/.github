@@ -148,22 +148,171 @@ def github_bootstrap_socle(apply: bool) -> None:
 
 Application **Google Ads waste control** — migration depuis Replit (*Waste Watcher*, inventaire [WEA-33 #8](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/WEA-33-replit-inventory.md)).
 
-- **Prod actuelle (2026-05)** : `waste-controller.replit.app` (autoscale) — voir cutover [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents).
+- **Dépôt canonique** : `{REPO_URL}`.
+- **Prod actuelle (2026-05)** : `https://waste-controller.replit.app` (Replit autoscale) — voir cutover [WEA-36](https://linear.app/weadu/issue/WEA-36/replit-migration-vagues-repos-societe-agents).
 - **Export Repl** : [`waste-watcher-replit-export-2026-05-26.md`](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/waste-watcher-replit-export-2026-05-26.md) dans `WeAdU-ltd/.github`.
 - **Linear dépôt** : [WEA-88](https://linear.app/weadu/issue/WEA-88/waste-watcher-depot-github-wead-u-ltd-cree-ou-confirme).
+- **Linear run / CI** : [WEA-89](https://linear.app/weadu/issue/WEA-89/waste-watcher-code-importe-readme-procedure-de-run).
 
-## Run local (depuis l'export Repl)
+## Stack attendue
+
+| Couche | Technologie |
+|---|---|
+| Runtime | Node.js 24, pnpm, PostgreSQL 16 |
+| Monorepo | `pnpm-workspace.yaml` |
+| Frontend | React 19, Vite 7, Tailwind CSS v4, TanStack Query/Table, Wouter, Recharts, Framer Motion, Radix UI |
+| Backend | Express 5, `google-ads-api` v23, Drizzle ORM, Pino |
+| Tests | Vitest 4 + Testing Library |
+
+Entrées attendues après import du code Replit :
+
+- Frontend : `artifacts/waste-controller/src/main.tsx` (`@workspace/waste-controller`).
+- Backend : `artifacts/api-server/src/index.ts` (`@workspace/api-server`).
+- Config : `package.json`, `pnpm-workspace.yaml`, `.replit` si conservé à titre historique.
+
+## Prérequis
+
+1. Node.js **24.x**.
+2. Corepack activé pour utiliser la version de pnpm déclarée par le projet :
+
+   ```bash
+   corepack enable
+   ```
+
+3. PostgreSQL **16** accessible via `DATABASE_URL`.
+4. Accès Google Ads API valide (OAuth refresh token + developer token).
+
+## Installation
+
+Depuis la racine du dépôt :
+
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+```
+
+Si le lockfile n'a pas encore été importé depuis Replit, utiliser temporairement :
+
+```bash
+pnpm install
+```
+
+Puis committer le `pnpm-lock.yaml` généré avec le code importé.
+
+## Configuration et secrets
+
+Les valeurs de secrets restent **hors dépôt** (GitHub Actions / environnement d'hébergement / 1Password selon le socle [WEA-15](https://linear.app/weadu/issue/WEA-15/secrets-socle-partage-org-github-cursor-isolation-finance-rh)).
+
+| Variable | Usage |
+|---|---|
+| `DATABASE_URL` | URL PostgreSQL utilisée par Drizzle et l'API. |
+| `GOOGLE_ADS_CLIENT_ID` | OAuth2 client ID Google Ads. |
+| `GOOGLE_ADS_CLIENT_SECRET` | OAuth2 client secret Google Ads. |
+| `GOOGLE_ADS_CUSTOMER_ID` | Compte Google Ads par défaut (MCC root ou leaf). |
+| `GOOGLE_ADS_DEVELOPER_TOKEN` | Token développeur Google Ads API. |
+| `GOOGLE_ADS_LOGIN_CUSTOMER_ID` | MCC de connexion pour les appels Google Ads. |
+| `GOOGLE_ADS_REFRESH_TOKEN` | Refresh token OAuth2 offline. |
+| `PORT` | Port HTTP injecté par l'environnement (`api-server` / Vite) ; ne pas coder en dur. |
+
+## Lancer en local
+
+Terminal API :
 
 ```bash
 pnpm --filter @workspace/api-server run dev
+```
+
+Terminal frontend :
+
+```bash
 pnpm --filter @workspace/waste-controller run dev
 ```
 
-Stack : Node 24, pnpm monorepo, React 19 + Vite, Express 5, PostgreSQL 16 (Drizzle). Importer le code depuis le Repl avant prod hors Replit.
+Si l'import Replit conserve une commande racine équivalente, préférer `pnpm run dev` et documenter la convention dans ce README.
+
+## Tester et construire
+
+```bash
+pnpm run typecheck
+pnpm --filter @workspace/waste-controller test
+pnpm run build
+```
+
+La CI GitHub exécute ces commandes quand les scripts correspondants existent dans `package.json`.
+
+## Déployer
+
+À ce stade de migration, la production documentée reste Replit autoscale (`https://waste-controller.replit.app`).
+
+Procédure avant cutover hors Replit :
+
+1. Importer le code Replit dans ce dépôt et vérifier la CI.
+2. Créer l'environnement GitHub / hébergeur avec les secrets nommés ci-dessus, sans valeur en clair dans Git.
+3. Exécuter les migrations PostgreSQL via Drizzle si le code importé expose une commande dédiée (par exemple `pnpm run db:migrate`).
+4. Déployer l'API et le frontend sur la cible choisie.
+5. Mettre à jour le runbook [WEA-36](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/WEA-36-replit-migration-societe.md) avec l'URL finale ou la ligne résiduelle Replit.
 
 ## Socle agent
 
 Fichiers minimaux WEA-35 — doc complète : [WEA-35 template](https://github.com/WeAdU-ltd/.github/blob/main/docs/inventory/WEA-35-weadu-socle-v5-lab-template.md).
+""",
+            encoding="utf-8",
+        )
+
+        ci = work / ".github" / "workflows" / "ci.yml"
+        ci.parent.mkdir(parents=True, exist_ok=True)
+        ci.write_text(
+            """name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Bootstrap files present
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f AGENTS.md
+
+      - name: Setup Node when app code is present
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Install dependencies when app code is present
+        if: ${{ hashFiles('package.json') != '' }}
+        run: |
+          set -euo pipefail
+          corepack enable
+          if [[ -f pnpm-lock.yaml ]]; then
+            pnpm install --frozen-lockfile
+          else
+            pnpm install
+          fi
+
+      - name: Typecheck when available
+        if: ${{ hashFiles('package.json') != '' }}
+        run: pnpm run typecheck --if-present
+
+      - name: Test when available
+        if: ${{ hashFiles('package.json') != '' }}
+        run: pnpm -r test --if-present
+
+      - name: Build when available
+        if: ${{ hashFiles('package.json') != '' }}
+        run: pnpm run build --if-present
 """,
             encoding="utf-8",
         )
@@ -179,7 +328,7 @@ Fichiers minimaux WEA-35 — doc complète : [WEA-35 template](https://github.co
         if not status.stdout.strip():
             print("GitHub: bootstrap — nothing to commit (already present).")
             return
-        _run(["git", "commit", "-m", "chore: WEA-35 minimal socle + README (WEA-88)"], cwd=str(work))
+        _run(["git", "commit", "-m", "chore: WEA-35 minimal socle + README/CI (WEA-88 WEA-89)"], cwd=str(work))
         _run(["git", "push", "origin", "HEAD:main"], cwd=str(work))
 
 
