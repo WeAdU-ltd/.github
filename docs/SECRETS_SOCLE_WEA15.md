@@ -90,3 +90,8 @@ Aligné avec [WEA-13 §2](./inventory/WEA-13-github-access-model.md).
 ---
 
 _Document vivant : évolutions du socle → mettre à jour ce fichier et les renvois dans [`SECRETS_CARTOGRAPHIE_WEA14.md`](./SECRETS_CARTOGRAPHIE_WEA14.md)._
+
+
+## Credentials audit 2026-07-14 (Negative-Terms)
+
+Canonical GitHub PAT item: `github-weadu-socle-commun-token`. Canonical Gmail env: `GMAIL_APP_PASSWORD` ← item `PD_GMAIL_APP_PASSWORD`. See WeAdU-ltd/Negative-Terms `docs/CREDENTIALS_AUDIT_INVENTORY.md` and Sheet audit.
